@@ -1,0 +1,23 @@
+.nav{
+    grid-area: n;
+    background: transparent;
+}
+.item{
+  padding: 5px;
+  font-size: 18px;
+}
+.item *{
+  color: rgb(44, 43, 43);
+}
+i{
+  padding-right: 10px;
+}
+
+.item:hover{
+  transition: 0.4s ease;
+  cursor: pointer;
+  background: rgb(219, 219, 219);
+}
+.item:hover *{
+  color: grey;
+}

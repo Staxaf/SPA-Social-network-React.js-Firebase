@@ -1,0 +1,11 @@
+.profile{
+    display: grid;
+
+    grid-template-columns: 1.5fr 4fr;
+    grid-template-rows: 300px;
+    overflow: hidden;
+}
+.profile__img img{
+    width: 100%;
+    
+}
