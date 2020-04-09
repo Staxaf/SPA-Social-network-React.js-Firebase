@@ -1,6 +1,6 @@
 .nav{
     grid-area: n;
-    background: transparent;
+    padding: 20px;
 }
 .item{
   padding: 5px;
@@ -19,5 +19,8 @@ i{
   background: rgb(219, 219, 219);
 }
 .item:hover *{
+  color: grey;
+}
+.active{
   color: grey;
 }

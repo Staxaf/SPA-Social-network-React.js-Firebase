@@ -1,0 +1,70 @@
+.profile{
+    background: url("http://mythemestore.com/friend-finder/images/covers/1.jpg") no-repeat;
+    min-height: 300px;
+
+    /*grid-gap: 20px;*/
+    /*overflow: hidden;*/
+}
+.profile .profile__nav{
+    position: relative;
+    display: grid;
+    background: black;
+    grid-template-columns: 1.5fr 4fr 1.5fr;
+    grid-template-rows: 50px;
+
+    top: 220px
+}
+.profile__img{
+    padding: 20px;
+    position: absolute;
+    top: -100px;
+}
+.img__wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: white;
+}
+.profile__img img{
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile__info{
+    color: white;
+    padding: 20px;
+}
+.profile__menu{
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+}
+.profile__menu li{
+    cursor: pointer;
+    margin-left: 30px;
+    font-size: 20px;
+    color: white;
+    padding-bottom: 10px;
+}
+.active, .profile__menu li:hover, .profile__folowers:hover{
+    transition: 0.4s ease;
+    border-bottom: 1px #27aae1 solid;
+}
+.profile__name{
+    color: #27aae1;
+}
+.profile__folowers{
+    cursor: pointer;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    margin: 0;
+    text-align: center;
+    margin: 0 10px;
+}

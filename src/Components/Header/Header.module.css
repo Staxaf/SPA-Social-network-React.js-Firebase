@@ -1,10 +1,9 @@
 .header{
-    grid-area: h;
-    background: rgb(236, 173, 113);
-    padding: 0 10px 0 10px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    background: #231F20;
+    padding: 10px 30px 10px 30px;
+    box-shadow: 1px 1px 7px 1px rgb(194, 187, 187);
   }
+
   .header img{
-    width: 100px;
+    width: 50px;
   }

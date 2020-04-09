@@ -1,28 +1,29 @@
 import React from 'react'
 import css from './NavBar.module.css'
+import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
     return (
-        <nav className={css.nav}>
+        <nav className={`${css.nav} bg-shadow`}>
             <div className={css.item}>
                 <i className="far fa-user"></i>
-                <a href='/profile'>Profile</a>
+                <NavLink to='/profile' activeClassName={css.active}>Profile</NavLink>
             </div>
             <div className={css.item}>
                 <i className="far fa-envelope"></i>
-                <a href='/dialogs'>Messages</a>
+                <NavLink to='/dialogs' activeClassName={css.active}>Messages</NavLink>
             </div>
             <div className={css.item}>
                 <i className="far fa-newspaper"></i>
-                <a href='/news'>News</a>
+                <NavLink to='/news' activeClassName={css.active}>News</NavLink>
             </div>
             <div className={css.item}>
                 <i className="fas fa-music"></i>
-                <a href='/music'>Music</a>
+                <NavLink to='/music' activeClassName={css.active}>Music</NavLink>
             </div>
             <div className={css.item}>
                 <i className="fas fa-toolbox"></i>
-                <a href='/settings'>Settings</a>
+                <NavLink to='/settings' activeClassName={css.active}>Settings</NavLink>
             </div>
         </nav>
     )
