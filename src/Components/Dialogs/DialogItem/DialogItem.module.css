@@ -1,0 +1,37 @@
+.dialog{
+    cursor: pointer;
+    padding: 7px;
+    margin: 5px 5px;
+    border-bottom: 1px white solid;
+    display: grid;
+    grid-template-columns: 3fr 9fr;
+}
+.dialog img{
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+    padding: 0 5px;
+}
+.dialog:hover{
+    transition: 0.3s ease;
+    border-bottom: 1px rgb(38, 228, 164) solid;
+}
+.dialog .dialog__info{
+    font-size: 13px;
+}
+.dialog .dialog__info .dialog__title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.dialog__name{
+    color: black;
+}
+
+.dialog__undertitle{
+    display: flex;
+}
+.dialog__undertitle .dialog__message{
+    color: grey
+}

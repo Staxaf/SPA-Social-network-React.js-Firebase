@@ -3,6 +3,7 @@
     border-bottom: 1px grey solid;
     display: grid;
     grid-template-columns: 1fr 11fr;
+    font-size: 15px;
 }
 .post__img{
     text-align: right;
@@ -48,6 +49,12 @@
 .post__title .icons a:nth-child(2):hover{
     color: red;
 }
+.post__title .icons a:nth-child(3){
+    color: grey;
+}
+.post__title .icons a:nth-child(3):hover{
+    color: black;
+}
 .post__date p{
     color: grey;
     font-size: 14px;
@@ -58,4 +65,36 @@
 .post__text{
     padding: 20px 10px;
     border-bottom: 1px #e2d9df solid;
+}
+
+.post__addComment{
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+}
+.post__addComment img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    padding: 0 10px;
+}
+.post__addComment textarea{
+    width: 100%;
+    max-height: 50px;
+    resize: none;
+    border-radius: 5px;
+}
+
+.post__send{
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    color: #27aae1;
+    font-size: 30px;
+    margin: 0 20px;
+}
+.post__send:hover{
+    transition: 0.4s ease;
+    color: #1d70e1;
 }

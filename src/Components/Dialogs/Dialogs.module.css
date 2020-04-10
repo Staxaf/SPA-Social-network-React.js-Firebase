@@ -3,31 +3,58 @@
     grid-template-columns: 3.5fr 8.5fr;
     box-shadow: 4px 10px 18px -3px rgba(50, 50, 50, 0.5);
     min-height: 100%;
-    padding: 0 20px 0 20px;
+
 }
 .dialogs .dialogs__items{
     box-shadow: 5px 0px 8px -4px rgba(50, 50, 50, 0.75);
 }
-.dialogs__items .dialog{
-    cursor: pointer;
-    padding: 7px;
-    margin: 5px 5px;
-    border-bottom: 1px white solid;
-}
-.dialogs__items .dialog:hover{
-    transition: 0.3s ease;
-    border-bottom: 1px rgb(38, 228, 164) solid;
-}
+
 .messages{
-    
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
     padding: 20px;
 }
 .message{
-    padding: 7px;
-}
 
+    background: white;
+    margin: 7px;
+    padding: 10px;
+    border-radius: 5px;
+}
+.dialogs__content{
+    background: url('https://cdn.pling.com/img/b/2/d/5/cfd19f550736133723633e53ba0b05def2e4.jpg') no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 .active{
     color: grey;
     border-bottom: 1px rgb(38, 228, 164) solid !important;
 }
-
+.message__send{
+    cursor: pointer;
+    color: #27aae1;
+    font-size: 25px;
+    border: none;
+    margin: 0 20px;
+}
+.message__send:hover{
+    color: #1d70e1;
+    transition: 0.4s ease;
+}
+.messages__input{
+    display: flex;
+    background: white;
+    padding: 10px;
+}
+.messages__input textarea{
+    width: 100%;
+    height: 50px;
+    resize: none;
+    border: none;
+}
+.message__send i{
+    padding: 0;
+}

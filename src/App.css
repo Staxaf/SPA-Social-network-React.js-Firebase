@@ -1,19 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400|Raleway:400,500,600,800&display=swap');
+
 body{
   background: lightgray;
   overflow-y: scroll;
+  font-family: 'Montserrat';
 }
-body::-webkit-scrollbar {
+p{
+  margin: 0;
+}
+
+h1, h2,h3,h4,h5,h6{
+  font-family: 'Raleway';
+}
+textarea, button{
+  outline: none;
+}
+body::-webkit-scrollbar, textarea::-webkit-scrollbar {
   width: 5px;
 }
 
 /* Track */
-body::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track,textarea::-webkit-scrollbar-track  {
   box-shadow: inset 0 0 5px gray;
   border-radius: 10px;
 }
 
 /* Handle */
-body::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb, textarea::-webkit-scrollbar-thumb {
   background: gray;
   border-radius: 10px;
 }
