@@ -93,6 +93,7 @@
     color: #27aae1;
     font-size: 30px;
     margin: 0 20px;
+    background: white;
 }
 .post__send:hover{
     transition: 0.4s ease;

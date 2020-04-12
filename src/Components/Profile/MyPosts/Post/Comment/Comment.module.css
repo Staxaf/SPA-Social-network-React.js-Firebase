@@ -1,0 +1,23 @@
+.comment{
+    display: flex;
+    align-items: start;
+    padding: 15px 0;
+}
+
+.comment .comment__image img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    padding: 5px;
+}
+.comment__info {
+    padding: 10px 5px 0 5px;
+}
+.comment__name{
+    cursor: pointer;
+    color: #27aae1;
+}
+.comment__name:hover{
+    text-decoration: underline;
+}

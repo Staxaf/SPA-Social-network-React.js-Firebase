@@ -15,7 +15,7 @@ const DialogItem = (props) => {
                     <p>18:34</p>
                 </div>
                 <div className={css.dialog__undertitle}>
-                    <a className={css.dialog__name} href="#">Elena:</a>
+                    <a className={`${css.dialog__name} text-blue`} href="#">Elena:</a>
                     <p className={css.dialog__message}>Hello world</p>
                 </div>
             </div>

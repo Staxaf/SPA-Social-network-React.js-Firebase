@@ -24,9 +24,11 @@ const App = (props) => {
                 {/* <Profile name='Anton Mazurenko' birthYear='2001' gender='male'  /> */}
                 <div className='app-wrapper-content bg-shadow'>
                     <Route path='/dialogs'
-                           render={() => <Dialogs state={props.state.dialogsPage}/>}/>
+                           render={() => <Dialogs state={props.state.dialogsPage} addMessage={props.addMessage}
+                                                  updateMessageText={props.updateMessageText} />}/>
                     <Route path='/profile'
-                           render={() => <Profile state={props.state.profilePage}/>}/>
+                           render={() => <Profile state={props.state.profilePage} addPost={props.addPost}
+                                                  updateNewPostText={props.updateNewPostText} addComment={props.addComment} updateCommentText={props.updateCommentText}/>}/>
                     <Route path='/news' render={() => <News/>}/>
                     <Route path='/music' render={() => <Music/>}/>
                     <Route path='/settings' render={() => <Settings/>}/>

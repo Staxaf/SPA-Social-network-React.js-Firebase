@@ -9,10 +9,20 @@ import Message from "./Message/Message";
 
 const Dialogs = (props) => {
 
-
 // Convert objects into jsx tag
     let dialogsData = props.state.dialogsData.map(dialog => <DialogItem name={dialog.name} id={dialog.id} image={dialog.image}/>)
     let messagesData = props.state.messagesData.map(message => <Message message={message.message} id={message.id}/>)
+
+    let messageArea = React.createRef()
+
+    let addMessage = () => {
+        props.addMessage(messageArea.current.value)
+    }
+
+    let onMessageChange = () => {
+        props.updateMessageText(messageArea.current.value)
+    }
+
 
     return (
         <div className={css.dialogs}>
@@ -24,8 +34,8 @@ const Dialogs = (props) => {
                     {messagesData}
                 </div>
                 <div className={css.messages__input}>
-                    <textarea cols="30" rows="10" placeholder='Send a message...'></textarea>
-                    <button className={css.message__send}>
+                    <textarea onChange={onMessageChange} ref={messageArea} value={props.state.newMessageText} cols="30" rows="10" placeholder='Send a message...' />
+                    <button onClick={props.addMessage} className={css.message__send}>
                         <i className="fab fa-telegram-plane"></i>
                     </button>
                 </div>

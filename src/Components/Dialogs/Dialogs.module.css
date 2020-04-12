@@ -15,6 +15,8 @@
     flex-direction: column;
     align-items: start;
     padding: 20px;
+    height: 77vh;
+    overflow-y: auto;
 }
 .message{
 
@@ -24,7 +26,7 @@
     border-radius: 5px;
 }
 .dialogs__content{
-    background: url('https://cdn.pling.com/img/b/2/d/5/cfd19f550736133723633e53ba0b05def2e4.jpg') no-repeat;
+    background: url('https://cdn.pling.com/img/b/2/d/5/cfd19f550736133723633e53ba0b05def2e4.jpg') no-repeat top;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -39,6 +41,7 @@
     font-size: 25px;
     border: none;
     margin: 0 20px;
+    background: white;
 }
 .message__send:hover{
     color: #1d70e1;
