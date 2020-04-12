@@ -13,6 +13,7 @@
 }
 .comment__info {
     padding: 10px 5px 0 5px;
+    width: 100%;
 }
 .comment__name{
     cursor: pointer;
@@ -20,4 +21,13 @@
 }
 .comment__name:hover{
     text-decoration: underline;
+}
+.comment__title{
+
+    display: flex;
+    justify-content: space-between;
+}
+.comment__title .comment__date{
+    color: grey;
+    font-size: 12px;
 }

@@ -1,23 +1,28 @@
 import React from 'react'
 import css from './MyPosts.module.css'
 import Post from './Post/Post'
+import {addPostActionCreator, updateNewPostTextCreator} from "../../../redux/state";
 
 const MyPosts = (props) => {
 
 
     let postsData = props.postsData.map(post => (
         <Post message={post.message} likeCounts={post.likeCounts} dislikeCounts={post.dislikeCounts}
-              viewCounts={post.viewCounts} comments={post.comments} addComment={props.addComment} id={post.id}
-              newCommentText={post.newCommentText}
-              updateCommentText={props.updateCommentText}/>
+              viewCounts={post.viewCounts} comments={post.comments} id={post.id} dateOfPublishing={post.dateOfPublishing}
+              newCommentText={post.newCommentText} dispatch={props.dispatch}
+              />
     ))
 
     let newPostElement = React.createRef()
 
+    let addPost = () => {
+        //{type: 'ADD-POST'}
+        props.dispatch(addPostActionCreator())
+    }
 
     let onPostChange = () => {
         // минимизировать такое обращение к рефам
-        props.updateNewPostText(newPostElement.current.value)
+        props.dispatch(updateNewPostTextCreator(newPostElement.current.value))
     }
 
     return (
@@ -32,7 +37,7 @@ const MyPosts = (props) => {
                     <a><i className="fas fa-paperclip"/></a>
                     <a><i className="far fa-laugh"/></a>
                 </div>
-                <button onClick={props.addPost} className={css.btn}>Publish</button>
+                <button onClick={addPost} className={css.btn}>Publish</button>
             </div>
             <div className={css.posts}>
                 {postsData}

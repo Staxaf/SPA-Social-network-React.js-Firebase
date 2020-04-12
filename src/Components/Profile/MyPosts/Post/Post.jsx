@@ -15,11 +15,13 @@ const Post = (props) => {
     let commentArea = React.createRef()
 
     let addComment = () => {
-        props.addComment(props.id)
+        props.dispatch({type: 'ADD-COMMENT', idComment: props.id})
+       // props.addComment(props.id)
     }
 
     let onCommentChange= () => {
-        props.updateCommentText(commentArea.current.value, props.id)
+        props.dispatch({type: 'UPDATE-COMMENT-TEXT', idComment: props.id, newText: commentArea.current.value})
+        //props.updateCommentText(commentArea.current.value, props.id)
     }
     return (
         <div className={css.post}>
@@ -38,7 +40,7 @@ const Post = (props) => {
                     </div>
                 </div>
                 <div className={css.post__date}>
-                    <p>Published at 21:45 8 march 2020</p>
+                    <p>Published at {props.dateOfPublishing}</p>
                 </div>
                 <div className={css.post__text}>
                     {props.message}

@@ -16,11 +16,13 @@ const Dialogs = (props) => {
     let messageArea = React.createRef()
 
     let addMessage = () => {
-        props.addMessage(messageArea.current.value)
+        props.dispatch({type: 'ADD-MESSAGE'})
+        //props.addMessage(messageArea.current.value)
     }
 
     let onMessageChange = () => {
-        props.updateMessageText(messageArea.current.value)
+        props.dispatch({type: 'UPDATE-MESSAGE-TEXT', newText: messageArea.current.value})
+        //props.updateMessageText(messageArea.current.value)
     }
 
 
@@ -35,7 +37,7 @@ const Dialogs = (props) => {
                 </div>
                 <div className={css.messages__input}>
                     <textarea onChange={onMessageChange} ref={messageArea} value={props.state.newMessageText} cols="30" rows="10" placeholder='Send a message...' />
-                    <button onClick={props.addMessage} className={css.message__send}>
+                    <button type='submit' onClick={addMessage} className={css.message__send}>
                         <i className="fab fa-telegram-plane"></i>
                     </button>
                 </div>

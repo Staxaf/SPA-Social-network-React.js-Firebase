@@ -9,7 +9,11 @@ const Comment = (props) => {
                <img src={props.image} alt=""/>
            </div>
             <div className={css.comment__info}>
-                <p><span className={css.comment__name}>{props.name}:</span> {props.text}</p>
+                <div className={css.comment__title}>
+                    <p className={css.comment__name}>{props.name}</p>
+                    <p className={css.comment__date}>{props.dateOfPublishing}</p>
+                </div>
+                    <p>{props.text}</p>
             </div>
         </div>
 
