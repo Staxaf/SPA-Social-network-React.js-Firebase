@@ -1,7 +1,6 @@
 import React from 'react'
 import css from './MyPosts.module.css'
 import Post from './Post/Post'
-import {addPostActionCreator, updateNewPostTextCreator} from "../../../redux/state";
 
 const MyPosts = (props) => {
 
@@ -9,18 +8,19 @@ const MyPosts = (props) => {
     let postsData = props.postsData.map(post => (
         <Post message={post.message} likeCounts={post.likeCounts} dislikeCounts={post.dislikeCounts}
               viewCounts={post.viewCounts} comments={post.comments} id={post.id} dateOfPublishing={post.dateOfPublishing}
-              newCommentText={post.newCommentText} dispatch={props.dispatch}
-              />
+              newCommentText={post.newCommentText} updateCommentText={props.onCommentChange} addComment={props.addComment} /> //dispatch={props.dispatch}
     ))
 
     let addPost = () => {
         //{type: 'ADD-POST'}
-        props.dispatch(addPostActionCreator())
+        //props.dispatch(addPostActionCreator())
+        props.addPost()
     }
 
     let onPostChange = (e) => {
         // минимизировать такое обращение к рефам
-        props.dispatch(updateNewPostTextCreator(e.target.value))
+        props.onPostChange(e)
+        //props.dispatch(updateNewPostTextCreator(e.target.value))
     }
 
     return (

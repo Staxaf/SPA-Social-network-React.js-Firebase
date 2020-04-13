@@ -12,6 +12,7 @@ import DialogItem from "./Components/Dialogs/DialogItem/DialogItem";
 import css from "./Components/Dialogs/Dialogs.module.css";
 import Message from "./Components/Dialogs/Message/Message";
 import Post from "./Components/Profile/MyPosts/Post/Post";
+import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 
 const App = (props) => {
 
@@ -24,12 +25,11 @@ const App = (props) => {
                 {/* <Profile name='Anton Mazurenko' birthYear='2001' gender='male'  /> */}
                 <div className='app-wrapper-content bg-shadow'>
                     <Route path='/dialogs'
-                           render={() => <Dialogs state={props.state.dialogsPage} dispatch={props.dispatch}/>}/>
+                           render={() => <DialogsContainer store={props.store} />}/> {/*state={props.state.dialogsPage} dispatch={props.dispatch}*/}
                     {/*                              addMessage={props.store.addMessage.bind(props.store)}*/}
                     {/*updateMessageText={props.store.updateMessageText.bind(props.store)}*/}
                     <Route path='/profile'
-                           render={() => <Profile state={props.state.profilePage}
-                                                  dispatch={props.dispatch}/>}/>
+                           render={() => <Profile store={props.store}/>}/>
                     <Route path='/news' render={() => <News/>}/>
                     <Route path='/music' render={() => <Music/>}/>
                     <Route path='/settings' render={() => <Settings/>}/>

@@ -13,13 +13,13 @@ const Post = (props) => {
     }
 
     let addComment = () => {
-        props.dispatch({type: 'ADD-COMMENT', idComment: props.id})
-       // props.addComment(props.id)
+        //props.dispatch({type: 'ADD-COMMENT', idComment: props.id})
+        props.addComment(props.id)
     }
 
     let onCommentChange= (e) => {
-        props.dispatch({type: 'UPDATE-COMMENT-TEXT', idComment: props.id, newText: e.target.value})
-        //props.updateCommentText(commentArea.current.value, props.id)
+        //props.dispatch({type: 'UPDATE-COMMENT-TEXT', idComment: props.id, newText: e.target.value})
+        props.updateCommentText(e, props.id)
     }
     return (
         <div className={css.post}>

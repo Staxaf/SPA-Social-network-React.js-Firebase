@@ -89,7 +89,6 @@ export const profileReducer = (state = initialState, action) => {
                     dateOfPublishing: getStringDate(),
                     comments: []
                 })
-                // eslint-disable-next-line no-undef
                 state.newPostText = ''
             }
             return state

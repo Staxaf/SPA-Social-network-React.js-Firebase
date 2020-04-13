@@ -4,6 +4,11 @@ import {dialogsReducer} from "./dialogs-reducer";
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
 
+const ADD_COMMENT = 'ADD-COMMENT'
+const UPDATE_COMMENT_TEXT = 'UPDATE-COMMENT-TEXT'
+
+const ADD_MESSAGE = 'ADD-MESSAGE'
+const UPDATE_MESSAGE_TEXT = 'UPDATE-MESSAGE-TEXT'
 
 let store = {
     _state: {
@@ -158,6 +163,18 @@ let store = {
 export const addPostActionCreator = () => ({type: ADD_POST})
 export const updateNewPostTextCreator = (text) => ({
     type: UPDATE_NEW_POST_TEXT,
+    newText: text
+})
+export const addCommentCreator = (id) => ({type: ADD_COMMENT, idComment: id})
+export const updateNewCommentText = (text, id) => ({
+    type: UPDATE_COMMENT_TEXT,
+    idComment: id,
+    newText: text
+})
+
+export const addMessageCreator = () => ({type: ADD_MESSAGE})
+export const updateNewMessageText = (text) => ({
+    type: UPDATE_MESSAGE_TEXT,
     newText: text
 })
 
