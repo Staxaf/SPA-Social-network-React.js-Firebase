@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import store  from "./redux/state";
+import store  from "./redux/redux-store";
 
 let renderEntireTree = (state) => {
     ReactDOM.render(
@@ -11,12 +11,6 @@ let renderEntireTree = (state) => {
             <App
                 state={state}
                 dispatch={store.dispatch.bind(store)}
-                // addPost={addPost}
-                // updateNewPostText={updateNewPostText}
-                // addMessage={addMessage}
-                // updateMessageText={updateMessageText}
-                // addComment={addComment}
-                // updateCommentText={updateCommentText}
             />
         </React.StrictMode>,
         document.getElementById('root')
@@ -26,8 +20,9 @@ let renderEntireTree = (state) => {
 // eslint-disable-next-line no-undef
 renderEntireTree(store.getState())
 
-store.subscribe(renderEntireTree)
-//addPost("Hello world. Its javascript, React")
+store.subscribe(() => {
+    renderEntireTree(store.getState()) //передается обновленный state при изменении каких-то данных
+})
 
 
 // If you want your app to work offline and load faster, you can change
