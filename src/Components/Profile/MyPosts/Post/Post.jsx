@@ -19,7 +19,7 @@ const Post = (props) => {
 
     let onCommentChange= (e) => {
         //props.dispatch({type: 'UPDATE-COMMENT-TEXT', idComment: props.id, newText: e.target.value})
-        props.updateCommentText(e, props.id)
+        props.updateCommentText(e.target.value, props.id)
     }
     return (
         <div className={css.post}>

@@ -4,24 +4,22 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store  from "./redux/redux-store";
+import {Provider} from "react-redux";
 
 let renderEntireTree = (state) => {
     ReactDOM.render(
         <React.StrictMode>
-            <App
-                store={store}
-            />
+            <Provider store={store}>
+                <App store={store}/>
+            </Provider>
         </React.StrictMode>,
         document.getElementById('root')
     );
 
 }
 // eslint-disable-next-line no-undef
-renderEntireTree(store.getState())
+renderEntireTree()
 
-store.subscribe(() => {
-    renderEntireTree(store.getState()) //передается обновленный state при изменении каких-то данных
-})
 
 
 // If you want your app to work offline and load faster, you can change

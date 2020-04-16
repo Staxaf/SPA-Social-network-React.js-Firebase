@@ -31,7 +31,7 @@ const Dialogs = (props) => {
                     {messagesData}
                 </div>
                 <div className={css.messages__input}>
-                    <textarea onChange={onMessageChange} value={props.newMessageText} cols="30" rows="10" placeholder='Send a message...' />
+                    <textarea onChange={onMessageChange} value={props.state.newMessageText} cols="30" rows="10" placeholder='Send a message...' />
                     <button type='submit' onClick={props.addMessage} className={css.message__send}>
                         <i className="fab fa-telegram-plane" />
                     </button>

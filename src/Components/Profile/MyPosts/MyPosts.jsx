@@ -19,7 +19,7 @@ const MyPosts = (props) => {
 
     let onPostChange = (e) => {
         // минимизировать такое обращение к рефам
-        props.onPostChange(e)
+        props.onPostChange(e.target.value)
         //props.dispatch(updateNewPostTextCreator(e.target.value))
     }
 

@@ -80,35 +80,50 @@ export const profileReducer = (state = initialState, action) => {
                 state.postsData.forEach(item => {
                     item.id++
                 })// все id увеличиваю на 1, чтобы вставить новый пост на первое место
-                state.postsData.unshift({
-                    id: 1,
-                    message: state.newPostText,
-                    likeCounts: 0,
-                    dislikeCounts: 0,
-                    viewCounts: 0,
-                    dateOfPublishing: getStringDate(),
-                    comments: []
-                })
-                state.newPostText = ''
+                return {
+                    ...state,
+                    postsData: [{
+                        id: 1,
+                        message: state.newPostText,
+                        likeCounts: 0,
+                        dislikeCounts: 0,
+                        viewCounts: 0,
+                        dateOfPublishing: getStringDate(),
+                        comments: []
+                    }, ...state.postsData],// в начало массива добавляю объект
+                    newPostText: ''
+                }
             }
-            return state
         case UPDATE_NEW_POST_TEXT:
-            state.newPostText = action.newText
-            return state
-        case ADD_COMMENT:
+            return {
+                ...state,
+                newPostText: action.newText
+            }
+        case ADD_COMMENT:{
+            let stateCopy
             if (state.postsData[action.idComment - 1].newCommentText.length > 0) {
-                state.postsData[action.idComment - 1].comments.push({
+                stateCopy = {
+                    ...state,
+                    postsData: [...state.postsData]
+                };
+                stateCopy.postsData[action.idComment - 1].comments = [...stateCopy.postsData[action.idComment - 1].comments, {
                     image: state.profileImage,
                     name: state.name,
                     dateOfPublishing: getStringDate(),
-                    text: state.postsData[action.idComment - 1].newCommentText //state.profilePage.postsData.newCommentText
-                })
-                state.postsData[action.idComment - 1].newCommentText = ''
+                    text: stateCopy.postsData[action.idComment - 1].newCommentText //state.profilePage.postsData.newCommentText
+                }]
+                stateCopy.postsData[action.idComment - 1].newCommentText = ''
             }
-            return state
+            return stateCopy
+        }
         case UPDATE_COMMENT_TEXT:
-            state.postsData[action.idComment - 1].newCommentText = action.newText
-            return state
+            debugger
+            let stateCopy = {
+                ...state,
+                postsData: [...state.postsData]
+            }
+            stateCopy.postsData[action.idComment - 1].newCommentText = action.newText
+            return stateCopy
         default:
             return state
     }

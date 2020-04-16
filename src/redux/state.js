@@ -166,18 +166,22 @@ export const updateNewPostTextCreator = (text) => ({
     newText: text
 })
 export const addCommentCreator = (id) => ({type: ADD_COMMENT, idComment: id})
-export const updateNewCommentText = (text, id) => ({
+export const updateNewCommentTextCreator = (text, id) => ({
     type: UPDATE_COMMENT_TEXT,
     idComment: id,
     newText: text
 })
 
 export const addMessageCreator = () => ({type: ADD_MESSAGE})
-export const updateNewMessageText = (text) => ({
+export const updateNewMessageTextCreator = (text) => ({
     type: UPDATE_MESSAGE_TEXT,
     newText: text
 })
 
+export const addFollowCreator = (id) => ({type: 'FOLLOW-UNFOLLOW', userId: id})
+export const setUsers = () => ({
+    type: 'SET-USERS'
+})
 
 /*if(action.type==='ADD-POST'){
             if(this._state.profilePage.newPostText.length > 0){
