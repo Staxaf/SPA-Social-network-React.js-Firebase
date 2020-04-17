@@ -15,8 +15,8 @@ let mapDispatchToProps = (dispatch) => {
         addFollow: (id) => {
             dispatch(addFollowCreator(id))
         },
-        setUsers: () => {
-            dispatch(setUsers())
+        setUsers: (id) => {
+            dispatch(setUsers(id))
         }
     }
 }

@@ -29,6 +29,7 @@
 .dialog__name{
     font-weight: 600;
     color: black;
+    margin-right: 5px;
 }
 
 .dialog__undertitle{

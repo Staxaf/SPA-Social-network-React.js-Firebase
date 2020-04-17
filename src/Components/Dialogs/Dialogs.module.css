@@ -13,20 +13,13 @@
 
     display: flex;
     flex-direction: column;
-    align-items: start;
     padding: 20px;
     height: 77vh;
     overflow-y: auto;
+    max-width: 100%;
 }
-.message{
 
-    background: white;
-    margin: 7px;
-    padding: 10px;
-    border-radius: 5px;
-}
 .dialogs__content{
-    background: url('https://cdn.pling.com/img/b/2/d/5/cfd19f550736133723633e53ba0b05def2e4.jpg') no-repeat top;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -58,6 +51,39 @@
     resize: none;
     border: none;
 }
+.messages__bg{
+    background: url('https://www.fotor.com/ru/loopBannerImg/indexBannerImg/banner-01.jpg')no-repeat center;
+    background-size: cover;
+}
 .message__send i{
     padding: 0;
+}
+
+.message {
+    display: flex;
+
+    align-items: flex-end;
+    margin: 5px 0;
+}
+
+.myMessage{
+    flex-direction: row-reverse;
+
+}
+
+.message .message__photo img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.message .message__text{
+    font-size: 14px;
+    background: white;
+    padding: 4px 6px;
+    border-radius: 5px;
+    max-width: 50%;
+    margin: 0 10px 10px 10px;
+    word-break: break-all;
 }

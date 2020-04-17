@@ -6,7 +6,14 @@ import { NavLink } from 'react-router-dom';
 
 const Message = (props) => {
     return (
-    <div className={css.message}>{props.message}</div>
+        <div className={`${css.message} ${props.isMyMessage ? css.myMessage: ''}`}>
+            <div className={css.message__photo}>
+                <img src={props.photoUrl} alt=""/>
+            </div>
+            <div className={css.message__text}>
+                {props.message}
+            </div>
+        </div>
     )
 }
 

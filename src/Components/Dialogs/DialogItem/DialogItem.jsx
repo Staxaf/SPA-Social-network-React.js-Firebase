@@ -2,24 +2,26 @@ import React from 'react'
 import css from './DialogItem.module.css'
 import { NavLink } from 'react-router-dom';
 
+
 const DialogItem = (props) => {
-    let path = '/dialogs/' + props.id
     return (
+        <NavLink to={props.path}>
         <div className={css.dialog}>
             <div className={css.dialog__image}>
                 <img src={props.image} alt=""/>
             </div>
             <div className={css.dialog__info}>
                 <div className={css.dialog__title}>
-                    <NavLink className={css.dialog__name} to={path} >{props.name}</NavLink>
+                    <p className={css.dialog__name}>{props.name}</p>
                     <p>18:34</p>
                 </div>
                 <div className={css.dialog__undertitle}>
-                    <a className={`${css.dialog__name} text-blue`} href="#">Elena:</a>
-                    <p className={css.dialog__message}>Hello world</p>
+                    <a className={`${css.dialog__name} text-blue`} href="#">{props.isMyLastMessage ? 'You:': `${props.name.split(' ')[0]}:`}</a>{/*с помощью split получаю имя пользователя */}
+                    <p className={css.dialog__message}>{props.lastMessage.length > 20 ? `${props.lastMessage.slice(0,20)}...` : props.lastMessage}</p>
                 </div>
             </div>
         </div>
+        </NavLink>
     )
 }
 

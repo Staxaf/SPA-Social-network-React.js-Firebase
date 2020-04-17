@@ -1,0 +1,18 @@
+.users__btn{
+    text-align: center;
+    margin-bottom: 30px;
+}
+.users__btn button{
+    cursor: pointer;
+    border: none;
+    color: #27aae1;
+    font-size: 17px;
+    text-decoration: underline;
+}
+.users__btn button:hover{
+    transition: 0.4s ease;
+    color: #1d70e1;
+}
+.display_none{
+    display: none;
+}

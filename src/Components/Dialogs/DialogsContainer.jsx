@@ -12,11 +12,11 @@ let mapStateToProps = (state) => {// данные со стэйта
 
 let mapDispatchToProps = (dispatch) => {// колбэки
     return {
-        updateMessageText: (text) => {
-            dispatch(updateNewMessageTextCreator(text))
+        updateMessageText: (text, id) => {
+            dispatch(updateNewMessageTextCreator(text, id))
         },
-        addMessage: () => {
-            dispatch(addMessageCreator())
+        addMessage: (photo, id) => {
+            dispatch(addMessageCreator(photo, id))
         },
 
     }
@@ -25,23 +25,3 @@ let mapDispatchToProps = (dispatch) => {// колбэки
 const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
 
 export default DialogsContainer;
-
-/*const DialogsContainer = (props) => {
-    debugger
-// Convert objects into jsx tags
-    let addMessage = () => {
-        props.store.dispatch(addMessageCreator())
-        //props.addMessage(messageArea.current.value)
-    }
-
-    let onMessageChange = (text) => {
-        props.store.dispatch(updateNewMessageTextCreator(text))
-        //props.updateMessageText(messageArea.current.value)
-    }
-
-
-    return (
-        <Dialogs addMessage={addMessage} updateMessageText={onMessageChange} state={props.store.getState().dialogsPage}
-                 newMessageText={props.store.getState().dialogsPage.newMessageText}/>
-    )
-}*/
