@@ -62,3 +62,8 @@ a{
   background: white;
   box-shadow: 1px 1px 7px 1px rgb(194, 187, 187);
 }
+
+.text-center{
+  text-align: center;
+  margin: 20px 0;
+}

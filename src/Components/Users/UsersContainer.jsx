@@ -1,27 +1,33 @@
 import React from 'react'
-import Users from "./Users";
 import {connect} from "react-redux";
-import {addFollowCreator, setUsers} from "../../redux/state";
+import {addFollow, setUsers, toggleIsFetching} from "../../redux/state";
+import UsersAPIComponent from "./UsersAPIComponent";
 
 let mapStateToProps = (state) => {
 
     return {
-        state: state.usersPage
+        state: state.usersPage,
+        isFetching: state.usersPage.isFetching
     }
 }
 
-let mapDispatchToProps = (dispatch) => {
+/*let mapDispatchToProps = (dispatch) => {
     return {
         addFollow: (id) => {
             dispatch(addFollowCreator(id))
         },
-        setUsers: (id) => {
-            dispatch(setUsers(id))
-        }
+        setUsers: (id, usersData) => {
+            dispatch(setUsersCreator(id, usersData))
+        },
+        toggleIsFetching: (isFetching) => {
+            dispatch(toggleIsFetching(isFetching))
     }
-}
-
-
-let UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users)
+    }
+}*/
+let UsersContainer = connect(mapStateToProps,{
+    addFollow,
+    setUsers,
+    toggleIsFetching
+})(UsersAPIComponent)
 
 export default UsersContainer
