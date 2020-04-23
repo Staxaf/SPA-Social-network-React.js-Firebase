@@ -1,12 +1,23 @@
 import React from 'react'
 import css from './Header.module.css'
+import firebase from "./../../firebase";
 
-const Header = () => {
+const Header = (props) => {
+
+    let logout = () => {
+        firebase.auth().signOut()
+    }
+
     return (
         <header className={css.header}>
-            <a href='#'>
-                <img src='https://www.freelogodesign.org/file/app/client/thumb/48dcbc48-9aa1-4bf5-99ef-2468d2c1ab41_200x200.png?1586282874832' />
-            </a>
+            <div>
+                <a href='#'>
+                    <img src='https://www.freelogodesign.org/file/app/client/thumb/48dcbc48-9aa1-4bf5-99ef-2468d2c1ab41_200x200.png?1586282874832' />
+                </a>
+            </div>
+            {props.user ? <div className={css.logout}>
+                <button onClick={logout}>Logout</button>
+            </div> : ''}
         </header>
     )
 }

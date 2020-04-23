@@ -17,12 +17,11 @@ export const usersReducer = (state = initialState, action) => {
                 ...state,
                 usersData: [...state.usersData]
             }
-
-            db.collection('usersData').doc(action.uid).set({
-                ...stateCopy.usersData[action.userId - 1],
-                isFollow: !stateCopy.usersData[action.userId - 1].isFollow// изменяю в базе данных поле isFollow
-            })
             stateCopy.usersData[action.userId - 1].isFollow = !stateCopy.usersData[action.userId - 1].isFollow
+            db.collection('usersData').doc(action.uid).set({
+                ...stateCopy.usersData[action.userId - 1]
+            })
+
             return stateCopy
         case SET_USERS:
             let newState = {...state, usersData: [...action.usersData]};

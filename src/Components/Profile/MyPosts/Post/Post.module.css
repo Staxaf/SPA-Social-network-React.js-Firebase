@@ -30,29 +30,35 @@
     text-decoration: underline;
 }
 
-.post__title .icons a{
+.post__title .icons button{
     font-size: 14px;
     margin: 0 10px;
 }
 .post__title .icons i{
     padding: 0 3px;
 }
-.post__title .icons a:first-child{
+.post__title .icons button{
+    margin: 0;
+    cursor: pointer;
+    border: none;
+    background: white;
+}
+.post__title .icons button:first-child{
     color: #468040;
 }
-.post__title .icons a:first-child:hover{
+.post__title .icons button:first-child:hover{
     color: green;
 }
-.post__title .icons a:nth-child(2){
+.post__title .icons button:nth-child(2){
     color: #ff3e41
 }
-.post__title .icons a:nth-child(2):hover{
+.post__title .icons button:nth-child(2):hover{
     color: red;
 }
-.post__title .icons a:nth-child(3){
+.post__title .icons button:nth-child(3){
     color: grey;
 }
-.post__title .icons a:nth-child(3):hover{
+.post__title .icons button:nth-child(3):hover{
     color: black;
 }
 .post__date p{

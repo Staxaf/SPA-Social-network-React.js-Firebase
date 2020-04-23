@@ -16,7 +16,7 @@ class UsersAPIComponent extends React.Component {
         this.props.toggleIsFetching(true)
 
         const db = firebase.firestore()
-        db.collection('usersData')
+        db.collection('users')
             .get()
             .then(data => {
                 this.users = data.docs.map(doc => ({

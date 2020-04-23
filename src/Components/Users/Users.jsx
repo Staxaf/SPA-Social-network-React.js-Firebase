@@ -20,7 +20,7 @@ let Users = (props) => {
                 {props.state.usersData.map(user => {
                     if (user.isDisplay) {
                         userId = user.id
-                        return <User uid={user.uid} id={user.id} photoUrl={user.photoUrl} fullName={user.fullName}
+                        return <User uid={user.uid} id={user.id} photoUrl={user.photoURL} fullName={user.name}
                                      location={user.location}
                                      isFollow={user.isFollow} addFollow={props.addFollow}/>
                     }
