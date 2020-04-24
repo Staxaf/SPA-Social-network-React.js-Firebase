@@ -3,11 +3,12 @@ import {connect} from "react-redux";
 import {addFollow, setUsers, toggleIsFetching} from "../../redux/state";
 import UsersAPIComponent from "./UsersAPIComponent";
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state, ownProps) => {
 
     return {
         state: state.usersPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        user: ownProps.user
     }
 }
 

@@ -35,7 +35,7 @@ export const updateMessageText = (text, id) => ({
     id: id
 })
 
-export const addFollow = (id, uid) => ({type: 'FOLLOW-UNFOLLOW', userId: id, uid})
+export const addFollow = (id, uid, currentUser, userUid, currentUserId) => ({type: 'FOLLOW-UNFOLLOW', userId: id, uid, currentUser, userUid, currentUserId})
 export const setUsers = (id, usersData) => ({
     type: 'SET-USERS',
     id, usersData

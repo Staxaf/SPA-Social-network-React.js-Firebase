@@ -12,14 +12,13 @@ class ProfileContainer extends React.Component{
         db.collection('postsData').get()
             .then( response => {
                 this.posts = response.docs.map(doc => {
-
                     return {
                         ...doc.data(),
                         uid: doc.id
                     }
                 })
-
             })
+
     }
 
     render = () => {

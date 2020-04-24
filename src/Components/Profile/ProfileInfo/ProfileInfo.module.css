@@ -5,11 +5,11 @@
     /*grid-gap: 20px;*/
     /*overflow: hidden;*/
 }
-.profile .profile__nav{
+.profile__nav{
     position: relative;
     display: grid;
     background: black;
-    grid-template-columns: 1.5fr 4fr 1.5fr;
+    grid-template-columns: 2.5fr 4fr 1.5fr;
     grid-template-rows: 50px;
 
     top: 220px
@@ -27,6 +27,7 @@
     height: 200px;
     border-radius: 50%;
     background: white;
+    margin: 0;
 }
 .profile__img img{
     width: 180px;
@@ -45,14 +46,14 @@
     margin: 0;
     padding: 10px;
 }
-.profile__menu li{
+.profile__menu *{
     cursor: pointer;
     margin-left: 30px;
     font-size: 20px;
     color: white;
     padding-bottom: 10px;
 }
-.active, .profile__menu li:hover, .profile__folowers:hover{
+.active, .profile__menu *:hover, .profile__folowers:hover{
     transition: 0.4s ease;
     border-bottom: 1px #27aae1 solid;
 }
@@ -64,7 +65,6 @@
     padding: 10px;
     font-size: 16px;
     color: white;
-    margin: 0;
     text-align: center;
     margin: 0 10px;
 }

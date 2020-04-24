@@ -63,12 +63,14 @@ class App extends React.Component {
                         //console.log(doc.id, '=> ', doc.data())
                         this.setState({user: newUser})
                         this.setState({isLoaded: true})
-                        console.log(newUser)
+                        console.log(this.state.user)
                     })// для зашедшего пользователя подгружается личная информация с базы
                 }).catch(error => {
+                    this.setState({isLoaded: true})
                     console.log(error)
                 })
             } else {
+                this.setState({isLoaded: true})
                 this.setState({user: null})
             }
         })
@@ -84,10 +86,10 @@ class App extends React.Component {
                     <div className='app-wrapper-content bg-shadow'>
                         <Route path='/dialogs'
                                render={() => <DialogsContainer/>}/>
-                        <Route path='/profile'
+                        <Route path='/profile/:myPosts?'
                                render={() => <ProfileContainer user={this.state.user} store={this.props.store}/>}/>
                         <Route path='/users'
-                               render={() => <UsersContainer store={this.props.store}/>}/>
+                               render={() => <UsersContainer user={this.state.user} store={this.props.store}/>}/>
                         <Route path='/news' render={() => <News/>}/>
                         <Route path='/music' render={() => <Music/>}/>
                         <Route path='/settings' render={() => <Settings/>}/>

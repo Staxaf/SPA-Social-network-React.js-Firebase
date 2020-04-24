@@ -9,7 +9,8 @@ class SignUp extends React.Component {
             email: '',
             password: '',
             name: '',
-            photoURL: ''
+            photoURL: '',
+            backgroundPhotoUrl: ''
         }
     }
 
@@ -24,6 +25,7 @@ class SignUp extends React.Component {
                 <div className={css.login__inputs}>
                     <input type="email" name="name" onChange={this.handleChange} placeholder='Name...'/>
                     <input type="email" name="photoURL" onChange={this.handleChange} placeholder='PhotoURL...'/>
+                    <input type="email" name="backgroundPhotoUrl" onChange={this.handleChange} placeholder='Background PhotoURL...'/>
                     <input type="email" name="email" onChange={this.handleChange} placeholder='Email...'/>
                     <input type="password" name="password" onChange={this.handleChange} placeholder='Password...'/>
                 </div>

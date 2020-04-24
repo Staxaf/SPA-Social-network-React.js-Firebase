@@ -21,16 +21,14 @@ class MyPosts extends React.Component {
                     let postsData = response.docs.map(doc => ({...doc.data()}))
                     this.props.setIsFetching(false)
                     this.props.setPosts(postsData)// достаю из базы все посты и сортирую по возрастанию id(чтобы самым первым высвечивался новый пост)
-                    console.log(this.props.user)
                 }).catch(error => {
                 this.props.setIsFetching(false)
                 console.log('Ошибка', error)
             })
-            console.log(this.props.user)
+            //console.log(this.props.user)
         //}
     }
     render = () => {
-        console.log(this.props.user)
         return <div>
             <div className={css.input}>
                 <img

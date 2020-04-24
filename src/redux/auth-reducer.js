@@ -9,7 +9,8 @@ let initialState = {
     password: '',
     name: '',
     photoURL: '',
-    uid: ''
+    uid: '',
+    follows: []
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -36,11 +37,17 @@ export const authReducer = (state = initialState, action) => {
                 console.log(u.user.uid)
                 const db = firebase.firestore()
                 db.collection('users').doc(u.user.uid).set({
-                    email: action.email, password: action.password, name: action.name, photoURL: action.photoURL, uid: u.user.uid
+                    email: action.email,
+                    password: action.password,
+                    name: action.name,
+                    photoURL: action.photoURL,
+                    uid: u.user.uid,
+                    follows: [],
+                    followers: []
                 })// пользователь добавляется в базу
                 return {
                     ...state,
-                    uid: u.user.uid
+                    uid: u.user.uid,
                 }
             }).catch(error => {
                 console.log(error)

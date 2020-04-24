@@ -43,13 +43,15 @@ export const profileReducer = (state = initialState, action) => {
             }
         case ADD_POST:
             if (state.newPostText.length > 0 && state.postsData !== undefined) {
-                state.postsData.forEach(item => {
+                let i = 0
+                state.postsData.forEach((item, i) => {
                     db.collection('postsData').doc(item.uid).set({
                         ...item,
-                        id: item.id++
+                        id: item.id + 1
                     })
-                })// все id в базе увеличиваю на 1, чтобы вставить новый пост на первое место
-
+                    item.id++
+                })// все id в базе и в локальном стейте увеличиваю на 1, чтобы вставить новый пост на первое место
+                console.log('i: ', i)
                 let newPost = {
                     id: 1,
                     message: state.newPostText,
@@ -60,7 +62,7 @@ export const profileReducer = (state = initialState, action) => {
                     viewCounts: 0,
                     dateOfPublishing: getStringDate(),
                     comments: [],
-                    uid: `id${state.postsData.length}`,
+                    uid: `id${state.postsData.length}${action.userUid}`,
                     userUid: action.userUid
                 }
                 db.collection('postsData').doc(newPost.uid).set(newPost)// добавляю в базу запись с новым постом, которая имеет кастомный айди

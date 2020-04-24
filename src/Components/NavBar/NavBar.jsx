@@ -7,7 +7,7 @@ const NavBar = () => {
         <nav className={`${css.nav} bg-shadow`}>
             <div className={css.item}>
                 <i className="far fa-user"></i>
-                <NavLink to='/profile' activeClassName={css.active}>Profile</NavLink>
+                <NavLink to='/profile/myPosts' activeClassName={css.active}>Profile</NavLink>
             </div>
             <div className={css.item}>
                 <i className="far fa-envelope"></i>

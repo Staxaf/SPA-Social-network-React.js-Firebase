@@ -4,7 +4,6 @@ import css from './Users.module.css'
 import Loader from 'react-loader-spinner'
 
 
-
 let Users = (props) => {
     let userId = props.lastUserId
 
@@ -15,14 +14,14 @@ let Users = (props) => {
                         color="#00BFFF"
                         height={40}
                         width={40}/>
-            </div>: ''}
+            </div> : ''}
             <div>
                 {props.state.usersData.map(user => {
                     if (user.isDisplay) {
                         userId = user.id
-                        return <User uid={user.uid} id={user.id} photoUrl={user.photoURL} fullName={user.name}
-                                     location={user.location}
-                                     isFollow={user.isFollow} addFollow={props.addFollow}/>
+                        return <User currentUserId={props.currentUserId} currentUser={props.currentUser} uid={props.uid}
+                                     userUid={user.uid} id={user.id} photoUrl={user.photoURL} fullName={user.name}
+                                     addFollow={props.addFollow} isFollow={user.isFollow}/>
                     }
                 })}
                 <div className={`${css.users__btn} ${props.state.usersData.length === userId ? css.display_none : ''}`}>
