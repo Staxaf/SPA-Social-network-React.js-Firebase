@@ -65,6 +65,8 @@ export const profileReducer = (state = initialState, action) => {
                 let newPost = {
                     id: 1,
                     message: state.newPostText,
+                    postImage: action.photoURL,
+                    postName: action.name,
                     likeCounts: 0,
                     isLiked: false,
                     dislikeCounts: 0,

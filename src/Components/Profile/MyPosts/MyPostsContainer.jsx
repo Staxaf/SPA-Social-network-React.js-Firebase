@@ -17,6 +17,8 @@ let mapStateToProps = (state, ownProps) => {
         newPostText: state.profilePage.newPostText,
         isFetching: state.profilePage.isFetching,
         photoURL: ownProps.user.photoURL,
+        currentUser: ownProps.currentUser,
+        user: ownProps.user,
         name: ownProps.user.name,
         uid: ownProps.user.uid
     }

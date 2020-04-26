@@ -10,10 +10,10 @@ class FollowsAPIContainer extends React.Component {
 
     componentDidMount = () => {
         const db = firebase.firestore()
+        console.log('followers: ', this.props.followersOfCurrentUser, 'follows: ', this.props.followsOfCurrentUser)
 
-        this.friends = this.props.followsData.map(item => <Friend name={item.name}/>)
-        console.log('users: ', this.props.usersData, 'follows: ', this.props.followsData)
-        db.collection('users')
+        //if(this.props.followsOfCurrentUser !== undefined) this.props.setIsLoaded(true)
+        /*db.collection('users')
             .get()
             .then(data => {
                 this.users = data.docs.map(doc => ({
@@ -45,21 +45,20 @@ class FollowsAPIContainer extends React.Component {
                     })
                     this.props.getUsers(this.props.user.uid, this.users, this.friends)
                 })
-            })
+            })*/
     }
 
     componentWillUnmount() {
-        this.props.setIsLoaded(true)
+        this.props.setIsLoaded(false)
     }
 
     render = () => {
-        console.log('followers: ', this.followers, 'friends: ', this.friends)
         return <>
-            <Route path='/profile/myPosts' render={() => <MyPostsContainer user={this.props.user}/>}/>
-            <Route path='/profile/friends' render={() => <Friends follows={this.friends} isLoaded={this.props.isLoaded}
+            <Route path='/profile/myPosts/:userId?' render={() => <MyPostsContainer currentUser={this.props.currentUser} user={this.props.user}/>}/>
+            <Route path='/profile/friends' render={() => <Friends follows={this.props.followsData} isLoaded={this.props.isLoaded}
                                                                   setIsLoaded={this.props.setIsLoaded}
                                                                   user={this.props.user}/>} />
-            <Route path='/profile/followers' render={() => <Followers isLoaded={this.props.isLoaded} followers={this.followers} user={this.props.user}/>}/>
+            <Route path='/profile/followers' render={() => <Followers isLoaded={this.props.isLoaded} followers={this.props.followersOfCurrentUser} user={this.props.user}/>}/>
         </>
     }
 }

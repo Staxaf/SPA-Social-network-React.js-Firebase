@@ -58,7 +58,7 @@ class App extends React.Component {
                     <div className='app-wrapper-content bg-shadow'>
                         <Route path='/dialogs'
                                render={() => <DialogsContainer/>}/>
-                        <Route path='/profile/:myPosts?'
+                        <Route path='/profile/:myPosts?/:userUid?'
                                render={() => <ProfileContainer user={this.state.user} store={this.props.store}/>}/>
                         <Route path='/users'
                                render={() => <UsersContainer user={this.state.user} store={this.props.store}/>}/>

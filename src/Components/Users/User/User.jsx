@@ -7,7 +7,7 @@ const User = (props) => {
     console.log(props.isFollow)
     return (
         <div className={css.user}>
-            <NavLink to={'/profile/' + props.uid} className={css.user__photo}>
+            <NavLink to={'/profile/' + 'myPosts/' + props.userUid} className={css.user__photo}>
                 <img src={props.photoUrl} alt=""/>
             </NavLink>
             <div className={css.user__info}>

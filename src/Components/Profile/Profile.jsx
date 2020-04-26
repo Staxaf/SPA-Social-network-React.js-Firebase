@@ -8,7 +8,7 @@ const Profile = (props) => {
     return (
         <div>
             <ProfileInfo user={props.user} />
-            <ProfileContentContainer user={props.user} />
+            <ProfileContentContainer currentUser={props.currentUser} followsOFCurrentUser={props.followsOfCurrentUser} followersOfCurrentUser={props.followersOfCurrentUser} user={props.user} />
         </div>
     )
 }

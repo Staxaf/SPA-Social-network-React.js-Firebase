@@ -17,30 +17,33 @@ export const usersReducer = (state = initialState, action) => {
                 ...state,
                 usersData: [...state.usersData]
             } //JSON.parse(JSON.stringify(state))// глубокое копирование - не верьте!!! Я полдня искал ошибку, оказалось из-за этого "глубокого копирования" не обновлялся компонент
-            let follows = ''
+            let follows = []
+            let followers = []
             db.collection('users').doc(action.currentUser.uid).get().then(u => {// получить текущего юзера, чтобы получить его фоловеров
                 follows = u.data().follows
+                followers = stateCopy.usersData[action.userId].followers
                 if (follows.indexOf(action.userUid) === -1) {
                     stateCopy.usersData[action.userId].isFollow = true
                     db.collection('users').doc(action.uid).set({// добавляю uid юзера, на которого подписались или убираю, если отписался
                         ...action.currentUser,
-                        follows: [...follows, action.userUid]
+                        follows: Array.from(new Set([...follows, action.userUid]))
                     }).then(() => {
                         db.collection('users').doc(action.userUid).set({
                             ...stateCopy.usersData[action.userId],
-                            followers: [...stateCopy.usersData[action.userId].followers, action.currentUser.uid]// добавляю в массив followers пользователю, на которого подписались
+                            followers: Array.from(new Set([...followers, action.currentUser.uid])) // добавляю в массив followers пользователю, на которого подписались
                         })
                     })
                 } else {
                     stateCopy.usersData[action.userId].isFollow = false
                     follows.splice(follows.indexOf(action.userUid), 1)
+                    followers.splice(followers.indexOf(action.uid), 1)
                     db.collection('users').doc(action.uid).set({// добавляю uid юзера, на которого подписались или убираю, если отписался
                         ...action.currentUser,
-                        follows: [...follows]
+                        follows: Array.from(new Set([...follows]))
                     }).then(() => {
                         db.collection('users').doc(action.userUid).set({
                             ...stateCopy.usersData[action.userId],
-                            followers: [...stateCopy.usersData[action.userId].followers]// добавляю в массив followers пользователю, на которого подписались
+                            followers: Array.from(new Set([...followers])) // добавляю в массив followers пользователю, на которого подписались
                         })
                     })
 

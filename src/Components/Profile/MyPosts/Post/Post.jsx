@@ -14,7 +14,7 @@ const Post = (props) => {
 
     let addComment = () => {
         //props.dispatch({type: 'ADD-COMMENT', idComment: props.id})
-        props.addComment(props.id, props.photoURL, props.name)
+        props.addComment(props.id, props.currentUser.photoURL, props.currentUser.name)
     }
 
     let onCommentChange= (e) => {
@@ -47,7 +47,7 @@ const Post = (props) => {
                     {comments}
                 </div>
                 <div className={css.post__addComment}>
-                    <img src={props.photoURL} alt=""/>
+                    <img src={props.currentUser.photoURL} alt=""/>
                     <textarea onChange={onCommentChange} value={props.newCommentText} cols="30" rows="10" placeholder="Post a comment" />
                     <button onClick={addComment} className={css.post__send}>
                         <i className="fab fa-telegram-plane" />

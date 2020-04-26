@@ -7,7 +7,7 @@ const UPDATE_COMMENT_TEXT = 'UPDATE-COMMENT-TEXT'
 const ADD_MESSAGE = 'ADD-MESSAGE'
 const UPDATE_MESSAGE_TEXT = 'UPDATE-MESSAGE-TEXT'
 
-export const addPost = (userUid) => ({type: ADD_POST, userUid})
+export const addPost = (userUid, photoURL, name) => ({type: ADD_POST, userUid, photoURL, name})
 export const onPostChange = (text) => ({
     type: UPDATE_NEW_POST_TEXT,
     newText: text
