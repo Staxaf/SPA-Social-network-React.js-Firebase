@@ -7,7 +7,7 @@ import {
 } from "../../../redux/state";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
-import store from "../../../redux/redux-store";
+import MyPostsAPIContainer from "./MyPostsAPIContainer";
 
 
 let mapStateToProps = (state, ownProps) => {
@@ -33,6 +33,6 @@ const MyPostsContainer = connect(mapStateToProps, {
     addLike,
     addDislike,
     setUser
-})(MyPosts)
+})(MyPostsAPIContainer)
 
 export default MyPostsContainer;

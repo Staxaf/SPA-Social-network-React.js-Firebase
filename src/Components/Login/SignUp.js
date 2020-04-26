@@ -10,8 +10,15 @@ class SignUp extends React.Component {
             password: '',
             name: '',
             photoURL: '',
-            backgroundPhotoUrl: ''
+            backgroundPhotoUrl: '',
+            users: []
         }
+    }
+
+    componentDidMount() {
+        firebase.firestore().collection('users').get().then(response => {
+            this.usersCount = response.docs.length
+        })
     }
 
 
@@ -31,7 +38,7 @@ class SignUp extends React.Component {
                 </div>
                 <div className={css.login__buton}>
                     <button onClick={() => {
-                        this.props.signUp(this.state.email, this.state.password, this.state.name, this.state.photoURL)
+                        this.props.signUp(this.state.email, this.state.password, this.state.name, this.state.photoURL, this.state.backgroundPhotoUrl, this.usersCount)
                     }}>Sign Up
                     </button>
                 </div>

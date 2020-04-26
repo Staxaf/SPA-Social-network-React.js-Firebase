@@ -1,4 +1,3 @@
-
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
 
@@ -22,8 +21,19 @@ export const onCommentChange = (text, id) => ({
 
 export const setUser = (name, photoURL, uid) => ({type: 'SET_USER', name, photoURL, uid})
 export const login = (email, password) => ({type: 'LOGIN', email, password})
-export const signUp = (email, password, name, photoURL) => ({type: 'SIGN_UP', email, password, name, photoURL})
+export const signUp = (email, password, name, photoURL, backgroundPhotoUrl, usersCount) => ({
+    type: 'SIGN_UP',
+    email,
+    password,
+    name,
+    photoURL,
+    backgroundPhotoUrl,
+    usersCount
+})
 
+export const getUsers = (userUid, users, followsData) => ({type: 'GET_USERS', userUid, users, followsData})
+export const getFollows = (currentUser, followsData) => ({type: 'GET_FRIENDS', currentUser, followsData})
+export const setIsLoaded = (isLoaded) => ({type: 'SET_IS_LOADED', isLoaded})
 export const setPosts = (postsData) => ({type: 'SET_POSTS_FROM_DB', postsData})
 export const addLike = (id, uid) => ({type: 'TOGGLE_LIKE', id, uid})
 export const addDislike = (id, uid) => ({type: 'TOGGLE_DISLIKE', id, uid})
@@ -35,10 +45,17 @@ export const updateMessageText = (text, id) => ({
     id: id
 })
 
-export const addFollow = (id, uid, currentUser, userUid, currentUserId) => ({type: 'FOLLOW-UNFOLLOW', userId: id, uid, currentUser, userUid, currentUserId})
-export const setUsers = (id, usersData) => ({
+export const addFollow = (id, uid, currentUser, userUid, currentUserId) => ({
+    type: 'FOLLOW-UNFOLLOW',
+    userId: id,
+    uid,
+    currentUser,
+    userUid,
+    currentUserId
+})
+export const setUsers = (id, usersData, currentUserId) => ({
     type: 'SET-USERS',
-    id, usersData
+    id, usersData, currentUserId
 })
 
 export const toggleIsFetching = (isFetching) => ({type: 'TOGGLE_IS_FETCHING', isFetching})

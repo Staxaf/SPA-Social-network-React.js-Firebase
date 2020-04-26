@@ -5,18 +5,13 @@ import {NavLink} from "react-router-dom";
 
 
 const ProfileInfo = (props) => {
-    /*const styles = StyleSheet.create({
-        profile: {
-            background: url(props.user.backgroundPhotoUrl)
-        }
-    })*/
+
     const ProfileBlock = styled.div`
         background: url(${props.user.backgroundPhotoUrl}) no-repeat center;
    
         min-height: 300px;
         background-size: cover;
 `;// создал стайл компонент, чтобы сделать кастомный бекграунд у пользователя
-    console.log('bac: ', props.user.backgroundPhotoUrl)
     return (
         <ProfileBlock>
             <div className={css.profile__nav}>
@@ -32,7 +27,8 @@ const ProfileInfo = (props) => {
                     <ul className={css.profile__menu}>
                         <NavLink to='myPosts' activeClassName={css.active}>Posts</NavLink>
                         <li>About</li>
-                        <NavLink to='friends' activeClassName={css.active}>Friends</NavLink>
+                        <NavLink to='friends' activeClassName={css.active}>Follows</NavLink>
+                        <NavLink to='followers' activeClassName={css.active}>Followers</NavLink>
                     </ul>
                 </div>
                 <div>
@@ -41,14 +37,8 @@ const ProfileInfo = (props) => {
                     </p>
                 </div>
             </div>
-            {/*<div className={css.profile__info}>*/}
-            {/*    <p>Birth Year: {props.birthYear}</p>*/}
-            {/*    <p>Gender: {props.gender}</p>*/}
-            {/*</div>*/}
         </ProfileBlock>
     )
 }
 
 export default ProfileInfo;
-
-// background: http://mythemestore.com/friend-finder/images/covers/1.jpg

@@ -2,7 +2,6 @@ import React from 'react'
 import css from './Login.module.css'
 import {NavLink, Route} from "react-router-dom";
 import SignUp from "./SignUp";
-import firebase from "./../../firebase";
 import Login from "./Login";
 
 class LoginPage extends React.Component {

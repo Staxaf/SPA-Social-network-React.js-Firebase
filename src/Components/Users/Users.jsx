@@ -16,11 +16,11 @@ let Users = (props) => {
                         width={40}/>
             </div> : ''}
             <div>
-                {props.state.usersData.map(user => {
+                {props.state.usersData.map((user, index) => {
                     if (user.isDisplay) {
                         userId = user.id
                         return <User currentUserId={props.currentUserId} currentUser={props.currentUser} uid={props.uid}
-                                     userUid={user.uid} id={user.id} photoUrl={user.photoURL} fullName={user.name}
+                                     userUid={user.uid} id={index} photoUrl={user.photoURL} fullName={user.name}
                                      addFollow={props.addFollow} isFollow={user.isFollow}/>
                     }
                 })}

@@ -17,8 +17,6 @@ import {LoginContainer} from "./Components/Login/LoginContainer";
 class App extends React.Component {
     constructor(props) {
         super(props)
-        //this.signUp = this.signUp.bind(this)
-        //this.login = this.login.bind(this)
         this.authListener = this.authListener.bind(this)
         this.state = {
             user: {},
@@ -30,54 +28,28 @@ class App extends React.Component {
         this.authListener()
     }
 
-    /*signUp = (e, email, password, name, photoURL) => {
-        e.preventDefault()
-        firebase.auth().createUserWithEmailAndPassword(email, password).then(u => {
-            console.log(u.user.uid)
-            const db = firebase.firestore()
-            db.collection('users').doc(u.user.uid).set({
-                email, password, name, photoURL, uid: u.user.uid
-            })// пользователь добавляется в базу
-        }).catch(error => {
-            console.log(error)
-        })
-    }
 
-    login = (e, email, password) => {
-        e.preventDefault()
-        firebase.auth().signInWithEmailAndPassword(email, password).then(u => {
-        }).catch((error) => {
-            console.log("email: ", this.state.email, error)
-        })
-    }*/
     authListener = () => {
-        //this.setState({isFetching: true})
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 let newUser
                 const db = firebase.firestore()
                 db.collection('users').where('uid', '==', user.uid).get().then(response => {
-                    //console.log(response)
                     response.forEach(doc => {
                         newUser = doc.data()
-                        //console.log(doc.id, '=> ', doc.data())
-                        this.setState({user: newUser})
-                        this.setState({isLoaded: true})
-                        console.log(this.state.user)
+                        this.setState({user: newUser, isLoaded: true})
                     })// для зашедшего пользователя подгружается личная информация с базы
                 }).catch(error => {
                     this.setState({isLoaded: true})
                     console.log(error)
                 })
             } else {
-                this.setState({isLoaded: true})
-                this.setState({user: null})
+                this.setState({isLoaded: true, user: null})
             }
         })
     }
 
     render() {
-        //console.log(this.state.user)
         return (
             <BrowserRouter>
                 <Header user={this.state.user}/>
@@ -101,14 +73,3 @@ class App extends React.Component {
 }
 
 export default App;
-/*  var firebaseConfig = {
-    apiKey: "AIzaSyAVqntvEOYxFeOkhpzdHc6PO4fZuSrfzvg",
-    authDomain: "social-network-react-redux.firebaseapp.com",
-    databaseURL: "https://social-network-react-redux.firebaseio.com",
-    projectId: "social-network-react-redux",
-    storageBucket: "social-network-react-redux.appspot.com",
-    messagingSenderId: "419369044262",
-    appId: "1:419369044262:web:41b557998d41d21ec559e7"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);*/

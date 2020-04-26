@@ -21,18 +21,18 @@ export const usersReducer = (state = initialState, action) => {
             db.collection('users').doc(action.currentUser.uid).get().then(u => {// получить текущего юзера, чтобы получить его фоловеров
                 follows = u.data().follows
                 if (follows.indexOf(action.userUid) === -1) {
-                    //stateCopy.usersData[action.userId].isFollow = true
+                    stateCopy.usersData[action.userId].isFollow = true
                     db.collection('users').doc(action.uid).set({// добавляю uid юзера, на которого подписались или убираю, если отписался
                         ...action.currentUser,
                         follows: [...follows, action.userUid]
                     }).then(() => {
                         db.collection('users').doc(action.userUid).set({
                             ...stateCopy.usersData[action.userId],
-                            followers: [...stateCopy.usersData[action.userId].followers, action.uid]// добавляю в массив followers пользователю, на которого подписались
+                            followers: [...stateCopy.usersData[action.userId].followers, action.currentUser.uid]// добавляю в массив followers пользователю, на которого подписались
                         })
                     })
                 } else {
-                    //stateCopy.usersData[action.userId].isFollow = false
+                    stateCopy.usersData[action.userId].isFollow = false
                     follows.splice(follows.indexOf(action.userUid), 1)
                     db.collection('users').doc(action.uid).set({// добавляю uid юзера, на которого подписались или убираю, если отписался
                         ...action.currentUser,

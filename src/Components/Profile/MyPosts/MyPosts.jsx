@@ -7,27 +7,27 @@ import Loader from "react-loader-spinner";
 
 class MyPosts extends React.Component {
 
-    componentDidMount = () => {
-        //this.props.setUser(this.props.name, this.props.photoURL)
+    /*componentDidMount = () => {
         console.log('uid: ', this.props.uid)
         this.props.setIsFetching(true)
         const db = firebase.firestore()
-        // console.log(this.props.uid)
-        //if(this.props.uid !== undefined){
-            db.collection('postsData')//.orderBy('id', 'asc')
-                .where('userUid', '==', this.props.uid)
-                .get()
-                .then(response => {//
-                    let postsData = response.docs.map(doc => ({...doc.data()}))
-                    this.props.setIsFetching(false)
-                    this.props.setPosts(postsData)// достаю из базы все посты и сортирую по возрастанию id(чтобы самым первым высвечивался новый пост)
-                }).catch(error => {
+        db.collection('postsData')
+            .where('userUid', '==', this.props.uid)
+            .get()
+            .then(response => {//
+                let postsData = response.docs.map(doc => ({...doc.data()}))
+                postsData.sort((a, b) => {// фильтрую посты по возрастанию id
+                    if (a.id > b.id) return 1
+                    else if (a.id < b.id) return -1
+                    else return 0
+                })
                 this.props.setIsFetching(false)
-                console.log('Ошибка', error)
-            })
-            //console.log(this.props.user)
-        //}
-    }
+                this.props.setPosts(postsData)// достаю из базы все посты
+            }).catch(error => {
+            this.props.setIsFetching(false)
+            console.log('Ошибка', error)
+        })
+    }*/
     render = () => {
         return <div>
             <div className={css.input}>
@@ -66,62 +66,5 @@ class MyPosts extends React.Component {
     }
 }
 
-/*const MyPosts = (props) => {
-    //this.props.setUser(this.props.name, this.props.photoURL)
-    console.log('uid: ', props.uid)
-    props.setIsFetching(true)
-    const db = firebase.firestore()
-    // console.log(this.props.uid)
-    if(props.uid !== undefined){
-    db.collection('postsData').orderBy('id', 'asc')
-        //.where('uid', '==', this.props.uid)
-        .get()
-        .then(response => {//
-            let postsData = response.docs.map(doc => ({...doc.data()}))
-            props.setIsFetching(false)
-            props.setPosts(postsData)// достаю из базы все посты и сортирую по возрастанию id(чтобы самым первым высвечивался новый пост)
-            console.log(props.user)
-        }).catch(error => {
-        this.props.setIsFetching(false)
-        console.log('Ошибка', error)
-    })
-    console.log(props.user)
-    }
-
-    return <div>
-        <div className={css.input}>
-            <img
-                src={props.photoURL}
-                alt=""/>
-            <textarea onChange={(e) => {
-                props.onPostChange(e.target.value)
-            }} className={css.text__area}
-                      value={props.newPostText} cols='70' rows='7'/>
-            <div className={css.icons}>
-                <a><i className="fas fa-paperclip"/></a>
-                <a><i className="far fa-laugh"/></a>
-            </div>
-            <button onClick={() => {
-                props.addPost(props.uid)
-            }} className={css.btn}>Publish
-            </button>
-        </div>
-        <div className={css.posts}>
-            {props.isFetching
-                ? <div className="text-center">
-                    <Loader type="Oval" color="#00BFFF" height={40} width={40}/>
-                </div> : props.postsData !== undefined ? props.postsData.map(post => (
-                    <Post name={props.name} photoURL={props.photoURL} message={post.message}
-                          likeCounts={post.likeCounts} dislikeCounts={post.dislikeCounts}
-                          viewCounts={post.viewCounts} comments={post.comments} id={post.id}
-                          dateOfPublishing={post.dateOfPublishing} uid={post.uid}
-                          newCommentText={post.newCommentText} updateCommentText={props.onCommentChange}
-                          addComment={props.addComment} addLike={props.addLike}
-                          addDislike={props.addDislike}/>
-                )) : ''}
-
-        </div>
-    </div>
-}*/
 
 export default MyPosts;

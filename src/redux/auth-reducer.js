@@ -43,7 +43,9 @@ export const authReducer = (state = initialState, action) => {
                     photoURL: action.photoURL,
                     uid: u.user.uid,
                     follows: [],
-                    followers: []
+                    followers: [],
+                    backgroundPhotoUrl: action.backgroundPhotoUrl,
+                    id: action.usersCount
                 })// пользователь добавляется в базу
                 return {
                     ...state,

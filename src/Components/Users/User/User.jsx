@@ -12,7 +12,6 @@ const User = (props) => {
             </NavLink>
             <div className={css.user__info}>
                 <h4>{props.fullName}</h4>
-                {/*<p>{`${props.location.city}, ${props.location.country}`}</p>*/}
             </div>
             <div className={css.user__button}>
                 <button onClick={() => {

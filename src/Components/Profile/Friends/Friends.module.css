@@ -1,0 +1,29 @@
+.friends {
+    margin-top: 70px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 30px;
+    justify-content: center;
+}
+.friends .friends__item{
+    width: 300px;
+    position: relative;
+    top: 50px;
+}
+.friends__item_container{
+    border-radius: 5px;
+    min-height: 22vh;
+}
+.friends .friends__item img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.friends .friends__name{
+    color: #27aae1;
+}
+.friends__item:hover .friends__name{
+    color: #1d70e1;
+    transition: 0.4s ease;
+}

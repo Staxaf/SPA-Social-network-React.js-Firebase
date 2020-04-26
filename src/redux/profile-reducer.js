@@ -1,4 +1,6 @@
 import firebase from "../firebase";
+import Friend from "../Components/Profile/Friends/Friend";
+import React from "react";
 
 const getStringMonth = (index) => {
     let months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august',
@@ -21,15 +23,23 @@ const SET_IS_FETCHING = 'SET_IS_FETCHING'
 const TOGGLE_LIKE = 'TOGGLE_LIKE'
 const TOGGLE_DISLIKE = 'TOGGLE_DISLIKE'
 
+const GET_USERS = 'GET_USERS'
+const GET_FOLLOWS = 'GET_FOLLOWS'
 const SET_USER = 'SET_USER'
 
+const SET_IS_LOADED = 'SET_IS_LOADED'
+
 let initialState = {
+    usersData: [],
     postsData: [],// all posts
+    followsData: [],
+    followersData: [],
     name: '',// user name
     folowers: 130,// folowers count
     profileImage: '',
     newPostText: '',// text in adding post textarea
-    isFetching: false// for loader
+    isFetching: false,// for loader
+    isLoaded: false//for loader friends
 }
 
 export const profileReducer = (state = initialState, action) => {
@@ -74,7 +84,6 @@ export const profileReducer = (state = initialState, action) => {
             }
             return state
         case UPDATE_NEW_POST_TEXT:
-
             return {
                 ...state,
                 newPostText: action.newText
@@ -144,6 +153,26 @@ export const profileReducer = (state = initialState, action) => {
                 ...newState.postsData[action.id - 1]
             })
             return newState
+        case GET_USERS: {
+
+            let stateCopy =  {
+                ...state,
+                usersData: [...action.users],
+                followsData: [...action.followsData]
+            }
+            if(stateCopy.followsData.length !== 0) stateCopy.isLoaded = true
+            return stateCopy
+        }
+        case GET_FOLLOWS:
+            return {
+                ...state,
+                followsData: [...action.followsData]
+            }
+        case SET_IS_LOADED:
+            return {
+                ...state,
+                isLoaded: action.isLoaded
+            }
         default:
             return state
     }

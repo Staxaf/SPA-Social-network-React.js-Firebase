@@ -7,20 +7,6 @@ import {setUser} from "../../redux/state";
 
 class ProfileContainer extends React.Component{
 
-    componentDidMount() {
-        const db = firebase.firestore()
-        db.collection('postsData').get()
-            .then( response => {
-                this.posts = response.docs.map(doc => {
-                    return {
-                        ...doc.data(),
-                        uid: doc.id
-                    }
-                })
-            })
-
-    }
-
     render = () => {
         return (
             <Profile {...this.props} setUser={setUser} />

@@ -12,19 +12,6 @@ let mapStateToProps = (state, ownProps) => {
     }
 }
 
-/*let mapDispatchToProps = (dispatch) => {
-    return {
-        addFollow: (id) => {
-            dispatch(addFollowCreator(id))
-        },
-        setUsers: (id, usersData) => {
-            dispatch(setUsersCreator(id, usersData))
-        },
-        toggleIsFetching: (isFetching) => {
-            dispatch(toggleIsFetching(isFetching))
-    }
-    }
-}*/
 let UsersContainer = connect(mapStateToProps,{
     addFollow,
     setUsers,
