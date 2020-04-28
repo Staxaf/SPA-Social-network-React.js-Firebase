@@ -5,7 +5,7 @@ import Comment from "./Comment/Comment";
 const Post = (props) => {
 
     let comments = null
-    if(props.comments !== null && props.comments !== undefined) {
+    if (props.comments !== null && props.comments !== undefined) {
         comments = props.comments.map(comment => {
             return <Comment name={comment.name} image={comment.image} dateOfPublishing={comment.dateOfPublishing}
                             text={comment.text}/>
@@ -17,7 +17,7 @@ const Post = (props) => {
         props.addComment(props.id, props.currentUser.photoURL, props.currentUser.name)
     }
 
-    let onCommentChange= (e) => {
+    let onCommentChange = (e) => {
         //props.dispatch({type: 'UPDATE-COMMENT-TEXT', idComment: props.id, newText: e.target.value})
         props.updateCommentText(e.target.value, props.id)
     }
@@ -32,9 +32,13 @@ const Post = (props) => {
                         <a href="#">{props.name}</a>
                     </div>
                     <div className={css.icons}>
-                        <button  onClick={() => {props.addLike(props.id, props.uid)}}><i className="fas fa-thumbs-up" />{props.likeCounts}</button>
-                        <button onClick={() => {props.addDislike(props.id, props.uid)}}><i className="fas fa-thumbs-down" />{props.dislikeCounts}</button>
-                        <button ><i className="fas fa-eye" />{props.viewCounts}</button>
+                        <button onClick={() => {
+                            props.addLike(props.id, props.uid, props.whoIsLikeList, props.currentUser.uid)
+                        }}><i className="fas fa-thumbs-up"/>{props.whoIsLikeList.length}</button>
+                        <button onClick={() => {
+                            props.addDislike(props.id, props.uid, props.whoIsDislikeList, props.currentUser.uid)
+                        }}><i className="fas fa-thumbs-down"/>{props.whoIsDislikeList.length}</button>
+                        <button><i className="fas fa-eye"/>{props.viewCounts}</button>
                     </div>
                 </div>
                 <div className={css.post__date}>
@@ -48,9 +52,10 @@ const Post = (props) => {
                 </div>
                 <div className={css.post__addComment}>
                     <img src={props.currentUser.photoURL} alt=""/>
-                    <textarea onChange={onCommentChange} value={props.newCommentText} cols="30" rows="10" placeholder="Post a comment" />
+                    <textarea onChange={onCommentChange} value={props.newCommentText} cols="30" rows="10"
+                              placeholder="Post a comment"/>
                     <button onClick={addComment} className={css.post__send}>
-                        <i className="fab fa-telegram-plane" />
+                        <i className="fab fa-telegram-plane"/>
                     </button>
                 </div>
             </div>

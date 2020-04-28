@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from "react-redux";
-import {addFollow, setUsers, toggleIsFetching} from "../../redux/state";
 import UsersAPIComponent from "./UsersAPIComponent";
+import {addFollow, addFollowThunk, getUsers, setUsers, toggleIsFetching} from "../../redux/users-reducer";
 
 let mapStateToProps = (state, ownProps) => {
 
@@ -13,9 +13,8 @@ let mapStateToProps = (state, ownProps) => {
 }
 
 let UsersContainer = connect(mapStateToProps,{
-    addFollow,
-    setUsers,
-    toggleIsFetching
+
+    getUsers, addFollowThunk
 })(UsersAPIComponent)
 
 export default UsersContainer

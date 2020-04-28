@@ -63,3 +63,17 @@ export const authReducer = (state = initialState, action) => {
             }
     }
 }
+
+// Action Creators
+
+export const setUser = (name, photoURL, uid) => ({type: SET_USER, name, photoURL, uid})
+export const login = (email, password) => ({type: LOGIN, email, password})
+export const signUp = (email, password, name, photoURL, backgroundPhotoUrl, usersCount) => ({
+    type: SIGN_UP,
+    email,
+    password,
+    name,
+    photoURL,
+    backgroundPhotoUrl,
+    usersCount
+})

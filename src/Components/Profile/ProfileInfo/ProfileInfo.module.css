@@ -7,12 +7,15 @@
 }
 .profile__nav{
     position: relative;
-    display: grid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: black;
-    grid-template-columns: 2.5fr 4fr 1.5fr;
+    /*grid-template-columns: 2.5fr 4fr 1.5fr;
     grid-template-rows: 50px;
-
-    top: 220px
+*/
+    top: 220px;
+    padding: 0 30px;
 }
 .profile__img{
     padding: 20px;

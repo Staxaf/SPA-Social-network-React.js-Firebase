@@ -6,9 +6,21 @@ import {NavLink} from "react-router-dom";
 
 const ProfileInfo = (props) => {
 
+    let id = -1
+    let uid = ''
+    let isFollow = false
+    props.users.forEach((item, index) => {
+        if (item.uid === props.user.uid) {
+            id = index
+            uid = item.uid
+            if(props.currentUser.follows.indexOf(uid) !== -1){
+                isFollow = true
+            }
+        }
+    })
+    console.log('uid: ', uid)
     const ProfileBlock = styled.div`
-        background: url(${props.user.backgroundPhotoUrl}) no-repeat center;
-   
+        background: url(${props.user.backgroundPhotoUrl}) no-repeat center;  
         min-height: 300px;
         background-size: cover;
 `;// создал стайл компонент, чтобы сделать кастомный бекграунд у пользователя
@@ -31,14 +43,18 @@ const ProfileInfo = (props) => {
                         <NavLink to='followers' activeClassName={css.active}>Followers</NavLink>
                     </ul>
                 </div>
-                <div>
-                    <p className={css.profile__folowers}>
-                        {props.user.followers.length} folowers
-                    </p>
-                </div>
+                {id !== -1 ? <div className="user__button">
+                    <button onClick={() => {
+                        props.addFollow(id, props.currentUser.uid, props.currentUser, uid, props.users)
+                    }}>{isFollow ? 'Unfollow' : 'Follow'}
+                    </button>
+                </div> : <p></p>}
             </div>
         </ProfileBlock>
     )
 }
-
+/*<button onClick={() => {
+                    props.addFollow(props.id, props.uid, props.currentUser, props.userUid, props.currentUserId)
+                }}>{props.isFollow ? 'Unfollow' : 'Follow'}</button>
+ */
 export default ProfileInfo;

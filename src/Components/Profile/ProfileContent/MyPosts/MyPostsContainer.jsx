@@ -1,13 +1,16 @@
 import React from 'react'
-import {
-    addComment,
-    addPost, setPosts,
-    onCommentChange,
-    onPostChange, setIsFetching, addLike, addDislike, setUser
-} from "../../../redux/state";
-import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 import MyPostsAPIContainer from "./MyPostsAPIContainer";
+import {withRouter} from "react-router-dom";
+import {
+    addComment, addDislike, addLike,
+    addPost,
+    onCommentChange,
+    onPostChange,
+    setIsFetching,
+    setPosts
+} from "../../../../redux/profile-reducer";
+import {setUser} from "../../../../redux/auth-reducer";
 
 
 let mapStateToProps = (state, ownProps) => {
@@ -24,8 +27,7 @@ let mapStateToProps = (state, ownProps) => {
     }
 }
 
-
-const MyPostsContainer = connect(mapStateToProps, {
+const MyPostsContainer = connect(mapStateToProps,{
     addPost,
     onPostChange,
     addComment,
@@ -35,6 +37,6 @@ const MyPostsContainer = connect(mapStateToProps, {
     addLike,
     addDislike,
     setUser
-})(MyPostsAPIContainer)
+})(withRouter(MyPostsAPIContainer))
 
 export default MyPostsContainer;

@@ -1,14 +1,15 @@
 import React from 'react'
-import firebase from "../../../firebase";
+import firebase from "../../../../firebase";
 import MyPosts from "./MyPosts";
+import {usersAPI} from "../../../../redux/api";
 
 class MyPostsAPIContainer extends React.Component {
 
     componentDidMount = () => {
+        this.props.setUser(this.props.currentUser.name, this.props.currentUser.photoURL, this.props.currentUser.uid)
         console.log('uid: ', this.props.uid)
         this.props.setIsFetching(true)
-        const db = firebase.firestore()
-        db.collection('postsData')
+        firebase.firestore().collection('postsData')
             .where('userUid', '==', this.props.uid)
             .get()
             .then(response => {//
@@ -18,8 +19,8 @@ class MyPostsAPIContainer extends React.Component {
                     else if (a.id < b.id) return -1
                     else return 0
                 })
-                this.props.setIsFetching(false)
                 this.props.setPosts(postsData)// достаю из базы все посты
+                this.props.setIsFetching(false)
             }).catch(error => {
             this.props.setIsFetching(false)
             console.log('Ошибка', error)

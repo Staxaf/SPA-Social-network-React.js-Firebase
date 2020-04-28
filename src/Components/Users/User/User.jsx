@@ -7,15 +7,15 @@ const User = (props) => {
     console.log(props.isFollow)
     return (
         <div className={css.user}>
-            <NavLink to={'/profile/' + 'myPosts/' + props.userUid} className={css.user__photo}>
+            <NavLink to={'/profile/' + props.userUid + '/myPosts' } className={css.user__photo}>
                 <img src={props.photoUrl} alt=""/>
             </NavLink>
             <div className={css.user__info}>
                 <h4>{props.fullName}</h4>
             </div>
-            <div className={css.user__button}>
+            <div className="user__button">
                 <button onClick={() => {
-                    props.addFollow(props.id, props.uid, props.currentUser, props.userUid, props.currentUserId)
+                    props.addFollow(props.id, props.uid, props.currentUser, props.userUid, props.users)
                 }}>{props.isFollow ? 'Unfollow' : 'Follow'}</button>
             </div>
         </div>

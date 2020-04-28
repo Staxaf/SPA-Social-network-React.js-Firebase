@@ -1,7 +1,6 @@
 import React from 'react'
 import css from './MyPosts.module.css'
 import Post from './Post/Post'
-import firebase from "../../../firebase";
 import Loader from "react-loader-spinner";
 
 
@@ -32,7 +31,8 @@ class MyPosts extends React.Component {
                         <Loader type="Oval" color="#00BFFF" height={40} width={40}/>
                     </div> : this.props.postsData !== undefined ? this.props.postsData.map(post => (
                         <Post currentUser={this.props.currentUser} name={post.postName} photoURL={post.postImage} message={post.message}
-                              likeCounts={post.likeCounts} dislikeCounts={post.dislikeCounts}
+                              dislikeCounts={post.dislikeCounts}
+                              whoIsLikeList={post.whoIsLikeList} whoIsDislikeList={post.whoIsDislikeList}
                               viewCounts={post.viewCounts} comments={post.comments} id={post.id}
                               dateOfPublishing={post.dateOfPublishing} uid={post.uid}
                               newCommentText={post.newCommentText} updateCommentText={this.props.onCommentChange}

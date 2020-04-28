@@ -67,3 +67,19 @@ a{
   text-align: center;
   margin: 20px 0;
 }
+
+.user__button button{
+  cursor: pointer;
+  padding: 7px 20px;
+  width: 100px;
+  font-size: 15px;
+  color: white;
+  background: #27aae1;
+  outline: none;
+  border: none;
+  border-radius: 20px;
+}
+.user__button button:hover{
+  background: #1d70e1;
+  transition: 0.4s ease;
+}

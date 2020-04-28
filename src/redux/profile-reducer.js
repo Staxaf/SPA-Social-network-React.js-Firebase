@@ -1,5 +1,4 @@
 import firebase from "../firebase";
-import Friend from "../Components/Profile/Friends/Friend";
 import React from "react";
 
 const getStringMonth = (index) => {
@@ -35,7 +34,6 @@ let initialState = {
     followsData: [],
     followersData: [],
     name: '',// user name
-    folowers: 130,// folowers count
     profileImage: '',
     newPostText: '',// text in adding post textarea
     isFetching: false,// for loader
@@ -67,10 +65,8 @@ export const profileReducer = (state = initialState, action) => {
                     message: state.newPostText,
                     postImage: action.photoURL,
                     postName: action.name,
-                    likeCounts: 0,
-                    isLiked: false,
-                    dislikeCounts: 0,
-                    isDisliked: false,
+                    whoIsLikeList: [],
+                    whoIsDislikeList: [],
                     viewCounts: 0,
                     dateOfPublishing: getStringDate(),
                     comments: [],
@@ -135,34 +131,41 @@ export const profileReducer = (state = initialState, action) => {
                 ...state,
                 postsData: [...state.postsData]
             }
-            newState.postsData[action.id - 1].isLiked = !newState.postsData[action.id - 1].isLiked
-            newState.postsData[action.id - 1].isLiked ? newState.postsData[action.id - 1].likeCounts++
-                : newState.postsData[action.id - 1].likeCounts--
+            newState.postsData[action.id - 1].whoIsLikeList = [...newState.postsData[action.id - 1].whoIsLikeList]
+            if (newState.postsData[action.id - 1].whoIsLikeList.indexOf(action.currentUserUid) === -1) {
+                newState.postsData[action.id - 1].whoIsLikeList = [...newState.postsData[action.id - 1].whoIsLikeList, action.currentUserUid]
+            } else {
+                newState.postsData[action.id - 1].whoIsLikeList.splice(newState.postsData[action.id - 1].whoIsLikeList.indexOf(action.currentUserUid), 1)
+            }
             db.collection('postsData').doc(action.uid).set({
                 ...newState.postsData[action.id - 1]
             })
             return newState
         }
         case TOGGLE_DISLIKE:
+            debugger
             let newState = {
                 ...state,
                 postsData: [...state.postsData]
             }
-            newState.postsData[action.id - 1].isDisliked = !newState.postsData[action.id - 1].isDisliked
-            newState.postsData[action.id - 1].isDisliked ? newState.postsData[action.id - 1].dislikeCounts++
-                : newState.postsData[action.id - 1].dislikeCounts--
+            newState.postsData[action.id - 1].whoIsDislikeList = [...newState.postsData[action.id - 1].whoIsDislikeList]
+            if (newState.postsData[action.id - 1].whoIsDislikeList.indexOf(action.currentUserUid) === -1) {
+                newState.postsData[action.id - 1].whoIsDislikeList = [...newState.postsData[action.id - 1].whoIsDislikeList, action.currentUserUid]
+            } else {
+                newState.postsData[action.id - 1].whoIsDislikeList.splice(newState.postsData[action.id - 1].whoIsDislikeList.indexOf(action.currentUserUid), 1)
+            }
             db.collection('postsData').doc(action.uid).set({
                 ...newState.postsData[action.id - 1]
             })
             return newState
         case GET_USERS: {
 
-            let stateCopy =  {
+            let stateCopy = {
                 ...state,
                 usersData: [...action.users],
                 followsData: [...action.followsData]
             }
-            if(stateCopy.followsData.length !== 0) stateCopy.isLoaded = true
+            if (stateCopy.followsData.length !== 0) stateCopy.isLoaded = true
             return stateCopy
         }
         case GET_FOLLOWS:
@@ -179,3 +182,26 @@ export const profileReducer = (state = initialState, action) => {
             return state
     }
 }
+
+// Action Creators
+
+export const addPost = (userUid, photoURL, name) => ({type: ADD_POST, userUid, photoURL, name})
+export const onPostChange = (text) => ({
+    type: UPDATE_NEW_POST_TEXT,
+    newText: text
+})
+export const addComment = (id, photoURL, name) => ({type: ADD_COMMENT, idComment: id, photoURL, name})
+export const onCommentChange = (text, id) => ({
+    type: UPDATE_COMMENT_TEXT,
+    idComment: id,
+    newText: text
+})
+export const setPosts = (postsData) => ({type: SET_POSTS_FROM_DB, postsData})
+export const addLike = (id, uid, whoIsLikeList, currentUserUid) => ({type: TOGGLE_LIKE, id, uid, whoIsLikeList, currentUserUid})
+export const addDislike = (id, uid, whoIsDislikeList, currentUserUid) => ({type: TOGGLE_DISLIKE, id, uid, whoIsDislikeList, currentUserUid})
+export const getUsers = (userUid, users, followsData) => ({type: GET_USERS, userUid, users, followsData})
+
+export const getFollows = (currentUser, followsData) => ({type: GET_FOLLOWS, currentUser, followsData})
+export const setIsLoaded = (isLoaded) => ({type: SET_IS_LOADED, isLoaded})
+
+export const setIsFetching = (isFetching) => ({type: SET_IS_FETCHING, isFetching})

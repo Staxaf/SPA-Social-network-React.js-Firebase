@@ -1,5 +1,5 @@
 import React from 'react'
-import css from './Friends.module.css'
+import css from '../Friends.module.css'
 import styled from 'styled-components';
 import {NavLink} from "react-router-dom";
 
@@ -16,7 +16,7 @@ const Friend = props => {
 
     return <div className={css.friends__item_container}>
         <FriendContainer>
-            <NavLink to='/asdf'>
+            <NavLink to={`/profile/${props.uid}/myPosts`}>
                 <div className={css.friends__item}>
                     <div className={css.friends__img}>
                         <img src={props.photoURL} alt=""/>

@@ -110,3 +110,10 @@ export const dialogsReducer = (state = initialState, action) => {
             return state
     }
 }
+
+export const addMessage = (photo, id) => ({type: ADD_MESSAGE, photoUrl: photo, id})
+export const updateMessageText = (text, id) => ({
+    type: UPDATE_MESSAGE_TEXT,
+    newText: text,
+    id: id
+})

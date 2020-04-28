@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from "react-redux";
-import {getFollows, getUsers, setIsLoaded} from "../../../redux/state";
-import FollowsAPIContainer from "./FollowsAPIContainer";
+import ProfileContentAPIContainer from "./ProfileContentAPIContainer";
+import {getFollows, getUsers, setIsLoaded} from "../../../redux/profile-reducer";
 
 
 let mapStateToProps = (state, ownProps) => {
@@ -18,6 +18,10 @@ let mapStateToProps = (state, ownProps) => {
 }
 
 
-const ProfileContentContainer = connect(mapStateToProps, {getUsers, getFollows, setIsLoaded})(FollowsAPIContainer)
+const ProfileContentContainer = connect(mapStateToProps, {
+    getUsers,
+    getFollows,
+    setIsLoaded
+})(ProfileContentAPIContainer)
 
 export default ProfileContentContainer;

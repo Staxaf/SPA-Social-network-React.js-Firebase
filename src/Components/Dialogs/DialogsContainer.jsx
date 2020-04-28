@@ -1,7 +1,7 @@
 import React from 'react'
 import Dialogs from "./Dialogs";
-import {addMessage,updateMessageText} from "../../redux/state";
 import {connect} from "react-redux";
+import {addMessage, updateMessageText} from "../../redux/dialogs-reducer";
 
 
 let mapStateToProps = (state) => {// данные со стэйта

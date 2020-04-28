@@ -34,7 +34,8 @@ class App extends React.Component {
             if (user) {
                 let newUser
                 const db = firebase.firestore()
-                db.collection('users').where('uid', '==', user.uid).get().then(response => {
+                db.collection('users').where('uid', '==', user.uid).get()
+                    .then(response => {
                     response.forEach(doc => {
                         newUser = doc.data()
                         this.setState({user: newUser, isLoaded: true})
@@ -58,7 +59,7 @@ class App extends React.Component {
                     <div className='app-wrapper-content bg-shadow'>
                         <Route path='/dialogs'
                                render={() => <DialogsContainer/>}/>
-                        <Route path='/profile/:myPosts?/:userUid?'
+                        <Route path='/profile/:userUid?/:myPosts?'
                                render={() => <ProfileContainer user={this.state.user} store={this.props.store}/>}/>
                         <Route path='/users'
                                render={() => <UsersContainer user={this.state.user} store={this.props.store}/>}/>

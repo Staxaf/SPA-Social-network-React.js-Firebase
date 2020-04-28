@@ -1,14 +1,16 @@
-import React from 'react'
+import React, {useDebugValue} from 'react'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
-import ProfileContentContainer from "./Friends/ProfileContentContainer";
+import ProfileContentContainer from "./ProfileContent/ProfileContentContainer";
 
 
 const Profile = (props) => {
 
     return (
+
         <div>
-            <ProfileInfo user={props.user} />
-            <ProfileContentContainer currentUser={props.currentUser} followsOFCurrentUser={props.followsOfCurrentUser} followersOfCurrentUser={props.followersOfCurrentUser} user={props.user} />
+            <ProfileInfo addFollow={props.addFollow} users={props.users} user={props.user} currentUser={props.currentUser}/>
+            <ProfileContentContainer currentUser={props.currentUser} followsOFCurrentUser={props.followsOfCurrentUser}
+                                     followersOfCurrentUser={props.followersOfCurrentUser} user={props.user}/>
         </div>
     )
 }
