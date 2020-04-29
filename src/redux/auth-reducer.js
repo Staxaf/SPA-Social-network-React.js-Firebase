@@ -1,8 +1,6 @@
 import firebase from "./../firebase";
 
 const SET_USER = 'SET_USER'
-const LOGIN = 'LOGIN'
-const SIGN_UP = 'SIGN_UP'
 
 let initialState = {
     email: '',
@@ -23,40 +21,6 @@ export const authReducer = (state = initialState, action) => {
                 profileImage: action.photoURL,
                 uid: action.uid
             }
-        case LOGIN:
-            firebase.auth().signInWithEmailAndPassword(action.email, action.password).then(u => {
-
-            }).catch((error) => {
-                console.log(error)
-            })
-            return {
-                ...state
-            }
-        case SIGN_UP:
-            firebase.auth().createUserWithEmailAndPassword(action.email, action.password).then(u => {
-                console.log(u.user.uid)
-                const db = firebase.firestore()
-                db.collection('users').doc(u.user.uid).set({
-                    email: action.email,
-                    password: action.password,
-                    name: action.name,
-                    photoURL: action.photoURL,
-                    uid: u.user.uid,
-                    follows: [],
-                    followers: [],
-                    backgroundPhotoUrl: action.backgroundPhotoUrl,
-                    id: action.usersCount
-                })// пользователь добавляется в базу
-                return {
-                    ...state,
-                    uid: u.user.uid,
-                }
-            }).catch(error => {
-                console.log(error)
-            })
-            return {
-                ...state
-            }
         default:
             return {
                 ...state
@@ -67,13 +31,32 @@ export const authReducer = (state = initialState, action) => {
 // Action Creators
 
 export const setUser = (name, photoURL, uid) => ({type: SET_USER, name, photoURL, uid})
-export const login = (email, password) => ({type: LOGIN, email, password})
-export const signUp = (email, password, name, photoURL, backgroundPhotoUrl, usersCount) => ({
-    type: SIGN_UP,
-    email,
-    password,
-    name,
-    photoURL,
-    backgroundPhotoUrl,
-    usersCount
-})
+
+// ***Redux Thunks
+
+export const loginThunk = (email, password) => (dispatch) => {
+    firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
+        console.log(error)
+    })
+}
+
+export const signUpThunk =(email, password, name, photoURL, backgroundPhotoUrl, usersCount)=> (dispatch) => {
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(u => {
+        console.log(u.user.uid)
+        dispatch(setUser(name, photoURL, u.user.uid))
+        firebase.firestore().collection('users').doc(u.user.uid).set({
+            email: email,
+            password: password,
+            name: name,
+            photoURL: photoURL,
+            uid: u.user.uid,
+            follows: [],
+            followers: [],
+            backgroundPhotoUrl: backgroundPhotoUrl,
+            id: usersCount
+        })// пользователь добавляется в базу
+
+    }).catch(error => {
+        console.log(error)
+    })
+}

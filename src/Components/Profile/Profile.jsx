@@ -8,8 +8,8 @@ const Profile = (props) => {
     return (
 
         <div>
-            <ProfileInfo addFollow={props.addFollow} users={props.users} user={props.user} currentUser={props.currentUser}/>
-            <ProfileContentContainer currentUser={props.currentUser} followsOFCurrentUser={props.followsOfCurrentUser}
+            <ProfileInfo addFollow={props.addFollowThunk} users={props.users} user={props.user} currentUser={props.currentUser}/>
+            <ProfileContentContainer uidFromUrl={props.uidFromUrl} currentUser={props.currentUser} followsOFCurrentUser={props.followsOfCurrentUser}
                                      followersOfCurrentUser={props.followersOfCurrentUser} user={props.user}/>
         </div>
     )

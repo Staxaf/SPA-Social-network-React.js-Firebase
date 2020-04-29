@@ -7,27 +7,27 @@ const NavBar = () => {
         <nav className={`${css.nav} bg-shadow`}>
             <div className={css.item}>
                 <i className="far fa-user"/>
-                <NavLink to='/profile/myPosts' activeClassName={css.active}>Profile</NavLink>
+                <NavLink to='/profile/myPosts' className={css.item__link} activeClassName={css.active}>Profile</NavLink>
             </div>
             <div className={css.item}>
                 <i className="far fa-envelope"/>
-                <NavLink to='/dialogs' activeClassName={css.active}>Messages</NavLink>
+                <NavLink to='/dialogs' className={css.item__link} activeClassName={css.active}>Messages</NavLink>
             </div>
             <div className={css.item}>
                 <i className="fas fa-user-friends" />
-                <NavLink to='/users' activeClassName={css.active}>Users</NavLink>
+                <NavLink to='/users' className={css.item__link} activeClassName={css.active}>Users</NavLink>
             </div>
             <div className={css.item}>
                 <i className="far fa-newspaper"/>
-                <NavLink to='/news' activeClassName={css.active}>News</NavLink>
+                <NavLink to='/news' className={css.item__link} activeClassName={css.active}>News</NavLink>
             </div>
             <div className={css.item}>
                 <i className="fas fa-music"/>
-                <NavLink to='/music' activeClassName={css.active}>Music</NavLink>
+                <NavLink to='/music' className={css.item__link} activeClassName={css.active}>Music</NavLink>
             </div>
             <div className={css.item}>
                 <i className="fas fa-toolbox"/>
-                <NavLink to='/settings' activeClassName={css.active}>Settings</NavLink>
+                <NavLink to='/settings' className={css.item__link} activeClassName={css.active}>Settings</NavLink>
             </div>
         </nav>
     )

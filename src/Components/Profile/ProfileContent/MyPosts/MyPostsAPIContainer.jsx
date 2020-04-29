@@ -6,25 +6,10 @@ import {usersAPI} from "../../../../redux/api";
 class MyPostsAPIContainer extends React.Component {
 
     componentDidMount = () => {
-        this.props.setUser(this.props.currentUser.name, this.props.currentUser.photoURL, this.props.currentUser.uid)
-        console.log('uid: ', this.props.uid)
-        this.props.setIsFetching(true)
-        firebase.firestore().collection('postsData')
-            .where('userUid', '==', this.props.uid)
-            .get()
-            .then(response => {//
-                let postsData = response.docs.map(doc => ({...doc.data()}))
-                postsData.sort((a, b) => {// фильтрую посты по возрастанию id
-                    if (a.id > b.id) return 1
-                    else if (a.id < b.id) return -1
-                    else return 0
-                })
-                this.props.setPosts(postsData)// достаю из базы все посты
-                this.props.setIsFetching(false)
-            }).catch(error => {
-            this.props.setIsFetching(false)
-            console.log('Ошибка', error)
-        })
+        //debugger
+        //this.props.setUser(this.props.user.name, this.props.user.photoURL, this.props.user.uid)
+        this.props.getUsersFollowsAndFollowers(this.props.user, this.props.uidFromUrl)
+        this.props.getUserPosts(this.props.uidFromUrl)
     }
     render = () => {
         return <MyPosts {...this.props} />

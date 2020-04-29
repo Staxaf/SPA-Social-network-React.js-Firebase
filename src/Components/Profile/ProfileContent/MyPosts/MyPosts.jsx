@@ -2,6 +2,7 @@ import React from 'react'
 import css from './MyPosts.module.css'
 import Post from './Post/Post'
 import Loader from "react-loader-spinner";
+import {toggleDislikeThunk} from "../../../../redux/profile-reducer";
 
 
 class MyPosts extends React.Component {
@@ -21,7 +22,8 @@ class MyPosts extends React.Component {
                     <a><i className="far fa-laugh"/></a>
                 </div>
                 <button onClick={() => {
-                    this.props.addPost(this.props.uid, this.props.currentUser.photoURL, this.props.currentUser.name)
+                    this.props.addPostThunk(this.props.newPostText, this.props.postsData, this.props.currentUser.photoURL, this.props.currentUser.name, this.props.uid)
+                    //this.props.addPost(this.props.uid, this.props.currentUser.photoURL, this.props.currentUser.name)
                 }} className={css.btn}>Publish
                 </button>
             </div>
@@ -30,14 +32,14 @@ class MyPosts extends React.Component {
                     ? <div className="text-center">
                         <Loader type="Oval" color="#00BFFF" height={40} width={40}/>
                     </div> : this.props.postsData !== undefined ? this.props.postsData.map(post => (
-                        <Post currentUser={this.props.currentUser} name={post.postName} photoURL={post.postImage} message={post.message}
-                              dislikeCounts={post.dislikeCounts}
+                        <Post postsData={this.props.postsData} currentUser={this.props.currentUser} name={post.postName} photoURL={post.postImage} message={post.message}
+                              dislikeCounts={post.dislikeCounts} userUid={post.userUid}
                               whoIsLikeList={post.whoIsLikeList} whoIsDislikeList={post.whoIsDislikeList}
                               viewCounts={post.viewCounts} comments={post.comments} id={post.id}
                               dateOfPublishing={post.dateOfPublishing} uid={post.uid}
                               newCommentText={post.newCommentText} updateCommentText={this.props.onCommentChange}
-                              addComment={this.props.addComment} addLike={this.props.addLike}
-                              addDislike={this.props.addDislike}/>
+                              addComment={this.props.addCommentThunk} addLike={this.props.toggleLikeThunk}
+                              addDislike={this.props.toggleDislikeThunk}/>
                     )) : ''}
 
             </div>

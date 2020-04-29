@@ -92,6 +92,7 @@ export const addFollowThunk = (userId, uid, currentUser, userUid, usersData) => 
     usersData[userId].isFollow = !usersData[userId].isFollow
     dispatch(setUsers(0, usersData))
     firebase.firestore().collection('users').doc(currentUser.uid).get().then(u => {// получить текущего юзера, чтобы получить его фоловеров
+        debugger
         follows = u.data().follows
         followers = [... usersData[userId].followers]
         if (follows.indexOf(userUid) === -1) {

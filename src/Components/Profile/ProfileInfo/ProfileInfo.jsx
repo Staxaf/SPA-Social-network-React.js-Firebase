@@ -5,7 +5,6 @@ import {NavLink} from "react-router-dom";
 
 
 const ProfileInfo = (props) => {
-
     let id = -1
     let uid = ''
     let isFollow = false
@@ -18,7 +17,6 @@ const ProfileInfo = (props) => {
             }
         }
     })
-    console.log('uid: ', uid)
     const ProfileBlock = styled.div`
         background: url(${props.user.backgroundPhotoUrl}) no-repeat center;  
         min-height: 300px;

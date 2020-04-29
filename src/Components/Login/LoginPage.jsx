@@ -28,8 +28,8 @@ class LoginPage extends React.Component {
                         </div>
                     </div>
                     <div className={css.login__content}>
-                        <Route path='/signup' render={() => <SignUp signUp={this.props.signUp} />}/>
-                        <Route path='/' render={() => <Login login={this.props.login} />} />
+                        <Route path='/signup' render={() => <SignUp usersCount={this.props.usersData.length} signUp={this.props.signUpThunk} />}/>
+                        <Route path='/' render={() => <Login login={this.props.loginThunk} />} />
 
                     </div>
                 </div>

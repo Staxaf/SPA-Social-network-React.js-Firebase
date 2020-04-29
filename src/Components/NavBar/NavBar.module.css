@@ -5,6 +5,7 @@
 .item{
   padding: 5px;
   font-size: 18px;
+  border-bottom: 1px transparent solid;
 }
 .item *{
   color: rgb(44, 43, 43);
@@ -13,14 +14,8 @@ i{
   padding-right: 10px;
 }
 
-.item:hover{
-  transition: 0.4s ease;
-  cursor: pointer;
-  background: rgb(219, 219, 219);
-}
-.item:hover *{
-  color: grey;
-}
-.active{
-  color: grey;
+.active, .item__link:hover{
+  width: 100%;
+  border-bottom: 1px #231F20 solid;
+    transition: 0.4s ease;
 }
