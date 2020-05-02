@@ -12,7 +12,9 @@ class MyPostsAPIContainer extends React.Component {
         this.props.getUserPosts(this.props.uidFromUrl)
     }
     render = () => {
-        return <MyPosts {...this.props} />
+        return <MyPosts getUserPosts={this.props.getUserPosts}
+                        getUsersFollowsAndFollowers={this.props.getUsersFollowsAndFollowers}
+                        {...this.props} />
     }
 }
 

@@ -8,7 +8,7 @@ const Message = (props) => {
     return (
         <div className={`${css.message} ${props.isMyMessage ? css.myMessage: ''}`}>
             <div className={css.message__photo}>
-                <img src={props.photoUrl} alt=""/>
+                <NavLink to={`/profile/${props.userUid}/myPosts`}><img src={props.photoUrl} alt=""/></NavLink>
             </div>
             <div className={css.message__text}>
                 {props.message}

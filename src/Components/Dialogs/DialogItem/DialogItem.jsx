@@ -1,12 +1,11 @@
 import React from 'react'
 import css from './DialogItem.module.css'
-import { NavLink } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
 
 const DialogItem = (props) => {
     return (
-        <NavLink to={props.path}>
-        <div className={css.dialog}>
+        <NavLink activeClassName={css.active} to={props.path} className={css.dialog}>
             <div className={css.dialog__image}>
                 <img src={props.image} alt=""/>
             </div>
@@ -15,12 +14,12 @@ const DialogItem = (props) => {
                     <p className={css.dialog__name}>{props.name}</p>
                     <p>18:34</p>
                 </div>
-                <div className={css.dialog__undertitle}>
-                    <a className={`${css.dialog__name} text-blue`} href="#">{props.isMyLastMessage ? 'You:': `${props.name.split(' ')[0]}:`}</a>{/*с помощью split получаю имя пользователя */}
-                    <p className={css.dialog__message}>{props.lastMessage.length > 20 ? `${props.lastMessage.slice(0,20)}...` : props.lastMessage}</p>
-                </div>
+                {!props.isEmpty ? <div className={css.dialog__undertitle}>
+                    <a className={`${css.dialog__name} text-blue`}
+                       href="#">{props.isMyLastMessage ? 'You:' : `${props.name.split(' ')[0]}:`}</a>{/*с помощью split получаю имя пользователя */}
+                    <p className={css.dialog__message}>{props.lastMessage.length > 20 ? `${props.lastMessage.slice(0, 20)}...` : props.lastMessage}</p>
+                </div> : <p className='text-grey'>Пока переписка пустая...</p>}
             </div>
-        </div>
         </NavLink>
     )
 }

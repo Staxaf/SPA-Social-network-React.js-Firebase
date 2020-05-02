@@ -1,15 +1,20 @@
 import React from 'react'
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
-import {addMessage, updateMessageText} from "../../redux/dialogs-reducer";
+import {addMessage, getDialogsData, updateDialogsData, updateMessageText} from "../../redux/dialogs-reducer";
 
 
-let mapStateToProps = (state) => {// данные со стэйта
+let mapStateToProps = (state, ownProps) => {// данные со стэйта
     return {
-        state: state.dialogsPage
+        state: state.dialogsPage,
     }
 }
 
-const DialogsContainer = connect(mapStateToProps, {updateMessageText, addMessage})(Dialogs)
+const DialogsContainer = connect(mapStateToProps, {
+    updateMessageText,
+    addMessage,
+    getDialogsData,
+    updateDialogsData
+})(Dialogs)
 
 export default DialogsContainer;

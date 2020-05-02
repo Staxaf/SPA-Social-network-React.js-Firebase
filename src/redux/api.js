@@ -20,3 +20,12 @@ export const usersAPI = {
         })
     }
 }
+
+export const dialogsAPI = {
+    getDialogs() {
+        return firebase.firestore().collection('dialogs').get()
+    },
+    setDialogs(dialog) {
+        return firebase.firestore().collection('dialogs').doc(dialog.uid).set(dialog)
+    }
+}

@@ -11,7 +11,7 @@ const User = (props) => {
                 <img src={props.photoUrl} alt=""/>
             </NavLink>
             <div className={css.user__info}>
-                <h4>{props.fullName}</h4>
+                <NavLink to={'/profile/' + props.userUid + '/myPosts' }><h4 className={css.user__name}>{props.fullName}</h4></NavLink>
             </div>
             <div className="user__button">
                 <button onClick={() => {

@@ -4,18 +4,19 @@ import Comment from "./Comment/Comment";
 import {NavLink} from "react-router-dom";
 
 const Post = (props) => {
-    debugger
     let comments = null
     if (props.comments !== null && props.comments !== undefined) {
         comments = props.comments.map(comment => {
-            return <Comment name={comment.name} image={comment.image} dateOfPublishing={comment.dateOfPublishing}
+            return <Comment getUserPosts={props.getUserPosts}
+                            getUsersFollowsAndFollowers={props.getUsersFollowsAndFollowers} user={props.user}
+                            name={comment.name} userUid={comment.whoseCommentUid} image={comment.image} dateOfPublishing={comment.dateOfPublishing}
                             text={comment.text}/>
         })
     }
 
     let addComment = () => {
         //props.dispatch({type: 'ADD-COMMENT', idComment: props.id})
-        props.addComment(props.postsData, props.id, props.currentUser.photoURL, props.currentUser.name)
+        props.addComment(props.postsData, props.id, props.currentUser.photoURL, props.currentUser.name, props.currentUser.uid)
     }
 
     let onCommentChange = (e) => {
@@ -25,19 +26,25 @@ const Post = (props) => {
     return (
         <div className={css.post}>
             <div className={css.post__img}>
-                <img src={props.photoURL} alt=""/>
+                <NavLink onClick={() => {
+                    props.getUserPosts(props.whosePostUserUid)
+                    props.getUsersFollowsAndFollowers(props.user, props.whosePostUserUid)
+                }} to={`/profile/${props.whosePostUserUid}/myPosts`}><img src={props.photoURL} alt=""/></NavLink>
             </div>
             <div className={css.post__content}>
                 <div className={css.post__title}>
                     <div className={css.title__name}>
-                        <NavLink to={`/profile/${props.userUid}/myPosts`}>{props.name}</NavLink>
+                        <NavLink onClick={() => {
+                            props.getUserPosts(props.whosePostUserUid)
+                            props.getUsersFollowsAndFollowers(props.user, props.whosePostUserUid)
+                        }} to={`/profile/${props.whosePostUserUid}/myPosts`}>{props.name}</NavLink>
                     </div>
                     <div className={css.icons}>
                         <button onClick={() => {
-                            props.addLike(props.postsData ,props.id, props.uid,  props.currentUser.uid)
+                            props.addLike(props.postsData, props.id, props.uid, props.currentUser.uid)
                         }}><i className="fas fa-thumbs-up"/>{props.whoIsLikeList.length}</button>
                         <button onClick={() => {
-                            props.addDislike(props.postsData ,props.id, props.uid,  props.currentUser.uid)
+                            props.addDislike(props.postsData, props.id, props.uid, props.currentUser.uid)
                         }}><i className="fas fa-thumbs-down"/>{props.whoIsDislikeList.length}</button>
                         <button><i className="fas fa-eye"/>{props.viewCounts}</button>
                     </div>

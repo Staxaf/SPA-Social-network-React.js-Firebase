@@ -9,7 +9,7 @@ const getStringMonth = (index) => {
         'september', 'october', 'november', 'december']
     return months[index]
 }
-export let getStringDate = () => `${new Date().getHours()}:${new Date().getMinutes()} ${new Date()
+export let getStringDate = () => `${new Date().getHours().toString().padStart(2, '0')}:${new Date().getMinutes().toString().padStart(2, '0')} ${new Date()
     .getDate()} ${getStringMonth(new Date().getMonth())}  ${new Date().getFullYear()}`
 
 
@@ -29,6 +29,8 @@ const SET_IS_LOADED = 'SET_IS_LOADED'
 const SET_IS_USER_LOADED = 'SET_IS_USER_LOADED'
 const SET_CURRENT_USER_PROFILE = 'SET_CURRENT_USER_PROFILE'
 
+const SET_MODAL_MESSAGE_WINDOW = 'SET_MODAL_MESSAGE_WINDOW'
+
 let initialState = {
     usersData: [],
     postsData: [],// all posts
@@ -40,7 +42,8 @@ let initialState = {
     newPostText: '',// text in adding post textarea
     isFetching: false,// for loader
     isLoaded: false,//for loader friends
-    isUserLoaded: false///for loader current User
+    isUserLoaded: false,//for loader current User
+    isModalMessageOpen: false
 }
 
 export const profileReducer = (state = initialState, action) => {
@@ -80,7 +83,7 @@ export const profileReducer = (state = initialState, action) => {
                 followsData: [...action.followsData],
                 followersData: [...action.followersData]
             }
-            if (stateCopy.followsData.length !== 0) stateCopy.isLoaded = true
+            stateCopy.isLoaded = true
             return stateCopy
         }
         case GET_FOLLOWS:
@@ -102,6 +105,11 @@ export const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentUserProfile: {...action.currentUserProfile}
+            }
+        case SET_MODAL_MESSAGE_WINDOW:
+            return {
+                ...state,
+                isModalMessageOpen: action.isModalMessageOpen
             }
         default:
             return state
@@ -135,6 +143,7 @@ export const setIsLoaded = (isLoaded) => ({type: SET_IS_LOADED, isLoaded})
 export const setIsFetching = (isFetching) => ({type: SET_IS_FETCHING, isFetching})
 export const setIsUserLoaded = (isUserLoaded) => ({type: SET_IS_USER_LOADED, isUserLoaded})
 
+export const setModalMessageWindow = (isModalMessageOpen) => ({type: SET_MODAL_MESSAGE_WINDOW, isModalMessageOpen})
 // ***Redux Thunks
 
 export const getUsersFollowsAndFollowers = (user, userUidFromURL) => (dispatch) => {
@@ -198,8 +207,8 @@ export const getUserPosts = (uid) => (dispatch) => {
             dispatch(setPosts(postsData))// достаю из базы все посты
             dispatch(setIsFetching(false))
         }).catch(error => {
-            dispatch(setIsFetching(false))
-            console.log('Ошибка', error)
+        dispatch(setIsFetching(false))
+        console.log('Ошибка', error)
     })
 }
 
@@ -230,7 +239,7 @@ export const toggleDislikeThunk = (postsData, id, uid, currentUserUid) => (dispa
     })
 }
 
-export const addPostThunk = (newPostText, postsData, photoURL, name, userUid) => (dispatch) => {
+export const addPostThunk = (newPostText, postsData, photoURL, name, userUid, whosePostUserUid) => (dispatch) => {
     if (newPostText.length > 0 && postsData !== undefined) {
         let i = 0
         postsData.forEach((item, i) => {
@@ -252,7 +261,8 @@ export const addPostThunk = (newPostText, postsData, photoURL, name, userUid) =>
             dateOfPublishing: getStringDate(),
             comments: [],
             uid: `id${postsData.length}${userUid}`,
-            userUid: userUid
+            userUid: userUid,
+            whosePostUserUid
         }
         postsData = [newPost, ...postsData]
         dispatch(setPosts(postsData))
@@ -261,13 +271,15 @@ export const addPostThunk = (newPostText, postsData, photoURL, name, userUid) =>
     }
 }
 
-export const addCommentThunk = (postsData, idComment, photoURL, name ) => (dispatch) => {
+export const addCommentThunk = (postsData, idComment, photoURL, name, whoseCommentUid) => (dispatch) => {
+
     if (postsData[idComment - 1].newCommentText.length > 0) {
         let newComment = {
             image: photoURL,
             name: name,
             dateOfPublishing: getStringDate(),
-            text: postsData[idComment - 1].newCommentText //state.profilePage.postsData.newCommentText
+            text: postsData[idComment - 1].newCommentText, //state.profilePage.postsData.newCommentText
+            whoseCommentUid
         }
         postsData[idComment - 1].newCommentText = ''
         postsData[idComment - 1].comments = [...postsData[idComment - 1].comments, newComment]

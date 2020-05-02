@@ -1,10 +1,10 @@
 .dialog{
     cursor: pointer;
     padding: 7px;
-    margin: 5px 5px;
+
     border-bottom: 1px white solid;
     display: grid;
-    grid-template-columns: 3fr 9fr;
+    grid-template-columns: 2fr 9fr;
 }
 .dialog img{
     width: 45px;
@@ -13,7 +13,7 @@
     border-radius: 50%;
     padding: 0 5px;
 }
-.dialog:hover{
+.dialog:hover, .active{
     transition: 0.3s ease;
     border-bottom: 1px rgb(38, 228, 164) solid;
 }

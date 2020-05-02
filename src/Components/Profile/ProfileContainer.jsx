@@ -3,22 +3,28 @@ import Profile from "./Profile";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Loader from "react-loader-spinner";
-import {getUsersFollowsAndFollowers} from "../../redux/profile-reducer";
-import {setUser} from "../../redux/auth-reducer";
-import {addFollow, addFollowThunk} from "../../redux/users-reducer";
+import {
+    getUsersFollowsAndFollowers,
+    setModalMessageWindow
+} from "../../redux/profile-reducer";
+import {addFollowThunk, getUsers} from "../../redux/users-reducer";
+import {createDialogAndRedirect, getDialogsData} from "../../redux/dialogs-reducer";
 
 class ProfileContainer extends React.Component {
 
     componentDidMount() {
         this.props.getUsersFollowsAndFollowers(this.props.user, this.props.match.params.userUid)
+        this.props.getUsers(this.props.user, 0)
     }
 
     render = () => {
 
         return this.props.profilePage.isUserLoaded ?
-            <Profile {...this.props} currentUser={this.props.user} users={this.props.usersData} user={this.props.currentUser}
-                     followsOfCurrentUser={this.props.profilePage.followsData} uidFromUrl={this.props.match.params.userUid}
-                     followersOfCurrentUser={this.props.profilePage.followersData} addFollowThunk={this.props.addFollowThunk} />
+            <Profile {...this.props} currentUser={this.props.user} users={this.props.usersData}
+                     user={this.props.currentUser}
+                     followsOfCurrentUser={this.props.profilePage.followsData}
+                     uidFromUrl={this.props.match.params.userUid}
+                     followersOfCurrentUser={this.props.profilePage.followersData}/>
             : <div className="text-center">
                 <Loader type="Oval"
                         color="#00BFFF"
@@ -31,9 +37,17 @@ class ProfileContainer extends React.Component {
 let mapStateToProps = (state, ownProps) => ({
     profilePage: state.profilePage,
     usersData: state.usersPage.usersData,
-    currentUser: state.usersPage.currentUser
+    currentUser: state.usersPage.currentUser,
+    dialogsData: state.dialogsPage.dialogsData
     //user: ownProps.user
 })
 
 
-export default connect(mapStateToProps, { addFollow, getUsersFollowsAndFollowers, addFollowThunk})(withRouter(ProfileContainer));
+export default connect(mapStateToProps, {
+    getUsersFollowsAndFollowers,
+    addFollowThunk,
+    getUsers,
+    setModalMessageWindow,
+    createDialogAndRedirect,
+    getDialogsData
+})(withRouter(ProfileContainer));

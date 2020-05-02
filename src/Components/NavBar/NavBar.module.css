@@ -1,21 +1,24 @@
+
 .nav{
     grid-area: n;
-    padding: 20px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #231F20;
+    max-height: 86vh;
 }
 .item{
   padding: 5px;
   font-size: 18px;
   border-bottom: 1px transparent solid;
 }
-.item *{
-  color: rgb(44, 43, 43);
-}
-i{
-  padding-right: 10px;
+
+.item i{
+    color: white;
 }
 
-.active, .item__link:hover{
-  width: 100%;
-  border-bottom: 1px #231F20 solid;
-    transition: 0.4s ease;
+.active i, .item i:hover{
+    color: #27aae1;
+    transition: 0.4s ease-out;
 }
