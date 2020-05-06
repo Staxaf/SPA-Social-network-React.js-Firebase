@@ -14,8 +14,8 @@ class MyPosts extends React.Component {
                     alt=""/>
                 <textarea onChange={(e) => {
                     this.props.onPostChange(e.target.value)
-                }} className={css.text__area}
-                          value={this.props.newPostText} cols='70' rows='7'/>
+                }} className={css.textarea}
+                          value={this.props.newPostText} />
                 <div className={css.icons}>
                     <a><i className="fas fa-paperclip"/></a>
                     <a><i className="far fa-laugh"/></a>

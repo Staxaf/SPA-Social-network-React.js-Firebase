@@ -43,7 +43,6 @@ let initialState = {
     isFetching: false,// for loader
     isLoaded: false,//for loader friends
     isUserLoaded: false,//for loader current User
-    isModalMessageOpen: false
 }
 
 export const profileReducer = (state = initialState, action) => {

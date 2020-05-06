@@ -1,6 +1,7 @@
 import React from 'react'
 import css from "./Login.module.css";
 import firebase from "./../../firebase";
+import {NavLink} from "react-router-dom";
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -37,10 +38,10 @@ class SignUp extends React.Component {
                     <input type="password" name="password" onChange={this.handleChange} placeholder='Password...'/>
                 </div>
                 <div className={css.login__buton}>
-                    <button onClick={() => {
+                    <NavLink to={'/news'}><button onClick={() => {
                         this.props.signUp(this.state.email, this.state.password, this.state.name, this.state.photoURL, this.state.backgroundPhotoUrl, this.usersCount)
                     }}>Sign Up
-                    </button>
+                    </button></NavLink>
                 </div>
             </div>
         )

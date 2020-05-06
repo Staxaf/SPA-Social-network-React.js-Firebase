@@ -5,18 +5,25 @@ import {NavLink} from "react-router-dom";
 
 
 const ProfileInfo = (props) => {
-    let someText;// for textarea/// with hooks and action creators didnt work
     let dialogUid = props.currentUser.uid.substr(0, 8) + props.user.uid.substr(0, 8)// переменная для хранения uid диалога текущего пользователя с пользователем на профиле которого нахожусь
     props.dialogsData.forEach(item => {
-        if(item.ownersUids.indexOf(props.currentUser.uid) !== -1 && item.ownersUids.indexOf(props.user.uid) !== -1) dialogUid = item.uid
+        if (item.ownersUids.indexOf(props.currentUser.uid) !== -1 && item.ownersUids.indexOf(props.user.uid) !== -1) dialogUid = item.uid
     })
 
+    // создал стайл компонент, чтобы сделать кастомный бекграунд у пользователя
     const ProfileBlock = styled.div`
         background: url(${props.user.backgroundPhotoUrl}) no-repeat center;  
-        min-height: 310px;
+        height: 310px;
         background-size: cover;
+        @media screen and (max-width: 1300px){
+            height: 250px;
+            margin-bottom: 200px;
+        }
+        @media screen and (max-width: 900px){
+            margin-bottom: 110px;
+        }
 `;
-    let id = -1
+    let id = 0
     let uid = ''
     props.users.forEach((item, index) => {
         if (item.uid === props.user.uid) {
@@ -24,9 +31,6 @@ const ProfileInfo = (props) => {
             uid = item.uid
         }
     })
-
-    console.log(props.isModalMessageOpen)
-    // создал стайл компонент, чтобы сделать кастомный бекграунд у пользователя
 
     return (
         <ProfileBlock>
@@ -41,10 +45,24 @@ const ProfileInfo = (props) => {
                 </div>
                 <div>
                     <ul className={css.profile__menu}>
-                        <NavLink to='myPosts' activeClassName={css.active}>Posts</NavLink>
-                        <li>About</li>
-                        <NavLink to='friends' activeClassName={css.active}>Follows</NavLink>
-                        <NavLink to='followers' activeClassName={css.active}>Followers</NavLink>
+                        <NavLink className={css.menu__link} to='myPosts' activeClassName={css.active}>
+                            <span className={css.menu__item}>Posts</span>
+                            <span className={css.menu__icon}><i className="far fa-clone"/></span>
+                        </NavLink>
+                        <li className={css.menu__link}>
+                            <span className={css.menu__item}>About</span>
+                            <span className={css.menu__icon}><i className="far fa-address-card" /></span>
+                        </li>
+                        <NavLink className={css.menu__link} to='friends' activeClassName={css.active}>
+                            <span className={css.menu__item}>Follows</span>
+                        </NavLink>
+                        <NavLink className={css.menu__link} to='followers' activeClassName={css.active}>
+                            <span className={css.menu__item}>Subs</span>
+                        </NavLink>
+                        <li className={css.menu__link}>
+                            <span className={css.menu__item}>Album</span>
+                            <span className={css.menu__icon}><i className="far fa-images" /></span>
+                        </li>
                     </ul>
                 </div>
                 {props.currentUser.uid !== props.user.uid && props.users.length > 0 ?

@@ -6,7 +6,6 @@ import {Route} from "react-router-dom";
 
 
 const Dialogs = (props) => {
-    console.log(props)
     useEffect(() => {
         props.getDialogsData(props.user.uid)
     }, [])
@@ -15,6 +14,7 @@ const Dialogs = (props) => {
     let userDialog = {}
     let ownerId = 0
     let dialogsData = props.state.dialogsData.map(dialog => {// получаю индекс текущего залогиненого пользователя в массиве owners, а также получаю юзера с кем ведется диалог
+        // и получаю массив диалогов в jsx
         dialog.owners.forEach((item, i) => {
             if (item.uid !== props.user.uid) userDialog = item
             else ownerId = i
@@ -23,29 +23,38 @@ const Dialogs = (props) => {
             path={'/dialogs/' + dialog.uid} image={userDialog.photoURL} name={userDialog.name}
             lastMessage={dialog.messagesData.length !== 0 ? dialog.messagesData[dialog.messagesData.length - 1].message : ''}
             isMyLastMessage={dialog.messagesData.length !== 0 ? dialog.messagesData[dialog.messagesData.length - 1].userUid === props.user.uid : false}
-            isEmpty={dialog.messagesData.length === 0 }/>
+            isEmpty={dialog.messagesData.length === 0}/>
     })
     // формирую разметку сообщений и отдельно для каждого диалога своя textarea и кнопка, чтобы сохранять черновики для каждого диалога отдельно
     let messagesData = props.state.dialogsData.map(dialog => <Route path={'/dialogs/' + dialog.uid} render={() => {
-        let content = dialog.messagesData.map(message => <Message message={message.message} id={message.id}
+        let content = dialog.messagesData.map(message => <Message dialogId={dialog.id} userName={message.userName}
+                                                                  time={message.date.split(' ')[0]}
+                                                                  message={message.message} id={message.id}
                                                                   photoUrl={message.photoUrl} userUid={message.userUid}
-                                                                  isMyMessage={message.userUid === props.user.uid}/>)
+                                                                  ownerId={ownerId}
+                                                                  isMyMessage={message.userUid === props.user.uid}
+                                                                  changeMessage={props.changeMessage}/>)
         return <div className={css.dialogs__content}>
             <div className={css.messages}>
                 {content}
             </div>
             <div className={css.messages__input}>
+
                     <textarea onChange={(e) => {
                         props.updateMessageText(e.target.value, dialog.id, ownerId)
                     }} value={dialog.owners[ownerId].newMessageText} cols="30" rows="10"
                               placeholder='Send a message...'/>
-                <button type='submit' onClick={(addMessage => {
-                    props.addMessage(dialog.owners[ownerId].photoURL, dialog.id, ownerId, props.user.uid)
-                    props.updateDialogsData(dialog)
-                })} className={css.message__send}>
-                    <i className="fab fa-telegram-plane"/>
-                </button>
-            </div>
+                    {dialog.isChanging ? <button onClick={() => {
+                        props.confirmChangeMessage(props.state.dialogsData, dialog.id, dialog.changingMessageId, ownerId, dialog.uid)
+                    }
+                        } className={css.message__send}><i className="fas fa-check"/></button> :
+                        <button type='submit' onClick={() => {
+                            props.addMessage(dialog.owners[ownerId].photoURL, dialog.id, ownerId, props.user.uid, props.user.name)
+                            props.updateDialogsData(dialog)
+                        }} className={css.message__send}>
+                            <i className="fab fa-telegram-plane"/>
+                        </button>}
+                </div>
         </div>
     }
     }/>)

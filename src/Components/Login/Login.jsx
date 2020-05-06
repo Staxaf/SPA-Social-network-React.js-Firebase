@@ -35,9 +35,9 @@ class Login extends React.Component {
                 </div>
             </div>
             <div className={css.login__buton}>
-                <button onClick={() => {
+                <NavLink to={'/news'}><button onClick={() => {
                     this.props.login(this.state.email, this.state.password)
-                }}>Login</button>
+                }}>Login</button></NavLink>
             </div>
         </div>
 

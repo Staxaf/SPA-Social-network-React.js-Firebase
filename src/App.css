@@ -46,7 +46,7 @@ a{
 }
 .app-wrapper{
   display: grid;
-  width: 1350px;
+  max-width: 1350px;
   min-height: 90vh;
   margin: 0 auto;
   margin-bottom: 20px;
@@ -94,4 +94,14 @@ a{
 }
 .w100{
   width: 100%;
+}
+
+/* ***Media Queries*** */
+
+@media screen and (max-width: 900px){
+  .app-wrapper{
+    grid-template-areas:
+            "h h"
+            "c c";
+  }
 }

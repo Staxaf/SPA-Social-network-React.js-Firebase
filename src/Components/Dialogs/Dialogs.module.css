@@ -78,7 +78,7 @@
     object-fit: cover;
 }
 
-.message .message__text{
+.message .message__content{
     font-size: 14px;
     background: white;
     padding: 4px 6px;
@@ -86,4 +86,39 @@
     max-width: 50%;
     margin: 0 10px 10px 10px;
     word-break: break-all;
+}
+.message__title{
+    display: flex;
+    justify-content: space-between;
+}
+.message__text{
+    min-width: 15em;
+}
+.message__title .message__name{
+    color: #1d70e1;
+    font-weight: 600;
+}
+.message__title .message__time{
+    cursor: pointer;
+    color: grey;
+    font-size: 12px;
+}
+.message__title .message__time:hover{
+    text-decoration: underline;
+}
+.message__info{
+    display: flex;
+    align-items: center;
+}
+.message__button_change{
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: grey;
+    font-size: 13px;
+}
+
+.message__button_change:hover{
+    transition: 0.4s ease;
+    color: black;
 }

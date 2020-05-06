@@ -32,11 +32,13 @@
     background: #1d70e1;
     transition: 0.4s ease;
 }
-.text__area{
+.textarea{
     height: 50px;
     overflow-y: auto;
     resize: none;
     border-radius: 5px;
+    width: 60%;
+
 }
 
 .icons{

@@ -1,10 +1,4 @@
-.profile{
-    background: url("http://mythemestore.com/friend-finder/images/covers/1.jpg") no-repeat ;
-    min-height: 300px;
-    background-size: cover;
-    /*grid-gap: 20px;*/
-    /*overflow: hidden;*/
-}
+
 .profile__nav{
     position: relative;
     display: flex;
@@ -51,12 +45,16 @@
 }
 .profile__menu *{
     cursor: pointer;
-    margin-left: 30px;
     font-size: 20px;
     color: white;
     padding-bottom: 10px;
 }
-.active, .profile__menu *:hover, .profile__folowers:hover{
+
+.profile__menu .menu__link{
+    margin-left: 30px;
+}
+
+.active, .menu__link:hover, .profile__folowers:hover{
     transition: 0.4s ease;
     border-bottom: 1px #27aae1 solid;
 }
@@ -71,93 +69,14 @@
     text-align: center;
     margin: 0 10px;
 }
-
-/* The Modal (background) */
-.modal {
-    display: flex; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+.profile__menu .menu__icon{
+    display: none;
 }
 
-/* Modal Content/Box */
-.modal__content {
-    display: flex;
-    flex-direction: column;
-    background-color: #fefefe;
-    margin: 16% auto; /* 15% from the top and centered */
-    width: 40%; /* Could be more or less, depending on screen size */
-}
 .buttons{
     display: flex;
     align-items: center;
 
-}
-/* The Close Button */
-.close {
-    color: white;
-    font-size: 28px;
-    font-weight: bold;
-    outline: none;
-    border: none;
-    background: transparent;
-}
-
-.close:hover,
-.close:focus {
-    transition: 0.4s ease;
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.modal__title{
-    background: #27aae1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-}
-.modal__title h4{
-    color: white;
-    font-weight: 500;
-}
-.modal__userInfo{
-    padding: 30px;
-    display: flex;
-}
-.modal__userInfo img{
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-.modal__userInfo h5{
-    color: #1d70e1;
-    font-size: 15px;
-    font-weight: 800;
-    margin-left: 10px;
-}
-.modal__userInfo h5:hover{
-    text-decoration: underline;
-    transition: 0.4s ease;
-}
-.modal__textarea{
-    padding: 15px 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-.modal__textarea textarea{
-    resize: none;
-    width: 100%;
-    height: 100px;
 }
 .send_button{
     cursor: pointer;
@@ -173,4 +92,76 @@
 .send_button:hover{
     transition: 0.4s ease;
     background: #1d70e1;
+}
+
+/* ***Media Queries*** */
+
+@media screen and (max-width: 1300px){
+    .profile__menu *{
+        font-size: 15px;
+        padding: 15px;
+        color: black;
+    }
+    /*.profile__menu{
+        position: absolute;
+        left: -10%;
+        justify-content: center;
+        flex-wrap: wrap;
+        flex: 1 150px;
+        right: 0;
+    }*/
+    .profile__img{
+        position: relative;
+        top: 0;
+        text-align: center;
+    }
+    .profile__nav{
+        background: transparent;
+        flex-direction: column;
+        height: 100%;
+        top: 40px;
+    }
+    .profile__menu .menu__item{
+        margin: 0;
+        padding: 0;
+    }
+}
+
+@media screen and (max-width: 900px){
+    .profile__menu{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        justify-content: center;
+        background: white;
+        width: 100vw;
+        z-index: 1;
+        border-top: 1px #bcbfb8 solid;
+    }
+}
+@media screen and (max-width: 768px){
+    .profile__menu *{
+        font-size: 11px;
+        padding: 5px;
+        margin-left: 5px;
+    }
+    .profile__menu *:nth-child(1){
+        margin-left: 0;
+    }
+    .profile__menu{
+        padding: 10px 5px;
+        justify-content: space-between;
+    }
+    .profile__menu .menu__item{
+        display: none;
+        margin: 0;
+    }
+    .profile__menu .menu__icon{
+        display: flex;
+        padding: 0;
+    }
+    .profile__menu .menu__icon i{
+        padding: 0;
+        font-size: 18px;
+    }
 }

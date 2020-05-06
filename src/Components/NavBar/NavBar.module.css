@@ -22,3 +22,11 @@
     color: #27aae1;
     transition: 0.4s ease-out;
 }
+
+/* ***Media Queries*** */
+
+@media screen and (max-width: 900px) {
+    .nav{
+        display: none;
+    }
+}

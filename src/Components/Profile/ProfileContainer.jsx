@@ -39,7 +39,6 @@ let mapStateToProps = (state, ownProps) => ({
     usersData: state.usersPage.usersData,
     currentUser: state.usersPage.currentUser,
     dialogsData: state.dialogsPage.dialogsData
-    //user: ownProps.user
 })
 
 

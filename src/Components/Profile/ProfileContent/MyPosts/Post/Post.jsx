@@ -46,7 +46,7 @@ const Post = (props) => {
                         <button onClick={() => {
                             props.addDislike(props.postsData, props.id, props.uid, props.currentUser.uid)
                         }}><i className="fas fa-thumbs-down"/>{props.whoIsDislikeList.length}</button>
-                        <button><i className="fas fa-eye"/>{props.viewCounts}</button>
+                        {/*<button><i className="fas fa-eye"/>{props.viewCounts}</button>*/}
                     </div>
                 </div>
                 <div className={css.post__date}>
@@ -60,7 +60,7 @@ const Post = (props) => {
                 </div>
                 <div className={css.post__addComment}>
                     <img src={props.currentUser.photoURL} alt=""/>
-                    <textarea onChange={onCommentChange} value={props.newCommentText} cols="30" rows="10"
+                    <textarea onChange={onCommentChange} value={props.newCommentText}
                               placeholder="Post a comment"/>
                     <button onClick={addComment} className={css.post__send}>
                         <i className="fab fa-telegram-plane"/>
