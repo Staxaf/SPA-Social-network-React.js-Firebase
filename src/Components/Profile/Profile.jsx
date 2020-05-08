@@ -14,7 +14,8 @@ const Profile = (props) => {
                          getUsersFollowsAndFollowers={props.getUsersFollowsAndFollowers} getUsers={props.getUsers}
                          addFollow={props.addFollowThunk} users={props.users} user={props.user}
                          currentUser={props.currentUser} setModalMessageWindow={props.setModalMessageWindow}
-                         createDialogAndRedirect={props.createDialogAndRedirect} getDialogsData={props.getDialogsData}/>
+                         createDialogAndRedirect={props.createDialogAndRedirect} getDialogsData={props.getDialogsData} followsCount={props.followsOfCurrentUser.length}
+                            followersCount={props.followersOfCurrentUser.length}/>
             <ProfileContentContainer uidFromUrl={props.uidFromUrl} currentUser={props.currentUser}
                                      followsOFCurrentUser={props.followsOfCurrentUser}
                                      followersOfCurrentUser={props.followersOfCurrentUser} user={props.user}/>

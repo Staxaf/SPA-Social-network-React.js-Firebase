@@ -31,3 +31,14 @@
     color: grey;
     font-size: 12px;
 }
+
+/* ***Media Queries*** */
+@media screen and (max-width: 768px){
+    .comment .comment__image img{
+        width: 35px;
+        height: 35px;
+    }
+    .comment__info{
+        padding: 0 5px;
+    }
+}

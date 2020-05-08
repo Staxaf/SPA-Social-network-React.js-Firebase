@@ -11,9 +11,15 @@ import {addFollowThunk, getUsers} from "../../redux/users-reducer";
 import {createDialogAndRedirect, getDialogsData} from "../../redux/dialogs-reducer";
 
 class ProfileContainer extends React.Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            userUid: this.props.match.params.userUid !== undefined && ['myPosts', 'friends', 'followers'].indexOf(this.props.match.params.userUid) === -1
+                ? this.props.match.params.userUid : this.props.user.uid
+        }
+    }
     componentDidMount() {
-        this.props.getUsersFollowsAndFollowers(this.props.user, this.props.match.params.userUid)
+        this.props.getUsersFollowsAndFollowers(this.props.user, this.state.userUid)
         this.props.getUsers(this.props.user, 0)
     }
 

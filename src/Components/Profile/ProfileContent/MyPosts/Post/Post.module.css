@@ -105,3 +105,19 @@
     transition: 0.4s ease;
     color: #1d70e1;
 }
+
+/* ***Media Queries*** */
+@media screen and (max-width: 568px){
+    .post{
+        padding: 20px 0 10px 0;
+        display: flex;
+        flex-direction: column;
+    }
+    .post__img{
+        text-align: left;
+        margin-left: 15px;
+    }
+    .post__title{
+        justify-content: center;
+    }
+}

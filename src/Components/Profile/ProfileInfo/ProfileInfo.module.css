@@ -12,7 +12,7 @@
     padding: 0 30px;
 }
 .profile__img{
-    padding: 20px;
+    padding: 20px 0;
     position: absolute;
     top: -120px;
 }
@@ -45,7 +45,7 @@
 }
 .profile__menu *{
     cursor: pointer;
-    font-size: 20px;
+    font-size: 17px;
     color: white;
     padding-bottom: 10px;
 }
@@ -149,7 +149,7 @@
         margin-left: 0;
     }
     .profile__menu{
-        padding: 10px 5px;
+        padding: 10px 0;
         justify-content: space-between;
     }
     .profile__menu .menu__item{
@@ -163,5 +163,15 @@
     .profile__menu .menu__icon i{
         padding: 0;
         font-size: 18px;
+    }
+    .active{
+        border-color: transparent;
+    }
+    .menu__link:hover{
+        border-color: transparent;
+    }
+    .active span i, .menu__link:hover span i{
+        color: #27aae1;
+        transition: 0.4s ease;
     }
 }

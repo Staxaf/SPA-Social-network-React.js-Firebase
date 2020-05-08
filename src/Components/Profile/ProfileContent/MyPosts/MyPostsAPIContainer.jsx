@@ -4,9 +4,8 @@ import MyPosts from "./MyPosts";
 import {usersAPI} from "../../../../redux/api";
 
 class MyPostsAPIContainer extends React.Component {
-
     componentDidMount = () => {
-        //debugger
+
         //this.props.setUser(this.props.user.name, this.props.user.photoURL, this.props.user.uid)
         this.props.getUsersFollowsAndFollowers(this.props.user, this.props.uidFromUrl)
         this.props.getUserPosts(this.props.uidFromUrl)

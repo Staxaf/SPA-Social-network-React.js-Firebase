@@ -9,22 +9,26 @@ class MyPosts extends React.Component {
     render = () => {
         return <div>
             <div className={css.input}>
-                <img
-                    src={this.props.currentUser.photoURL}
-                    alt=""/>
-                <textarea onChange={(e) => {
-                    this.props.onPostChange(e.target.value)
-                }} className={css.textarea}
-                          value={this.props.newPostText} />
-                <div className={css.icons}>
-                    <a><i className="fas fa-paperclip"/></a>
-                    <a><i className="far fa-laugh"/></a>
+                <div className={css.input__item}>
+                    <img
+                        src={this.props.currentUser.photoURL}
+                        alt=""/>
+                    <textarea onChange={(e) => {
+                        this.props.onPostChange(e.target.value)
+                    }} className={css.textarea}
+                              value={this.props.newPostText} />
                 </div>
-                <button onClick={() => {
-                    this.props.addPostThunk(this.props.newPostText, this.props.postsData, this.props.currentUser.photoURL,
-                        this.props.currentUser.name, this.props.uid, this.props.currentUser.uid)
-                }} className={css.btn}>Publish
-                </button>
+                <div className={css.input__item}>
+                    <div className={css.icons}>
+                        <button><i className="fas fa-paperclip"/></button>
+                        <button><i className="far fa-laugh"/></button>
+                    </div>
+                    <button onClick={() => {
+                        this.props.addPostThunk(this.props.newPostText, this.props.postsData, this.props.currentUser.photoURL,
+                            this.props.currentUser.name, this.props.uid, this.props.currentUser.uid)
+                    }} className={css.btn}>Publish
+                    </button>
+                </div>
             </div>
             <div className={css.posts}>
                 {this.props.isFetching

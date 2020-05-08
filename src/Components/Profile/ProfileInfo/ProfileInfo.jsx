@@ -20,7 +20,8 @@ const ProfileInfo = (props) => {
             margin-bottom: 200px;
         }
         @media screen and (max-width: 900px){
-            margin-bottom: 110px;
+            margin-top: 50px;
+            margin-bottom: 120px;
         }
 `;
     let id = 0
@@ -54,10 +55,12 @@ const ProfileInfo = (props) => {
                             <span className={css.menu__icon}><i className="far fa-address-card" /></span>
                         </li>
                         <NavLink className={css.menu__link} to='friends' activeClassName={css.active}>
-                            <span className={css.menu__item}>Follows</span>
+                            <span className={css.menu__item}>{props.followsCount} Follows</span>
+                            <span className={css.menu__icon}><i className="fas fa-user-check" /></span>
                         </NavLink>
                         <NavLink className={css.menu__link} to='followers' activeClassName={css.active}>
-                            <span className={css.menu__item}>Subs</span>
+                            <span className={css.menu__item}>{props.followersCount} Followers</span>
+                            <span className={css.menu__icon}><i className="fas fa-users" /></span>
                         </NavLink>
                         <li className={css.menu__link}>
                             <span className={css.menu__item}>Album</span>

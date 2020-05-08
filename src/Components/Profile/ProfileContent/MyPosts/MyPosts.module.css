@@ -5,7 +5,7 @@
 .input{
     display: flex;
     flex-direction: row;
-    padding: 20px 70px;
+    padding: 5px 70px;
     margin-top: 70px;
     justify-content: center;
     align-items: center;
@@ -28,6 +28,13 @@
     border: none;
     border-radius: 20px;
 }
+.input .input__item{
+    display: flex;
+    align-items: center;
+}
+.input .input__item:first-child{
+    width: 100%;
+}
 .input .btn:hover{
     background: #1d70e1;
     transition: 0.4s ease;
@@ -37,10 +44,30 @@
     overflow-y: auto;
     resize: none;
     border-radius: 5px;
-    width: 60%;
-
+    width: 100%;
 }
-
 .icons{
     padding: 10px;
+}
+.icons button{
+    cursor: pointer;
+    padding: 0;
+    margin: 5px;
+    border: none;
+    background: transparent;
+}
+
+/* ***Media Queries*** */
+@media screen and (max-width: 768px){
+    .input{
+        flex-direction: column;
+        padding: 5px 25px;
+    }
+    .input img{
+        width: 50px;
+        height: 50px;
+    }
+    .posts{
+        padding: 10px;
+    }
 }

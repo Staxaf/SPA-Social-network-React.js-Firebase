@@ -105,3 +105,8 @@ a{
             "c c";
   }
 }
+@media screen and (max-width: 768px){
+    .user__button button{
+      font-size: 12px;
+    }
+}

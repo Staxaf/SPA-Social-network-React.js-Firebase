@@ -1,18 +1,30 @@
 .friends {
     margin-top: 70px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     padding: 0 30px;
-    justify-content: center;
+    margin-bottom: 50px;
+    /*flex-wrap: wrap;
+
+    justify-content: center;*/
 }
 .friends .friends__item{
-    width: 300px;
+    max-width: 300px;
     position: relative;
     top: 50px;
 }
 .friends__item_container{
     border-radius: 5px;
-    min-height: 22vh;
+    min-height: 190px;
+}
+.friends .friends__img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: white;
 }
 .friends .friends__item img{
     width: 80px;
@@ -26,4 +38,10 @@
 .friends__item:hover .friends__name{
     color: #1d70e1;
     transition: 0.4s ease;
+}
+
+@media screen and (max-width: 768px){
+    .friends{
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
 }
