@@ -1,5 +1,5 @@
 .login{
-    width: 1200px;
+    max-width: 1200px;
     margin: 0 auto;
     background: white;
     min-height: 90vh;
@@ -20,8 +20,8 @@
     color: white;
 }
 .login__container{
-    width: 33em;
-
+    max-width: 33em;
+    min-width: 30em;
     margin: 0 auto;
 }
 .login__content{
@@ -66,4 +66,28 @@
 .login__buton button:hover{
     background: #1d70e1;
     transition: 0.4s;
+}
+
+/* Media Queries */
+@media screen and (max-width: 1300px){
+    .login{
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 900px){
+    .login{
+        margin-top: 50px;
+    }
+    .login__title_content img{
+        width: 100px;
+    }
+    .login__title h1{
+        display: none;
+    }
+    .login__container{
+        margin-top: 20px;
+        min-width: 15em;
+    }
 }

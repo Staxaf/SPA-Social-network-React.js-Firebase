@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import './App.css'
 import Header from './Components/Header/Header';
 import NavBar from './Components/NavBar/NavBar';
 import Profile from './Components/Profile/Profile';
-import {BrowserRouter, Route} from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import News from './Components/News/News';
 import Music from './Components/Music/Music';
 import Settings from './Components/Settings/Settings';
@@ -12,7 +12,8 @@ import UsersContainer from "./Components/Users/UsersContainer";
 import ProfileContainer from "./Components/Profile/ProfileContainer";
 import firebase from "./firebase";
 import LoginPage from "./Components/Login/LoginPage";
-import {LoginContainer} from "./Components/Login/LoginContainer";
+import { LoginContainer } from "./Components/Login/LoginContainer";
+import Loader from "react-loader-spinner";
 
 class App extends React.Component {
     constructor(props) {
@@ -55,7 +56,7 @@ class App extends React.Component {
             <BrowserRouter>
                 <Header user={this.state.user}/>
                 {this.state.isLoaded ? this.state.user ? <div className='app-wrapper'>
-                    <NavBar/>
+                    <NavBar user={this.state.user}/>
                     <div className='app-wrapper-content bg-shadow'>
                         <Route path='/dialogs'
                                render={() => <DialogsContainer user={this.state.user}/>}/>

@@ -5,6 +5,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 25px;
   }
 
 .logout button{
@@ -16,16 +17,13 @@
     color: white
 }
 
-
   .header img{
     width: 50px;
   }
-
   /* ***Media Queries */
 @media screen and (max-width: 900px){
-    .header img{
-        width: 30px;
-        padding: 0 5px;
+    .header .header__imgWrapper{
+        display: none;
     }
     .logout button{
         font-size: 16px;
@@ -36,7 +34,8 @@
         left: 0;
         top: 0;
         width: 100%;
-        z-index: 1;
+        z-index: 2;
         padding: 10px 0;
+        box-shadow: 0px 0px 0px 0px;
     }
 }

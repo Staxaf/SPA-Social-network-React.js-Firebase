@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import css from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
@@ -6,9 +6,22 @@ import {Route} from "react-router-dom";
 
 
 const Dialogs = (props) => {
+
+    const [width, setWidth] = useState(0)// for tracking width of screen, because on desktop will be dialogs and messages on one screen, 
+    //but on mobile dialogs will be hidden when each dialog is selected
+
     useEffect(() => {
+        updateWindowDemisions()
+        window.addEventListener('resize', updateWindowDemisions)
         props.getDialogsData(props.user.uid)
+        return () => {
+            window.removeEventListener('resize', updateWindowDemisions)// remove listener wher component unmount
+        }
     }, [])
+
+    let updateWindowDemisions = () => {
+        setWidth(window.innerWidth)
+    }
 
     // Convert objects into jsx tag
     let userDialog = {}
@@ -60,9 +73,11 @@ const Dialogs = (props) => {
     }/>)
     return (
         <div className={css.dialogs}>
-            <div className={css.dialogs__items}>
+            {width < 900 ? <Route exact path='/dialogs' render={() => <div className={css.dialogs__items}>
                 {dialogsData}
-            </div>
+            </div>} /> : <Route path='/dialogs' render={() => <div className={css.dialogs__items}>
+                {dialogsData}
+            </div>} />}
             <div className={css.messages__bg}>
                 {messagesData}
             </div>

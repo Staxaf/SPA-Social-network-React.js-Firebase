@@ -17,6 +17,7 @@ class ProfileContainer extends React.Component {
             userUid: this.props.match.params.userUid !== undefined && ['myPosts', 'friends', 'followers'].indexOf(this.props.match.params.userUid) === -1
                 ? this.props.match.params.userUid : this.props.user.uid
         }
+
     }
     componentDidMount() {
         this.props.getUsersFollowsAndFollowers(this.props.user, this.state.userUid)

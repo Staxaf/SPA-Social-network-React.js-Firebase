@@ -3,7 +3,7 @@
 body{
   background: lightgray;
   overflow-y: scroll;
-  font-family: 'Montserrat';
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 p{
   margin: 0;
@@ -69,8 +69,10 @@ a{
 }
 
 .text-center{
-  text-align: center;
-  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
 }
 
 .user__button button{
@@ -95,18 +97,86 @@ a{
 .w100{
   width: 100%;
 }
+/* NavBar nav */
+
+.nav{
+  grid-area: n;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #231F20;
+}
+
+/* Burger button in header */
+.burger__check{
+  display: none;
+}
+.burger__check:checked ~ .nav{
+  left: 0;
+}
+/*.burger__check{
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  
+  cursor: pointer;
+  
+  opacity: 0;
+  z-index: 2; 
+  
+  -webkit-touch-callout: none;
+}*/
+.burger span{
+  width: 33px;
+  height: 3px;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  position: relative;  
+  background: #cdcdcd;
+  border-radius: 3px;
+  z-index: 1;
+  display: none;
+  transform-origin: 4px 0px;
+  
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              opacity 0.55s ease;
+}
 
 /* ***Media Queries*** */
 
 @media screen and (max-width: 900px){
+  .app-wrapper-content{
+    padding-top: 35px;
+  }
   .app-wrapper{
     grid-template-areas:
             "h h"
             "c c";
+    margin-bottom: 0;
   }
+  .nav{
+    position: fixed;
+    left: -100%;
+    height: 100vh;
+    padding-top: 70px;
+    z-index: 1;
+    transition: 0.6s cubic-bezier(0.23, 1, 0.520, 1);
+    min-width: 25vw;
+  }
+  .burger span{
+    display: block;
+  }
+  
 }
+
+
 @media screen and (max-width: 768px){
     .user__button button{
       font-size: 12px;
+      min-width: 90px;
     }
 }
+

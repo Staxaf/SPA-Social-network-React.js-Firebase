@@ -21,3 +21,34 @@
 .user__name{
     color: black;
 }
+.button__icon{
+    display: none;
+}
+
+/* ***Media Queries*** */
+@media screen and (max-width: 900px){
+    .user .user__photo img{
+        width: 100px;
+        height: 100px;
+    }
+}
+@media screen and (max-width: 768px){
+    .user .user__photo img{
+        width: 50px;
+        height: 50px;
+    }
+    .user{
+        align-items: center;
+    }
+    .user__name{
+        font-weight: 400;
+        font-size: 14px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    .button__text{
+        display: none;
+    }
+    .button__icon{
+        display: flex;
+    }
+}

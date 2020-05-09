@@ -20,7 +20,6 @@ const ProfileInfo = (props) => {
             margin-bottom: 200px;
         }
         @media screen and (max-width: 900px){
-            margin-top: 50px;
             margin-bottom: 120px;
         }
 `;
