@@ -8,9 +8,10 @@ import {
     updateDialogsData,
     updateMessageText
 } from "../../redux/dialogs-reducer";
+import { withRouter } from 'react-router-dom';
 
 
-let mapStateToProps = (state, ownProps) => {// данные со стэйта
+let mapStateToProps = (state) => {// данные со стэйта
     return {
         state: state.dialogsPage,
     }
@@ -23,6 +24,6 @@ const DialogsContainer = connect(mapStateToProps, {
     updateDialogsData,
     changeMessage,
     confirmChangeMessage
-})(Dialogs)
+})(withRouter(Dialogs))
 
 export default DialogsContainer;

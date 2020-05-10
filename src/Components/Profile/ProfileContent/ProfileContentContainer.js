@@ -10,9 +10,8 @@ let mapStateToProps = (state, ownProps) => {
 
     return {
         user: ownProps.user,
-        followsOfCurrentUser: ownProps.followsOfCurrentUser,
-        followersOfCurrentUser: ownProps.followersOfCurrentUser,
         followsData: state.profilePage.followsData,
+        followersData: state.profilePage.followersData,
         usersData: state.profilePage.usersData,
         isLoaded: state.profilePage.isLoaded,
         currentUser: ownProps.currentUser,

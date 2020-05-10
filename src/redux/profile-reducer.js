@@ -181,7 +181,7 @@ export const getUsersFollowsAndFollowers = (user, userUidFromURL) => (dispatch) 
                     users.forEach(item => {
                         if (followersOfCurrentUser.indexOf(item.uid) !== -1) followers = [...followers, item]
                     })
-                    if (followsOfCurrentUser.indexOf(user.uid) !== -1) friends = [...friends, user]
+                    if (followsOfCurrentUser.indexOf(user.uid) !== -1) friends = [...friends, user]// проверяю есть ли залогиненый пользователь у другого пользователя в подписках и подписчиках
                     if (followersOfCurrentUser.indexOf(user.uid) !== -1) followers = [...followers, user]
                     dispatch(setUsersFollowsFollowers(user.uid, users, friends, followers))
                     dispatch(setIsUserLoaded(true))

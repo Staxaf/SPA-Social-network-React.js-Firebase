@@ -3,7 +3,7 @@ import './App.css'
 import Header from './Components/Header/Header';
 import NavBar from './Components/NavBar/NavBar';
 import Profile from './Components/Profile/Profile';
-import { BrowserRouter, Route } from "react-router-dom";
+import {BrowserRouter, Route} from "react-router-dom";
 import News from './Components/News/News';
 import Music from './Components/Music/Music';
 import Settings from './Components/Settings/Settings';
@@ -58,12 +58,12 @@ class App extends React.Component {
                 {this.state.isLoaded ? this.state.user ? <div className='app-wrapper'>
                     <NavBar user={this.state.user}/>
                     <div className='app-wrapper-content bg-shadow'>
-                        <Route path='/dialogs'
+                        <Route path='/dialogs/:userUid?'
                                render={() => <DialogsContainer user={this.state.user}/>}/>
                         <Route path='/profile/:userUid?/:myPosts?'
                                render={() => <ProfileContainer user={this.state.user} store={this.props.store}/>}/>
                         <Route path='/users'
-                               render={() => <UsersContainer user={this.state.user} store={this.props.store}/>}/>
+                               render={() => <UsersContainer user={this.state.user}store={this.props.store}/>}/>
                         <Route path='/news' render={() => <News/>}/>
                         <Route path='/music' render={() => <Music/>}/>
                         <Route path='/settings' render={() => <Settings/>}/>

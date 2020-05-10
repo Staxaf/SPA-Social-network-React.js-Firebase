@@ -1,6 +1,6 @@
 import firebase from './../firebase'
-import {dialogsAPI, usersAPI} from "./api";
-import {getStringDate} from "./profile-reducer";
+import { dialogsAPI, usersAPI } from "./api";
+import { getStringDate } from "./profile-reducer";
 
 const ADD_MESSAGE = 'ADD-MESSAGE'
 const UPDATE_MESSAGE_TEXT = 'UPDATE-MESSAGE-TEXT'
@@ -44,7 +44,7 @@ export const dialogsReducer = (state = initialState, action) => {
                 ...state,
                 dialogsData: [...action.dialogsData]
             }
-            newState.dialogsData = newState.dialogsData.map(item => ({...item}))
+            newState.dialogsData = newState.dialogsData.map(item => ({ ...item }))
             return newState
         }
         case SET_IS_CHANGING:
@@ -80,8 +80,8 @@ export const updateMessageText = (text, id, currentUserId) => ({
     newText: text,
     id, currentUserId
 })
-export const setDialogsData = (dialogsData) => ({type: SET_DIALOGS_DATA, dialogsData})
-export const setIsChanging = (isChanging) => ({type: SET_IS_CHANGING, isChanging})
+export const setDialogsData = (dialogsData) => ({ type: SET_DIALOGS_DATA, dialogsData })
+export const setIsChanging = (isChanging) => ({ type: SET_IS_CHANGING, isChanging })
 export const changeMessage = (id, messageText, currentUserId, messageId) => ({
     type: CHANGE_MESSAGE,
     id,
@@ -93,30 +93,20 @@ export const changeMessage = (id, messageText, currentUserId, messageId) => ({
 // ***Redux Thunks
 
 export const getDialogsData = (currentUserUid) => (dispatch) => {
-    /*firebase.firestore().collection('dialogs').onSnapshot(snapshot => {
+    // Realtime subscribe on changes database
+    firebase.firestore().collection('dialogs').onSnapshot(snapshot => {
         let dialogsData = []
-        console.log(snapshot)
         snapshot.forEach(doc => {
-            if(doc.data().ownersUids.indexOf(currentUserUid) !== -1){
-                dialogsData = [...dialogsData, {...doc.data(), id: dialogsData.length}]
+            if (doc.data().ownersUids.indexOf(currentUserUid) !== -1) {
+                dialogsData = [...dialogsData, { 
+                    ...doc.data(), 
+                    id: dialogsData.length, 
+                    isChanging: false, changingMessageId: -1 }]
             }
         })
-        snapshot.docChanges().forEach(change => {
-            //console.log('change: ', change.doc.data())
-            if(change.type === 'added' || change.type === 'modified'){
-                dialogsData.splice(change.oldIndex, 1)
-                dialogsData = dialogsData.map((item, i) => ({
-                    ...item,
-                    id: i + 1
-                }))
-                if(change.doc.data().ownersUids.indexOf(currentUserUid) !== -1) {
-                    dialogsData = [...dialogsData, {...change.doc.data(), id: 0}]
-                }
-            }
-        })
-
-    })*/
-    dialogsAPI.getDialogs().then(data => {
+        dispatch(setDialogsData(dialogsData))
+    })
+    /*dialogsAPI.getDialogs().then(data => {
         let dialogsData = []
         data.docs.map(doc => {
             if (doc.data().ownersUids.indexOf(currentUserUid) !== -1) {
@@ -129,7 +119,7 @@ export const getDialogsData = (currentUserUid) => (dispatch) => {
             }
         })
         dispatch(setDialogsData(dialogsData))
-    })
+    })*/
 }
 
 export const updateDialogsData = (dialog) => (dispatch) => {
@@ -175,7 +165,7 @@ export const confirmChangeMessage = (dialogsData, dialogId, messageId, currentUs
     dialogsData[dialogId].messagesData = [...dialogsData[dialogId].messagesData]
     dialogsData[dialogId].messagesData[messageId - 1].message = dialogsData[dialogId].owners[currentUserId].newMessageText
     dialogsData[dialogId].isChanging = false
-    dialogsData[dialogId].changingMessageId = -1
+    dialogsData[dialogId].changingMessageId = - 1
     dialogsData[dialogId].owners[currentUserId].newMessageText = ''
     firebase.firestore().collection('dialogs').doc(dialogUid).set(dialogsData[dialogId])
     dispatch(setDialogsData(dialogsData))

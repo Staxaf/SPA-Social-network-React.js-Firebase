@@ -21,7 +21,7 @@ class ProfileContentAPIContainer extends React.Component {
                    render={() => <Friends follows={this.props.followsData} isLoaded={this.props.isLoaded}
                                           user={this.props.user}/>}/>
             <Route path='/profile/:userId?/followers'
-                   render={() => <Followers isLoaded={this.props.isLoaded} followers={this.props.followersOfCurrentUser}
+                   render={() => <Followers isLoaded={this.props.isLoaded} followers={this.props.followersData}
                                             user={this.props.user}/>}/>
         </>
     }

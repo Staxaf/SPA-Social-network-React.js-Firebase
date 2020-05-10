@@ -14,7 +14,7 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
-    height: 77vh;
+    height: 70vh;
     overflow-y: auto;
     max-width: 100%;
 }
@@ -123,6 +123,21 @@
     color: black;
 }
 
+.dialog__title{
+    background: #27aae1;
+    display: flex;
+    padding: 5px;
+}
+
+.dialog__title .dialog__imgWrapper img{
+    height: 53px;
+    width: 53px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.dialog__title .dialog__name {
+    color: white;
+}
 
 /* ***Media Queries*** */
 

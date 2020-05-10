@@ -17,8 +17,7 @@ const Profile = (props) => {
                          createDialogAndRedirect={props.createDialogAndRedirect} getDialogsData={props.getDialogsData} followsCount={props.followsOfCurrentUser.length}
                             followersCount={props.followersOfCurrentUser.length}/>
             <ProfileContentContainer uidFromUrl={props.uidFromUrl} currentUser={props.currentUser}
-                                     followsOFCurrentUser={props.followsOfCurrentUser}
-                                     followersOfCurrentUser={props.followersOfCurrentUser} user={props.user}/>
+                                      user={props.user}/>
         </div>
     )
 }

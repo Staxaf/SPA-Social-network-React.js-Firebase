@@ -61,10 +61,10 @@ const ProfileInfo = (props) => {
                             <span className={css.menu__item}>{props.followersCount} Followers</span>
                             <span className={css.menu__icon}><i className="fas fa-users" /></span>
                         </NavLink>
-                        <li className={css.menu__link}>
+                        {/*<li className={css.menu__link}>
                             <span className={css.menu__item}>Album</span>
                             <span className={css.menu__icon}><i className="far fa-images" /></span>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 {props.currentUser.uid !== props.user.uid && props.users.length > 0 ?
@@ -81,7 +81,7 @@ const ProfileInfo = (props) => {
                         <div className="user__button">
                             <button onClick={() => {
                                 props.addFollow(id, props.currentUser.uid, props.currentUser, uid, props.users)
-                                props.getUsersFollowsAndFollowers(props.currentUser, props.uidFromUrl)
+                                //props.getUsersFollowsAndFollowers(props.currentUser, props.uidFromUrl)
                             }}>{props.users[id].isFollow ? 'Unfollow' : 'Follow'}
                             </button>
                         </div>
@@ -91,8 +91,4 @@ const ProfileInfo = (props) => {
         </ProfileBlock>
     )
 }
-/*<button onClick={() => {
-                    props.addFollow(props.id, props.uid, props.currentUser, props.userUid, props.currentUserId)
-                }}>{props.isFollow ? 'Unfollow' : 'Follow'}</button>
- */
 export default ProfileInfo;
