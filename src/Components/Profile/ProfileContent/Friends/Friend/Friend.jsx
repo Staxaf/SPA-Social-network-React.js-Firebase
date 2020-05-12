@@ -21,6 +21,9 @@ const Friend = props => {
                     <div className={css.friends__img}>
                         <img src={props.photoURL} alt=""/>
                     </div>
+                    <div className={`${css.friend__circleWrapper} whiteCircle`}>
+                        <div className={`${css.friend__circle} ${props.state === 'online' ? ' greenCircle' : ' greyCircle'}` }  />
+                    </div>
                     <h4 className={css.friends__name}>{props.name}</h4>
                 </div>
             </NavLink>

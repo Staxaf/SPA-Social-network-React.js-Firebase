@@ -29,7 +29,9 @@ const Post = (props) => {
                 <NavLink onClick={() => {
                     props.getUserPosts(props.whosePostUserUid)
                     props.getUsersFollowsAndFollowers(props.user, props.whosePostUserUid)
-                }} to={`/profile/${props.whosePostUserUid}/myPosts`}><img src={props.photoURL} alt=""/></NavLink>
+                }} to={props.whosePostUserUid !== props.user.uid ? '/profile/myPosts' : `/profile/${props.whosePostUserUid}/myPosts`}>
+                    <img src={props.photoURL} alt=""/>
+                </NavLink>
             </div>
             <div className={css.post__content}>
                 <div className={css.post__title}>
@@ -37,7 +39,9 @@ const Post = (props) => {
                         <NavLink onClick={() => {
                             props.getUserPosts(props.whosePostUserUid)
                             props.getUsersFollowsAndFollowers(props.user, props.whosePostUserUid)
-                        }} to={`/profile/${props.whosePostUserUid}/myPosts`}>{props.name}</NavLink>
+                        }} to={props.whosePostUserUid !== props.user.uid ? '/profile/myPosts' : `/profile/${props.whosePostUserUid}/myPosts`}>
+                            {props.name}
+                        </NavLink>
                     </div>
                     <div className={css.icons}>
                         <button onClick={() => {

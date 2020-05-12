@@ -16,7 +16,7 @@ const Comment = (props) => {
                     <NavLink onClick={() => {
                         props.getUserPosts(props.userUid)
                         props.getUsersFollowsAndFollowers(props.user, props.userUid)
-                    }} to={`/profile/${props.userUid}/myPosts`} className={css.comment__name}>{props.name}</NavLink>
+                    }} to={props.userUid === props.user.uid ? '/profile/myPosts' : `/profile/${props.userUid}/myPosts`} className={css.comment__name}>{props.name}</NavLink>
                     <p className={css.comment__date}>{props.dateOfPublishing}</p>
                 </div>
                     <p>{props.text}</p>

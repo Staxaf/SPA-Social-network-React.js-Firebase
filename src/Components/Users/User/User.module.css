@@ -24,12 +24,29 @@
 .button__icon{
     display: none;
 }
+.imgWrapper{
+    position: relative;
+}
 
+/* For showing online/offline user */
+.user__circle{
+    width: 20px;
+    height: 20px;
+}
+.user__circleWrapper{
+    top: -30px;
+    left: 90px;
+    width: 24px;
+    height: 24px;
+}
 /* ***Media Queries*** */
 @media screen and (max-width: 900px){
     .user .user__photo img{
         width: 100px;
         height: 100px;
+    }
+    .user__circleWrapper{
+        left: 70px;
     }
 }
 @media screen and (max-width: 768px){
@@ -50,5 +67,15 @@
     }
     .button__icon{
         display: flex;
+    }
+    .user__circleWrapper{
+        left: 40px;
+        top: -20px;
+        width: 16px;
+        height: 16px;
+    }
+    .user__circle{
+        width: 12px;
+        height: 12px;
     }
 }

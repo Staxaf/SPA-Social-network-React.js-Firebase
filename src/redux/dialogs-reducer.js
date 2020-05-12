@@ -140,11 +140,13 @@ export const createDialogAndRedirect = (currentUser, user, dialogsData, uid) => 
                 name: currentUser.name,
                 photoURL: currentUser.photoURL,
                 uid: currentUser.uid,
+                state: currentUser.state,
                 newMessageText: ''
             }, {
                 name: user.name,
                 photoURL: user.photoURL,
                 uid: user.uid,
+                state: currentUser.state,
                 newMessageText: ''
             }],
             ownersUids: [

@@ -93,7 +93,16 @@
     transition: 0.4s ease;
     background: #1d70e1;
 }
-
+.profile__circleWrapper{
+    width: 30px;
+    height: 30px;
+    top: -50px;
+    left: 145px;
+}
+.profile__circle{
+    width: 24px;
+    height: 24px;
+}
 /* ***Media Queries*** */
 
 @media screen and (max-width: 1300px){

@@ -12,7 +12,7 @@ import UsersContainer from "./Components/Users/UsersContainer";
 import ProfileContainer from "./Components/Profile/ProfileContainer";
 import firebase from "./firebase";
 import LoginPage from "./Components/Login/LoginPage";
-import { LoginContainer } from "./Components/Login/LoginContainer";
+import {LoginContainer} from "./Components/Login/LoginContainer";
 import Loader from "react-loader-spinner";
 
 class App extends React.Component {
@@ -26,27 +26,48 @@ class App extends React.Component {
     }
 
     componentDidMount = () => {
+        window.onbeforeunload = () => {
+            return firebase.firestore().collection('users').doc(this.state.user.uid).set({
+               state: 'offline',
+                last_changed: firebase.firestore.FieldValue.serverTimestamp()
+            }, {merge: true})
+        }
         this.authListener()
+        //return;
     }
+
+    /*componentWillUnmount() {
+        //if(firebase.auth().currentUser !== null){
+        firebase.firestore().collection('users').doc(this.state.user.uid).set({
+            ...this.state.user, state: 'offline',
+            last_changed: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        //}
+    }*/
 
 
     authListener = () => {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 let newUser
-                const db = firebase.firestore()
-                db.collection('users').where('uid', '==', user.uid).get()
+                firebase.firestore().collection('users').where('uid', '==', user.uid).get()
                     .then(response => {
-                    response.forEach(doc => {
-                        newUser = doc.data()
-                        this.setState({user: newUser, isLoaded: true})
-                    })// для зашедшего пользователя подгружается личная информация с базы
-                }).catch(error => {
+
+                        response.forEach(doc => {
+                            newUser = doc.data()
+                            this.setState({user: newUser, isLoaded: true})
+                        })// для зашедшего пользователя подгружается личная информация с базы
+                        firebase.firestore().doc(`/users/${firebase.auth().currentUser.uid}`).set({
+                            state: 'online',
+                            last_changed: firebase.firestore.FieldValue.serverTimestamp()
+                        }, {merge: true});
+                    }).catch(error => {
                     this.setState({isLoaded: true})
                     console.log(error)
                 })
             } else {
                 this.setState({isLoaded: true, user: null})
+
             }
         })
     }
@@ -63,12 +84,12 @@ class App extends React.Component {
                         <Route path='/profile/:userUid?/:myPosts?'
                                render={() => <ProfileContainer user={this.state.user} store={this.props.store}/>}/>
                         <Route path='/users'
-                               render={() => <UsersContainer user={this.state.user}store={this.props.store}/>}/>
+                               render={() => <UsersContainer user={this.state.user} store={this.props.store}/>}/>
                         <Route path='/news' render={() => <News/>}/>
                         <Route path='/music' render={() => <Music/>}/>
                         <Route path='/settings' render={() => <Settings/>}/>
                     </div>
-                </div> : <LoginContainer/> : '' }
+                </div> : <LoginContainer/> : ''}
             </BrowserRouter>
         );
     }

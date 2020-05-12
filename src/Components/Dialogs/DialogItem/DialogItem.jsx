@@ -8,6 +8,9 @@ const DialogItem = (props) => {
         <NavLink activeClassName={css.active} to={props.path} className={css.dialog}>
             <div className={css.dialog__image}>
                 <img src={props.image} alt=""/>
+                <div className={`${css.dialog__circleWrapper} whiteCircle`}>
+                    <div className={`${css.dialog__circle} ${props.state === 'online' ? ' greenCircle' : ' greyCircle'}` }  />
+                </div>
             </div>
             <div className={css.dialog__info}>
                 <div className={css.dialog__title}>

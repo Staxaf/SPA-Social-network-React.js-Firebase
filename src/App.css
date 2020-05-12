@@ -58,6 +58,23 @@ a{
     grid-gap: 8px;/* расстояние между элементами */
 }
 
+/* is Online user */
+.greenCircle{
+  background: #00af4c;
+  border-radius: 50%;
+}
+.greyCircle{
+  background: #a0a0a0;
+  border-radius: 50%;
+}
+.whiteCircle{
+  position: relative;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .app-wrapper-content{
   grid-area: c;
   

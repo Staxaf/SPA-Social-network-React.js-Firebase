@@ -16,13 +16,7 @@ export const usersReducer = (state = initialState, action) => {
     const db = firebase.firestore()
     switch (action.type) {
         case SET_USERS:
-            let newState = {...state, usersData: [...action.usersData]};
-            for (let i = 0; i < 5; i++) {
-                if (newState.usersData.length > action.id + i) {
-                    newState.usersData[action.id + i].isDisplay = true
-                }
-            }
-            return newState
+            return {...state, usersData: [...action.usersData]};
         case TOGGLE_IS_FETCHING:
             return {...state, isFetching: action.isFetching}
         case SET_CURRENT_USER:
@@ -97,13 +91,9 @@ export const addFollowThunk = (userId, uid, currentUser, userUid, usersData) => 
         if (follows.indexOf(userUid) === -1) {
             //stateCopy.usersData[action.userId].isFollow = true
             usersAPI.setUser(uid, {// добавляю uid юзера, на которого подписались или убираю, если отписался
-                ...currentUser,
+                //...currentUser,
                 follows: Array.from(new Set([...follows, userUid]))
             })
-            // firebase.firestore().collection('users').doc(uid).set({// добавляю uid юзера, на которого подписались или убираю, если отписался
-            //     ...currentUser,
-            //     follows: Array.from(new Set([...follows, userUid]))
-            // })
                 .then(() => {
                     firebase.firestore().collection('users').doc(userUid).set({
                         ...usersData[userId],
@@ -114,9 +104,9 @@ export const addFollowThunk = (userId, uid, currentUser, userUid, usersData) => 
             follows.splice(follows.indexOf(userUid), 1)
             followers.splice(followers.indexOf(uid), 1)
             firebase.firestore().collection('users').doc(uid).set({// добавляю uid юзера, на которого подписались или убираю, если отписался
-                ...currentUser,
+               // ...currentUser,
                 follows: Array.from(new Set([...follows]))
-            }).then(() => {
+            }, {merge: true}).then(() => {
                 firebase.firestore().collection('users').doc(userUid).set({
                     ...usersData[userId],
                     followers: Array.from(new Set([...followers])) // добавляю в массив followers пользователю, на которого подписались

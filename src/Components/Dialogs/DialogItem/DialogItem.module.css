@@ -38,3 +38,14 @@
 .dialog__undertitle .dialog__message{
     color: grey
 }
+
+.dialog__circleWrapper{
+    top: -20px;
+    left: 38px;
+    width: 15px;
+    height: 15px;
+}
+.dialog__circle{
+    width: 9px;
+    height: 9px;
+}

@@ -17,7 +17,7 @@ export const usersAPI = {
     setUser(uid, newData){
         return firebase.firestore().collection('users').doc(uid).set({// добавляю uid юзера, на которого подписались или убираю, если отписался
             ...newData
-        })
+        }, {merge: true})
     }
 }
 

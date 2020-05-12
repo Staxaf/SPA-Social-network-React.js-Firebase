@@ -6,9 +6,14 @@ import { NavLink } from "react-router-dom";
 const User = (props) => {
     return (
         <div className={css.user}>
-            <NavLink to={'/profile/' + props.userUid + '/myPosts'} className={css.user__photo}>
-                <img src={props.photoUrl} alt="" />
-            </NavLink>
+            <div className={css.user__imgWrapper}>
+                <NavLink to={'/profile/' + props.userUid + '/myPosts'} className={css.user__photo}>
+                    <img src={props.photoUrl} alt="" />
+                    <div className={`${css.user__circleWrapper} whiteCircle`}>
+                        <div className={`${css.user__circle} ${props.state === 'online' ? ' greenCircle' : ' greyCircle'}` }  />
+                    </div>
+                </NavLink>
+            </div>
             <div className={css.user__info}>
                 <NavLink to={'/profile/' + props.userUid + '/myPosts'}><h4 className={css.user__name}>{props.fullName}</h4></NavLink>
             </div>

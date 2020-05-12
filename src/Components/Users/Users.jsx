@@ -1,11 +1,14 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import User from "./User/User";
 import css from './Users.module.css'
 import Loader from 'react-loader-spinner'
+import firebase from "./../../firebase";
 
 
 let Users = (props) => {
     let userId = props.lastUserId
+    let newUsers = []
+
 
     return (
         <>
@@ -18,9 +21,10 @@ let Users = (props) => {
                 {props.users.map((user, index) => {
                     if (user.isDisplay) {
                         userId = user.id
-                        return <User users={props.users} currentUserId={props.currentUserId} currentUser={props.currentUser} uid={props.currentUser.uid}
+                        return <User users={props.users} currentUserId={props.currentUserId}
+                                     currentUser={props.currentUser} uid={props.currentUser.uid}
                                      userUid={user.uid} id={index} photoUrl={user.photoURL} fullName={user.name}
-                                     addFollow={props.addFollowThunk} isFollow={user.isFollow}/>
+                                     addFollow={props.addFollowThunk} isFollow={user.isFollow} state={user.state}/>
                     }
                 })}
                 <div className={`${css.users__btn} ${props.users.length === userId ? css.display_none : ''}`}>
