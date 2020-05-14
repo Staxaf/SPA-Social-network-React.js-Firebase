@@ -3,6 +3,7 @@ import css from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {NavLink, Route} from "react-router-dom";
+import DialogTitle from './DialogTitle/DialogTitle';
 
 
 const Dialogs = (props) => {
@@ -35,12 +36,13 @@ const Dialogs = (props) => {
 
 
     // Convert objects into jsx tag
+    //const [userDialog, setUserDialog] = useState({})
     let userDialog = {}
     let ownerId = 0
     let dialogsData = props.state.dialogsData.map(dialog => {// получаю индекс текущего залогиненого пользователя в массиве owners, а также получаю юзера с кем ведется диалог
         // и получаю массив диалогов в jsx
         dialog.owners.forEach((item, i) => {
-            if (item.uid !== props.user.uid) userDialog = item
+            if (item.uid !== props.user.uid) userDialog = item //setUserDialog(item)
             else ownerId = i
         })
         return <DialogItem
@@ -60,15 +62,7 @@ const Dialogs = (props) => {
                                                                   isMyMessage={message.userUid === props.user.uid}
                                                                   changeMessage={props.changeMessage}/>)
         return <div className={css.dialogs__content}>
-            <NavLink to={`/profile/${currentUserDialog.uid}/myPosts`} className={css.dialog__title}>
-                <div className={css.dialog__imgWrapper}>
-                    <img src={currentUserDialog.photoURL} alt=""/>
-                </div>
-                <div className={css.dialog__info}>
-                    <p className={css.dialog__name}>{currentUserDialog.name}</p>
-                    <p className={css.dialog__userStatus}>{currentUserDialog.state === 'online' ? 'В сети' : 'Не в сети'}</p>
-                </div>
-            </NavLink>
+            <DialogTitle currentUserDialog={currentUserDialog} isDesktopVersion={width > 900}/>
             <div className={css.messages}>
                 {content}
             </div>

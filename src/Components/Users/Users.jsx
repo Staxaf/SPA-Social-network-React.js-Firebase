@@ -24,7 +24,7 @@ let Users = (props) => {
                         return <User users={props.users} currentUserId={props.currentUserId}
                                      currentUser={props.currentUser} uid={props.currentUser.uid}
                                      userUid={user.uid} id={index} photoUrl={user.photoURL} fullName={user.name}
-                                     addFollow={props.addFollowThunk} isFollow={user.isFollow} state={user.state}/>
+                                     addFollow={props.addFollowThunk} isFollow={user.isFollow} state={user.state} isOnline={user.online}/>
                     }
                 })}
                 <div className={`${css.users__btn} ${props.users.length === userId ? css.display_none : ''}`}>

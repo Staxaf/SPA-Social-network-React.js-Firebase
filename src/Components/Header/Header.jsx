@@ -32,7 +32,6 @@ const Header = (props) => {
             </div> : ''}
             {props.user ? <div className={css.logout}>
                 <button onClick={() => {
-
                     logout()
                 }}>Logout
                 </button>

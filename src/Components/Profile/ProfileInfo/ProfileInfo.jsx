@@ -41,7 +41,7 @@ const ProfileInfo = (props) => {
                             <img src={props.user.photoURL}/>
                         </div>
                         <div className={`${css.profile__circleWrapper} whiteCircle`}>
-                            <div className={`${css.profile__circle} ${props.user.state === 'online' ? ' greenCircle' : ' greyCircle'}` }  />
+                            <div className={`${css.profile__circle} ${props.user.online ? ' greenCircle' : ' greyCircle'}` }  />
                         </div>
                         <h2 className={css.profile__name}>{props.user.name}</h2>
                     </div>
@@ -84,7 +84,6 @@ const ProfileInfo = (props) => {
                         <div className="user__button">
                             <button onClick={() => {
                                 props.addFollow(id, props.currentUser.uid, props.currentUser, uid, props.users)
-                                //props.getUsersFollowsAndFollowers(props.currentUser, props.uidFromUrl)
                             }}>{props.users[id].isFollow ? 'Unfollow' : 'Follow'}
                             </button>
                         </div>

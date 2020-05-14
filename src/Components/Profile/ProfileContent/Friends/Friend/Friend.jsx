@@ -22,7 +22,7 @@ const Friend = props => {
                         <img src={props.photoURL} alt=""/>
                     </div>
                     <div className={`${css.friend__circleWrapper} whiteCircle`}>
-                        <div className={`${css.friend__circle} ${props.state === 'online' ? ' greenCircle' : ' greyCircle'}` }  />
+                        <div className={`${css.friend__circle} ${props.isOnline ? ' greenCircle' : ' greyCircle'}` }  />
                     </div>
                     <h4 className={css.friends__name}>{props.name}</h4>
                 </div>

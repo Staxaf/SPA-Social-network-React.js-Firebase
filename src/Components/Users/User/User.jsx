@@ -10,7 +10,7 @@ const User = (props) => {
                 <NavLink to={'/profile/' + props.userUid + '/myPosts'} className={css.user__photo}>
                     <img src={props.photoUrl} alt="" />
                     <div className={`${css.user__circleWrapper} whiteCircle`}>
-                        <div className={`${css.user__circle} ${props.state === 'online' ? ' greenCircle' : ' greyCircle'}` }  />
+                        <div className={`${css.user__circle} ${props.isOnline ? ' greenCircle' : ' greyCircle'}` }  />
                     </div>
                 </NavLink>
             </div>

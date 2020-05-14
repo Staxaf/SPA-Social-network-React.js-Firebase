@@ -123,28 +123,7 @@
     color: black;
 }
 
-.dialog__title{
-    background: white;
-    display: flex;
-    padding: 5px;
-}
 
-.dialog__title .dialog__imgWrapper img{
-    height: 53px;
-    width: 53px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-.dialog__title .dialog__name {
-    color: black;
-}
-.dialog__info{
-    padding: 0 10px;
-}
-.dialog__userStatus{
-    color: grey;
-    font-size: 14px;
-}
 
 /* ***Media Queries*** */
 
@@ -152,7 +131,9 @@
     .dialogs{
         grid-template-columns: 12fr 0;
     }
+}
+@media screen and (max-width: 768px){
     .messages{
-        height: 69vh;
+        height: 59vh;
     }
 }

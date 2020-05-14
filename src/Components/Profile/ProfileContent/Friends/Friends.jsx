@@ -7,7 +7,7 @@ const Friends = props => {
 
         return props.isLoaded ?
             <div className={css.friends}>
-                 {props.follows.map(item => <Friend state={item.state} uid={item.uid} name={item.name} photoURL={item.photoURL}
+                 {props.follows.map(item => <Friend isOnline={item.online} uid={item.uid} name={item.name} photoURL={item.photoURL}
                                                              backgroundPhotoUrl={item.backgroundPhotoUrl}/>)}
             </div> :
             <div className="text-center">

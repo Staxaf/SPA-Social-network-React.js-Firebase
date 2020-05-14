@@ -1,0 +1,30 @@
+.dialog__title{
+    background: white;
+    display: flex;
+    padding: 5px;
+}
+
+.dialog__title .dialog__imgWrapper img{
+    height: 53px;
+    width: 53px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.dialog__title .dialog__name {
+    color: black;
+}
+.dialog__info{
+    padding: 0 10px;
+}
+.dialog__userStatus{
+    color: grey;
+    font-size: 14px;
+}
+.dialog__back{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 15px;
+    font-size: 18px;
+    color: #1d70e1;
+}
