@@ -9,9 +9,6 @@ const User = (props) => {
             <div className={css.user__imgWrapper}>
                 <NavLink to={'/profile/' + props.userUid + '/myPosts'} className={css.user__photo}>
                     <img src={props.photoUrl} alt="" />
-                    <div className={`${css.user__circleWrapper} whiteCircle`}>
-                        <div className={`${css.user__circle} ${props.isOnline ? ' greenCircle' : ' greyCircle'}` }  />
-                    </div>
                 </NavLink>
             </div>
             <div className={css.user__info}>

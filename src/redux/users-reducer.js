@@ -52,36 +52,35 @@ export const setCurrentUser = (user) => ({type: SET_CURRENT_USER, user})
 
 export const getUsers = (currentUser, lastUserId) => (dispatch) => {
     dispatch(toggleIsFetching(true))
-    firebase.firestore().collection('users').onSnapshot(snapshot => {
-        
-        let users = []
-        snapshot.forEach(doc => {
-            users = [...users, {
-                ...doc.data(),
-                uid: doc.id,
-            }]
-        })
-        let currentUserPlace = 0
-        let followsOfCurrentUser = []
-        users.forEach((item, i) => {
-            if (item.uid === currentUser.uid) {
-                followsOfCurrentUser = item.follows// сохраняю follows текущего залогиневшегося пользователя для того, чтобы всегда были достоверные данные
-                currentUserPlace = i
-            }
-        })
-        users.splice(currentUserPlace, 1)// удаляю из списка текущего пользователя
-        users = users.map((item, id) => ({
-            ...item
-        }))
-        users = users.map(item => followsOfCurrentUser.indexOf(item.uid) !== -1 ? {
-            ...item,
-            isFollow: true
-        } : {...item, isFollow: false})
-        //dispatch(setCurrentUser(currentUser))
-        dispatch(toggleIsFetching(false))
-        dispatch(setUsers(lastUserId, users))// получаю всех пользователей из базы и передаю в функцию
-    })
-    /*usersAPI.getUsers()
+    // firebase.firestore().collection('users').onSnapshot(snapshot => {
+    //     let users = []
+    //     snapshot.forEach(doc => {
+    //         users = [...users, {
+    //             ...doc.data(),
+    //             uid: doc.id,
+    //         }]
+    //     })
+    //     let currentUserPlace = 0
+    //     let followsOfCurrentUser = []
+    //     users.forEach((item, i) => {
+    //         if (item.uid === currentUser.uid) {
+    //             followsOfCurrentUser = item.follows// сохраняю follows текущего залогиневшегося пользователя для того, чтобы всегда были достоверные данные
+    //             currentUserPlace = i
+    //         }
+    //     })
+    //     users.splice(currentUserPlace, 1)// удаляю из списка текущего пользователя
+    //     users = users.map((item, id) => ({
+    //         ...item
+    //     }))
+    //     users = users.map(item => followsOfCurrentUser.indexOf(item.uid) !== -1 ? {
+    //         ...item,
+    //         isFollow: true
+    //     } : {...item, isFollow: false})
+    //     //dispatch(setCurrentUser(currentUser))
+    //     dispatch(toggleIsFetching(false))
+    //     dispatch(setUsers(lastUserId, users))// получаю всех пользователей из базы и передаю в функцию
+    // })
+    usersAPI.getUsers()
         .then(data => {
             let users = data.docs.map(doc => ({
                 ...doc.data(),
@@ -103,10 +102,10 @@ export const getUsers = (currentUser, lastUserId) => (dispatch) => {
                 ...item,
                 isFollow: true
             } : {...item, isFollow: false})
-            dispatch(setCurrentUser(currentUser))
+            //dispatch(setCurrentUser(currentUser))
             dispatch(toggleIsFetching(false))
             dispatch(setUsers(lastUserId, users))// получаю всех пользователей из базы и передаю в функцию
-        })*/
+        })
 }
 
 export const addFollowThunk = (userId, uid, currentUser, userUid, usersData) => (dispatch) => {

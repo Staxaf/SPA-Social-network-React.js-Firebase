@@ -28,50 +28,6 @@ class App extends React.Component {
         this.authListener()
     }
 
-    setUserPresence = () => {
-        const usersDocRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid); // Get a reference to the Users collection;
-        const onlineRef = firebase.database().ref('.info/connected'); // Get a reference to the list of connections
-
-        onlineRef.on('value', snapshot => {
-            if(!snapshot.val()){
-                usersDocRef.set({
-                    online: false,
-                }, { merge: true })
-                 return
-            }
-            firebase.database()
-                .ref(`/status/${firebase.auth().currentUser.uid}`)
-                .onDisconnect() // Set up the disconnect hook
-                .set('offline') // The value to be set for this key when the client disconnects
-                .then(() => {
-                    // Set the Firestore User's online status to true
-                    usersDocRef.set({
-                            online: true,
-                        }, { merge: true });
-
-                    // Let's also create a key in our real-time database
-                    // The value is set to 'online'
-                    firebase.database().ref(`/status/${firebase.auth().currentUser.uid}`).set('online');
-                });
-        });
-        const onAway = () => {
-            usersDocRef.set({
-                online: false,
-            }, {merge: true})
-        }
-        const onBack = () => {
-            usersDocRef.set({
-                online: true,
-            }, {merge: true})
-        }
-
-        const inactiveInstance = new InactiveJS({// for marking online or offline user
-            timeout: 60000,
-            onAway,
-            onBack
-        });
-    }
-
     authListener = () => {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -81,7 +37,6 @@ class App extends React.Component {
                         response.forEach(doc => {
                             newUser = doc.data()
                             this.setState({ user: newUser, isLoaded: true })
-                            this.setUserPresence()
                         })// для зашедшего пользователя подгружается личная информация с базы
                     }).catch(error => {
                         this.setState({ isLoaded: true })

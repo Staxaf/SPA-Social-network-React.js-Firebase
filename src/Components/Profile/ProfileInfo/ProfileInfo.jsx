@@ -40,9 +40,6 @@ const ProfileInfo = (props) => {
                         <div className={css.img__wrapper}>
                             <img src={props.user.photoURL}/>
                         </div>
-                        <div className={`${css.profile__circleWrapper} whiteCircle`}>
-                            <div className={`${css.profile__circle} ${props.user.online ? ' greenCircle' : ' greyCircle'}` }  />
-                        </div>
                         <h2 className={css.profile__name}>{props.user.name}</h2>
                     </div>
                 </div>

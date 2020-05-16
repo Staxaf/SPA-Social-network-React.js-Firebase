@@ -6,7 +6,6 @@ const ADD_MESSAGE = 'ADD-MESSAGE'
 const UPDATE_MESSAGE_TEXT = 'UPDATE-MESSAGE-TEXT'
 const SET_DIALOGS_DATA = 'SET_DIALOGS_DATA'
 
-const SET_IS_CHANGING = 'SET_IS_CHANGING'
 const CHANGE_MESSAGE = 'CHANGE_MESSAGE'
 let initialState = {
     dialogsData: [],
@@ -22,7 +21,7 @@ export const dialogsReducer = (state = initialState, action) => {
                     ...state,
                 }
                 newState.dialogsData[action.id].messagesData = [...newState.dialogsData[action.id].messagesData, {
-                    id: state.dialogsData[action.id].messagesData.length + 1,
+                    id: state.dialogsData[action.id].messagesData.length,
                     message: state.dialogsData[action.id].owners[action.currentUserId].newMessageText, //state.dialogsPage.newMessageText
                     photoUrl: action.photoUrl,
                     userUid: action.userUid,
@@ -47,11 +46,6 @@ export const dialogsReducer = (state = initialState, action) => {
             newState.dialogsData = newState.dialogsData.map(item => ({ ...item }))
             return newState
         }
-        case SET_IS_CHANGING:
-            return {
-                ...state,
-                isChanging: action.isChanging
-            }
         case CHANGE_MESSAGE:
             let stateCopy = {
                 ...state,
@@ -81,7 +75,6 @@ export const updateMessageText = (text, id, currentUserId) => ({
     id, currentUserId
 })
 export const setDialogsData = (dialogsData) => ({ type: SET_DIALOGS_DATA, dialogsData })
-export const setIsChanging = (isChanging) => ({ type: SET_IS_CHANGING, isChanging })
 export const changeMessage = (id, messageText, currentUserId, messageId) => ({
     type: CHANGE_MESSAGE,
     id,
@@ -106,20 +99,6 @@ export const getDialogsData = (currentUserUid) => (dispatch) => {
         })
         dispatch(setDialogsData(dialogsData))
     })
-    /*dialogsAPI.getDialogs().then(data => {
-        let dialogsData = []
-        data.docs.map(doc => {
-            if (doc.data().ownersUids.indexOf(currentUserUid) !== -1) {
-                dialogsData = [...dialogsData, {
-                    ...doc.data(),
-                    id: dialogsData.length,
-                    isChanging: false,// изменяется ли какое-то сообщение
-                    changingMessageId: -1//id изменяемого сообщения
-                }]
-            }
-        })
-        dispatch(setDialogsData(dialogsData))
-    })*/
 }
 
 export const updateDialogsData = (dialog) => (dispatch) => {
@@ -171,5 +150,17 @@ export const confirmChangeMessage = (dialogsData, dialogId, messageId, currentUs
     dialogsData[dialogId].owners[currentUserId].newMessageText = ''
     firebase.firestore().collection('dialogs').doc(dialogUid).set(dialogsData[dialogId])
     dispatch(setDialogsData(dialogsData))
+}
+
+export const deleteMessageThunk = (dialogUid, dialogId, messageId, dialogsData) => (dispatch) => {
+    debugger
+    let newMessageData = dialogsData[dialogId].messagesData
+    newMessageData.splice(messageId, 1)
+    newMessageData = newMessageData.map((item, id) => ({
+        ...item, id
+    }))
+    firebase.firestore().collection('dialogs').doc(dialogUid).set({
+        messagesData: newMessageData
+    }, {merge: true})
 }
 

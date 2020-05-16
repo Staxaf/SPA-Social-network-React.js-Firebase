@@ -5,10 +5,6 @@ import firebase from "./../../firebase";
 const Header = (props) => {
 
     let logout = () => {
-        firebase.firestore().collection('users').doc(props.user.uid).set({
-            state: 'offline',
-            last_changed: firebase.firestore.FieldValue.serverTimestamp()
-        }, {merge: true})
         firebase.auth().signOut()
     }
 

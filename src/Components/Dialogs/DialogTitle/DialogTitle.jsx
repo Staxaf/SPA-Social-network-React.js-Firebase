@@ -11,7 +11,6 @@ const DialogTitle = props => {
         </NavLink>
         <div className={css.dialog__info}>
             <NavLink to={`/profile/${props.currentUserDialog.uid}/myPosts`} className={css.dialog__name}>{props.currentUserDialog.name}</NavLink>
-            <p className={css.dialog__userStatus}>{props.currentUserDialog.state === 'online' ? 'В сети' : 'Не в сети'}</p>
         </div>
     </div>
 }

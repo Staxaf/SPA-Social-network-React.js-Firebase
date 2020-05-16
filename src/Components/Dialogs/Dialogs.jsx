@@ -46,7 +46,7 @@ const Dialogs = (props) => {
             else ownerId = i
         })
         return <DialogItem
-            path={'/dialogs/' + dialog.uid} state={userDialog.state} image={userDialog.photoURL} name={userDialog.name}
+            path={'/dialogs/' + dialog.uid} image={userDialog.photoURL} name={userDialog.name}
             lastMessage={dialog.messagesData.length !== 0 ? dialog.messagesData[dialog.messagesData.length - 1].message : ''}
             isMyLastMessage={dialog.messagesData.length !== 0 ?
                 dialog.messagesData[dialog.messagesData.length - 1].userUid === props.user.uid : false}
@@ -54,13 +54,13 @@ const Dialogs = (props) => {
     })
     // формирую разметку сообщений и отдельно для каждого диалога своя textarea и кнопка, чтобы сохранять черновики для каждого диалога отдельно
     let messagesData = props.state.dialogsData.map(dialog => <Route path={'/dialogs/' + dialog.uid} render={() => {
-        let content = dialog.messagesData.map(message => <Message dialogId={dialog.id} userName={message.userName}
+        let content = dialog.messagesData.map(message => <Message dialogId={dialog.id} dialogUid={dialog.uid} userName={message.userName} dialogsData={props.state.dialogsData}
                                                                   time={message.date.split(' ')[0]}
                                                                   message={message.message} id={message.id}
                                                                   photoUrl={message.photoUrl} userUid={message.userUid}
                                                                   ownerId={ownerId}
                                                                   isMyMessage={message.userUid === props.user.uid}
-                                                                  changeMessage={props.changeMessage}/>)
+                                                                  changeMessage={props.changeMessage} deleteMessage={props.deleteMessageThunk}/>)
         return <div className={css.dialogs__content}>
             <DialogTitle currentUserDialog={currentUserDialog} isDesktopVersion={width > 900}/>
             <div className={css.messages}>

@@ -3,7 +3,7 @@ import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {
     addMessage,
-    changeMessage, confirmChangeMessage, confirmMessageChange,
+    changeMessage, confirmChangeMessage, deleteMessageThunk,
     getDialogsData,
     updateDialogsData,
     updateMessageText
@@ -26,7 +26,8 @@ const DialogsContainer = connect(mapStateToProps, {
     updateDialogsData,
     changeMessage,
     confirmChangeMessage,
-    getUsers
+    getUsers,
+    deleteMessageThunk
 })(withRouter(Dialogs))
 
 export default DialogsContainer;

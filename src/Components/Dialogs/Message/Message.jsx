@@ -14,6 +14,7 @@ const Message = (props) => {
                 <div className={css.message__title}>
                     <NavLink className={css.message__name} to={`/profile/${props.userUid}/myPosts`}>{props.userName.split(' ')[0]}</NavLink>
                     <div className={css.message__info}>
+                        {props.isMyMessage ? <button onClick={() => {props.deleteMessage(props.dialogUid, props.dialogId, props.id, props.dialogsData)}} className={css.message__button_change}><i className="far fa-trash-alt" /></button> : ''}
                         {props.isMyMessage ? <button onClick={() => {
                             props.changeMessage(props.dialogId, props.message, props.ownerId, props.id)
                         }} className={css.message__button_change}><i className="fas fa-sync-alt" /></button> : ''}
