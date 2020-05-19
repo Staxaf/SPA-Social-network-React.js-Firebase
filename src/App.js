@@ -11,8 +11,6 @@ import UsersContainer from "./Components/Users/UsersContainer";
 import ProfileContainer from "./Components/Profile/ProfileContainer";
 import firebase from "./firebase";
 import { LoginContainer } from "./Components/Login/LoginContainer";
-import Loader from "react-loader-spinner";
-import InactiveJS from 'inactivejs'
 
 class App extends React.Component {
     constructor(props) {
@@ -59,9 +57,9 @@ class App extends React.Component {
                         <Route path='/dialogs/:userUid?'
                             render={() => <DialogsContainer user={this.state.user} />} />
                         <Route path='/profile/:userUid?/:myPosts?'
-                            render={() => <ProfileContainer user={this.state.user} store={this.props.store} />} />
+                            render={() => <ProfileContainer user={this.state.user} />} />
                         <Route path='/users'
-                            render={() => <UsersContainer user={this.state.user} store={this.props.store} />} />
+                            render={() => <UsersContainer user={this.state.user} />} />
                         <Route path='/news' render={() => <News />} />
                         <Route path='/music' render={() => <Music />} />
                         <Route path='/settings' render={() => <Settings />} />

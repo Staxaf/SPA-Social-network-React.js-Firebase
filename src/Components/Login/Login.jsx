@@ -1,6 +1,5 @@
 import React from 'react'
 import css from "./Login.module.css";
-import firebase from "./../../firebase";
 import {NavLink} from "react-router-dom";
 
 class Login extends React.Component {
@@ -23,22 +22,37 @@ class Login extends React.Component {
                 Login to Continue
             </h2>
             <div className={css.login__inputs}>
-                <input type="email" name="email" onChange={this.handleChange} placeholder='Email...'/>
-                <input type="password" name="password" onChange={this.handleChange} placeholder='Password...'/>
+                <div className={css.form}>
+                    <input type="text" name="email" required  onChange={this.handleChange}/>
+                    <label htmlFor='email' className={css.form__label}>
+                        <span className={css.label__content}>Email...</span>
+                    </label>
+                </div>
+                <div className={css.form}>
+                    <input type="password" name="password" required  onChange={this.handleChange}/>
+                    <label htmlFor='password' className={css.form__label}>
+                        <span className={css.label__content}>Password...</span>
+                    </label>
+                </div>
             </div>
+            {/*<input type="password" name="password" onChange={this.handleChange} placeholder='Password...'/>*/}
             <div className={css.login__links}>
                 <div className={css.login__forgot}>
                     <a href="#">Forgot password?</a>
                 </div>
                 <div className={css.login__signup}>
-                    <NavLink to='/signup' >Sign Up</NavLink>
+                    <NavLink to='/signup'>Sign Up</NavLink>
                 </div>
             </div>
             <div className={css.login__buton}>
-                <NavLink to={'/news'}><button onClick={() => {
-                    this.props.login(this.state.email, this.state.password)
-                }}>Login</button></NavLink>
+                <NavLink to={'/news'}>
+                    <button onClick={() => {
+                        this.props.login(this.state.email, this.state.password)
+                    }}>Login
+                    </button>
+                </NavLink>
             </div>
+            {this.props.isError ? <div className={css.login__error}>{this.props.signError.errorMessage}</div> : ''}
         </div>
 
     }

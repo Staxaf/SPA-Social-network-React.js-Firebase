@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import css from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {NavLink, Route} from "react-router-dom";
+import {Route} from "react-router-dom";
 import DialogTitle from './DialogTitle/DialogTitle';
 
 
@@ -17,8 +17,7 @@ const Dialogs = (props) => {
                 if (props.match.params.userUid.indexOf(item.uid.substr(0, 8)) !== -1) setCurrentUserDialog(item)
             })
         }
-        console.log(currentUserDialog)
-    })
+    }, [props.match.params])
 
     useEffect(() => {
         let updateWindowDemisions = () => {
@@ -36,13 +35,12 @@ const Dialogs = (props) => {
 
 
     // Convert objects into jsx tag
-    //const [userDialog, setUserDialog] = useState({})
     let userDialog = {}
     let ownerId = 0
-    let dialogsData = props.state.dialogsData.map(dialog => {// получаю индекс текущего залогиненого пользователя в массиве owners, а также получаю юзера с кем ведется диалог
-        // и получаю массив диалогов в jsx
+    let dialogsData = props.state.dialogsData.map(dialog => {// get index of current user in array owners, also getting user
+        //who is the dialogue with и получаю массив диалогов в jsx
         dialog.owners.forEach((item, i) => {
-            if (item.uid !== props.user.uid) userDialog = item //setUserDialog(item)
+            if (item.uid !== props.user.uid) userDialog = item
             else ownerId = i
         })
         return <DialogItem

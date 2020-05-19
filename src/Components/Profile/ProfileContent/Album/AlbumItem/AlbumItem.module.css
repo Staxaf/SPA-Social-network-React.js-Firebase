@@ -1,0 +1,11 @@
+.albumItem{
+    text-align: center;
+    margin: 5px;
+}
+
+.albumItem img{
+    cursor: pointer;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}

@@ -3,6 +3,7 @@ import css from './Comment.module.css'
 import {NavLink} from "react-router-dom";
 
 const Comment = (props) => {
+    console.log('userUId', props.userUid, 'user.uid', props.user.uid)
     return (
         <div className={css.comment}>
            <div className={css.comment__image}>

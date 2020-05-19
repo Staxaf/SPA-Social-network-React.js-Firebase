@@ -1,16 +1,15 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Users from "./Users";
 
-class UsersAPIComponent extends React.Component {
+const UsersAPIComponent = props => {
 
-    componentDidMount() {
-        this.props.getUsers(this.props.user, 0)
-    }
+    useEffect(() => {
+        props.getUsers(props.user, 0)
+    }, [])
 
-    render() {
-        return <Users users={this.props.state.usersData} currentUser={this.props.user}
-                      addFollowThunk={this.props.addFollowThunk} isFetching={this.props.isFetching}/>
-    }
+    return <Users users={props.state.usersData} currentUser={props.user}
+                  addFollowThunk={props.addFollowThunk} isFetching={props.isFetching}/>
+
 }
 
 export default UsersAPIComponent;

@@ -37,6 +37,13 @@
   padding: 10px 0;
   font-weight: 400;
 }
+.pos__sticky{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: sticky;
+  top: 85px;
+}
 
 /* ***Media Queries*** */
 

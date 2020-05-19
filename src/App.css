@@ -47,7 +47,7 @@ a{
 .app-wrapper{
   display: grid;
   max-width: 1350px;
-  min-height: 90vh;
+  min-height: 89vh;
   margin: 0 auto;
   margin-bottom: 20px;
   grid-template-areas:
@@ -55,7 +55,7 @@ a{
     "n c";
     grid-template-rows: auto 1fr;
     grid-template-columns: 0.7fr 11.3fr;/* одна колонка занимает 2 фракции, а другая 10 фракция*/
-    grid-gap: 8px;/* расстояние между элементами */
+    grid-gap: 6px;/* расстояние между элементами */
 }
 
 /* is Online user */
@@ -118,9 +118,6 @@ a{
 
 .nav{
   grid-area: n;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   background: #231F20;
 }
 
@@ -131,20 +128,7 @@ a{
 .burger__check:checked ~ .nav{
   left: 0;
 }
-/*.burger__check{
-  display: block;
-  width: 40px;
-  height: 32px;
-  position: absolute;
-  top: -7px;
-  
-  cursor: pointer;
-  
-  opacity: 0;
-  z-index: 2; 
-  
-  -webkit-touch-callout: none;
-}*/
+
 .burger span{
   width: 33px;
   height: 3px;
@@ -165,9 +149,6 @@ a{
 /* ***Media Queries*** */
 
 @media screen and (max-width: 900px){
-  .app-wrapper-content{
-    padding-top: 35px;
-  }
   .app-wrapper{
     grid-template-areas:
             "h h"

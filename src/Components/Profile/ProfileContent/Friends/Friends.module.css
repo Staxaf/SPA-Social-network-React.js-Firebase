@@ -1,9 +1,10 @@
 .friends {
     margin-top: 70px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 450px));
     padding: 0 30px;
     margin-bottom: 50px;
+    justify-content: center;
     /*flex-wrap: wrap;
 
     justify-content: center;*/
@@ -54,6 +55,6 @@
 
 @media screen and (max-width: 768px){
     .friends{
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     }
 }

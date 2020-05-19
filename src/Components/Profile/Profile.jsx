@@ -1,23 +1,19 @@
 import React from 'react'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 import ProfileContentContainer from "./ProfileContent/ProfileContentContainer";
-import {getDialogsData} from "../../redux/dialogs-reducer";
-
 
 const Profile = (props) => {
 
     return (
-
         <div>
-            <ProfileInfo dialogsData={props.dialogsData} isModalMessageOpen={props.profilePage.isModalMessageOpen}
-                         uidFromUrl={props.uidFromUrl}
+            <ProfileInfo dialogsData={props.dialogsData} currentUser={props.user} user={props.currentUser}
+                         uidFromUrl={props.userUidFromUrl} followsCount={props.profilePage.followsData.length}
+                         followersCount={props.profilePage.followersData.length} users={props.usersData}
                          getUsersFollowsAndFollowers={props.getUsersFollowsAndFollowers} getUsers={props.getUsers}
-                         addFollow={props.addFollowThunk} users={props.users} user={props.user}
-                         currentUser={props.currentUser} setModalMessageWindow={props.setModalMessageWindow}
-                         createDialogAndRedirect={props.createDialogAndRedirect} getDialogsData={props.getDialogsData} followsCount={props.followsOfCurrentUser.length}
-                            followersCount={props.followersOfCurrentUser.length}/>
-            <ProfileContentContainer uidFromUrl={props.uidFromUrl} currentUser={props.currentUser}
-                                      user={props.user}/>
+                         addFollow={props.addFollowThunk} createDialogAndRedirect={props.createDialogAndRedirect}
+                         getDialogsData={props.getDialogsData} />
+            <ProfileContentContainer uidFromUrl={props.userUidFromUrl} currentUser={props.user}
+                                      user={props.currentUser}/>
         </div>
     )
 }

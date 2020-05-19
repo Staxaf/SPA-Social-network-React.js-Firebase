@@ -1,8 +1,6 @@
 import React from 'react'
 import {connect} from "react-redux";
 import ProfileContentAPIContainer from "./ProfileContentAPIContainer";
-import {getFollows, getUsersFollowsAndFollowers, setIsLoaded} from "../../../redux/profile-reducer";
-import {addFollowThunk} from "../../../redux/users-reducer";
 import {withRouter} from "react-router-dom";
 
 
@@ -20,9 +18,6 @@ let mapStateToProps = (state, ownProps) => {
 }
 
 
-const ProfileContentContainer = connect(mapStateToProps, {
-    getFollows,
-    setIsLoaded
-})(withRouter(ProfileContentAPIContainer))
+const ProfileContentContainer = connect(mapStateToProps)(withRouter(ProfileContentAPIContainer))
 
 export default ProfileContentContainer;

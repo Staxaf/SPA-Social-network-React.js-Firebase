@@ -107,6 +107,7 @@ export const updateDialogsData = (dialog) => (dispatch) => {
 
 
 export const createDialogAndRedirect = (currentUser, user, dialogsData, uid) => (dispatch) => {
+    debugger
     let flag = false
     dialogsData.forEach(item => {
         item.owners.forEach(owner => {
@@ -119,13 +120,11 @@ export const createDialogAndRedirect = (currentUser, user, dialogsData, uid) => 
                 name: currentUser.name,
                 photoURL: currentUser.photoURL,
                 uid: currentUser.uid,
-                state: currentUser.state,
                 newMessageText: ''
             }, {
                 name: user.name,
                 photoURL: user.photoURL,
                 uid: user.uid,
-                state: currentUser.state,
                 newMessageText: ''
             }],
             ownersUids: [
@@ -144,7 +143,7 @@ export const createDialogAndRedirect = (currentUser, user, dialogsData, uid) => 
 
 export const confirmChangeMessage = (dialogsData, dialogId, messageId, currentUserId, dialogUid) => (dispatch) => {
     dialogsData[dialogId].messagesData = [...dialogsData[dialogId].messagesData]
-    dialogsData[dialogId].messagesData[messageId - 1].message = dialogsData[dialogId].owners[currentUserId].newMessageText
+    dialogsData[dialogId].messagesData[messageId].message = dialogsData[dialogId].owners[currentUserId].newMessageText
     dialogsData[dialogId].isChanging = false
     dialogsData[dialogId].changingMessageId = - 1
     dialogsData[dialogId].owners[currentUserId].newMessageText = ''

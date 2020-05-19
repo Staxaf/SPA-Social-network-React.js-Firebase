@@ -5,12 +5,13 @@ import {NavLink} from "react-router-dom";
 
 
 const ProfileInfo = (props) => {
-    let dialogUid = props.currentUser.uid.substr(0, 8) + props.user.uid.substr(0, 8)// переменная для хранения uid диалога текущего пользователя с пользователем на профиле которого нахожусь
+    let dialogUid = props.currentUser.uid.substr(0, 8) + props.user.uid.substr(0, 8)// a variable to store dialog uid
+    // of current user with the user on whose profile page I am
     props.dialogsData.forEach(item => {
         if (item.ownersUids.indexOf(props.currentUser.uid) !== -1 && item.ownersUids.indexOf(props.user.uid) !== -1) dialogUid = item.uid
     })
 
-    // создал стайл компонент, чтобы сделать кастомный бекграунд у пользователя
+    //created a styled component to do custom background at the user
     const ProfileBlock = styled.div`
         background: url(${props.user.backgroundPhotoUrl}) no-repeat center;  
         height: 310px;
@@ -49,10 +50,10 @@ const ProfileInfo = (props) => {
                             <span className={css.menu__item}>Posts</span>
                             <span className={css.menu__icon}><i className="far fa-clone"/></span>
                         </NavLink>
-                        <li className={css.menu__link}>
-                            <span className={css.menu__item}>About</span>
+                        <NavLink className={css.menu__link} to='album' activeClassName={css.active}>
+                            <span className={css.menu__item}>Album</span>
                             <span className={css.menu__icon}><i className="far fa-address-card" /></span>
-                        </li>
+                        </NavLink>
                         <NavLink className={css.menu__link} to='friends' activeClassName={css.active}>
                             <span className={css.menu__item}>{props.followsCount} Follows</span>
                             <span className={css.menu__icon}><i className="fas fa-user-check" /></span>
@@ -85,7 +86,7 @@ const ProfileInfo = (props) => {
                             </button>
                         </div>
                     </div>
-                    : <div></div>}
+                    : <div />}
             </div>
         </ProfileBlock>
     )

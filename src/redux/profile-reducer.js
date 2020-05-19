@@ -22,13 +22,10 @@ const SET_POSTS = 'SET_POSTS'
 const SET_IS_FETCHING = 'SET_IS_FETCHING'
 
 const SET_USERS_FOLLOWS_FOLLOWERS = 'SET_USERS_FOLLOWS_FOLLOWERS'
-const GET_FOLLOWS = 'GET_FOLLOWS'
 
 const SET_IS_LOADED = 'SET_IS_LOADED'
 const SET_IS_USER_LOADED = 'SET_IS_USER_LOADED'
-const SET_CURRENT_USER_PROFILE = 'SET_CURRENT_USER_PROFILE'
 
-const SET_MODAL_MESSAGE_WINDOW = 'SET_MODAL_MESSAGE_WINDOW'
 
 let initialState = {
     usersData: [],
@@ -84,11 +81,6 @@ export const profileReducer = (state = initialState, action) => {
             stateCopy.isLoaded = true
             return stateCopy
         }
-        case GET_FOLLOWS:
-            return {
-                ...state,
-                followsData: [...action.followsData]
-            }
         case SET_IS_LOADED:
             return {
                 ...state,
@@ -98,16 +90,6 @@ export const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isUserLoaded: action.isUserLoaded
-            }
-        case SET_CURRENT_USER_PROFILE:
-            return {
-                ...state,
-                currentUserProfile: {...action.currentUserProfile}
-            }
-        case SET_MODAL_MESSAGE_WINDOW:
-            return {
-                ...state,
-                isModalMessageOpen: action.isModalMessageOpen
             }
         default:
             return state
@@ -135,13 +117,11 @@ export const setUsersFollowsFollowers = (userUid, users, followsData, followersD
     followersData
 })
 
-export const getFollows = (currentUser, followsData) => ({type: GET_FOLLOWS, currentUser, followsData})
 export const setIsLoaded = (isLoaded) => ({type: SET_IS_LOADED, isLoaded})
 
 export const setIsFetching = (isFetching) => ({type: SET_IS_FETCHING, isFetching})
 export const setIsUserLoaded = (isUserLoaded) => ({type: SET_IS_USER_LOADED, isUserLoaded})
 
-export const setModalMessageWindow = (isModalMessageOpen) => ({type: SET_MODAL_MESSAGE_WINDOW, isModalMessageOpen})
 // ***Redux Thunks
 
 export const getUsersFollowsAndFollowers = (user, userUidFromURL) => (dispatch) => {
@@ -162,7 +142,7 @@ export const getUsersFollowsAndFollowers = (user, userUidFromURL) => (dispatch) 
             users = users.map(item => ({
                 ...item
             }))
-            usersAPI.getUser(userUidFromURL !== undefined && ['myPosts', 'friends', 'followers'].indexOf(userUidFromURL) === -1
+            usersAPI.getUser(userUidFromURL !== undefined && ['myPosts', 'friends', 'followers', 'album'].indexOf(userUidFromURL) === -1
                 ? userUidFromURL : user.uid)
                 .then(data => {
                     let currentUserProfile = data.data()
@@ -259,7 +239,7 @@ export const addPostThunk = (newPostText, postsData, photoURL, name, userUid, wh
             dateOfPublishing: getStringDate(),
             comments: [],
             uid: `id${postsData.length}${userUid}`,
-            userUid: userUid,
+            userUid,
             whosePostUserUid
         }
         postsData = [newPost, ...postsData]
@@ -271,7 +251,7 @@ export const addPostThunk = (newPostText, postsData, photoURL, name, userUid, wh
 
 export const addCommentThunk = (postsData, idComment, photoURL, name, whoseCommentUid) => (dispatch) => {
 
-    if (postsData[idComment - 1].newCommentText.length > 0) {
+    if (postsData[idComment - 1].newCommentText) {
         let newComment = {
             image: photoURL,
             name: name,

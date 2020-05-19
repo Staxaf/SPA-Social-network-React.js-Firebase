@@ -1,20 +1,14 @@
-import React from 'react'
-import firebase from "../../../../firebase";
+import React, {useEffect} from 'react'
 import MyPosts from "./MyPosts";
-import {usersAPI} from "../../../../redux/api";
 
-class MyPostsAPIContainer extends React.Component {
-    componentDidMount = () => {
+const MyPostsAPIContainer = props => {
 
-        //this.props.setUser(this.props.user.name, this.props.user.photoURL, this.props.user.uid)
-        this.props.getUsersFollowsAndFollowers(this.props.user, this.props.uidFromUrl)
-        this.props.getUserPosts(this.props.uidFromUrl)
-    }
-    render = () => {
-        return <MyPosts getUserPosts={this.props.getUserPosts}
-                        getUsersFollowsAndFollowers={this.props.getUsersFollowsAndFollowers}
-                        {...this.props} />
-    }
+    useEffect(() => {
+        props.getUsersFollowsAndFollowers(props.user, props.uidFromUrl)
+        props.getUserPosts(props.uidFromUrl)
+    }, [props.uidFromUrl])
+
+    return <MyPosts {...props} />
 }
 
 

@@ -7,10 +7,8 @@ import {
     addPostThunk, getUserPosts, getUsersFollowsAndFollowers,
     onCommentChange,
     onPostChange,
-    setIsFetching,
-    setPosts, toggleDislikeThunk, toggleLikeThunk
+    toggleDislikeThunk, toggleLikeThunk
 } from "../../../../redux/profile-reducer";
-import {setUser} from "../../../../redux/auth-reducer";
 
 
 let mapStateToProps = (state, ownProps) => {
@@ -19,11 +17,8 @@ let mapStateToProps = (state, ownProps) => {
         postsData: state.profilePage.postsData,
         newPostText: state.profilePage.newPostText,
         isFetching: state.profilePage.isFetching,
-        photoURL: ownProps.user.photoURL,
         currentUser: ownProps.currentUser,
         user: ownProps.user,
-        name: ownProps.user.name,
-        uid: ownProps.user.uid,
         uidFromUrl: ownProps.uidFromUrl
     }
 }
@@ -31,9 +26,6 @@ let mapStateToProps = (state, ownProps) => {
 const MyPostsContainer = connect(mapStateToProps, {
     onPostChange,
     onCommentChange,
-    setPosts,
-    setIsFetching,
-    setUser,
     getUserPosts,
     getUsersFollowsAndFollowers,
     toggleLikeThunk,
