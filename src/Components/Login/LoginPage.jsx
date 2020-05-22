@@ -6,10 +6,6 @@ import Login from "./Login";
 
 const LoginPage = props => {
 
-    useEffect(() => {
-        console.log('loginPage', props.signError)
-    }, [props.signError])
-
     return <div className={css.login}>
         <div className={css.login__title}>
             <div className={css.login__title_content}>

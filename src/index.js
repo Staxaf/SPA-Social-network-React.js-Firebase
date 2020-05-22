@@ -20,6 +20,8 @@ let renderEntireTree = (store) => {
 // eslint-disable-next-line no-undef
 renderEntireTree(store)
 
+window.store = store
+
 export default renderEntireTree;
 
 // If you want your app to work offline and load faster, you can change

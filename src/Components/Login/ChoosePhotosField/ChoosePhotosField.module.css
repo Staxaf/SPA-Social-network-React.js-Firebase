@@ -31,7 +31,6 @@
     font-size: 14px;
 }
 .choosePhoto__input{
-    cursor: pointer;
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -39,16 +38,19 @@
     opacity: 0;
 }
 .choosePhoto__uploadIconWrapper{
+    cursor: pointer;
     position: relative;
 }
 .choosePhoto__uploadIconWrapper i{
     pointer-events: none;
     position: absolute;
-    bottom: 0px;
+    top: -12px;
     right: 35px;
     font-size: 20px;
 }
 .choosePhoto__img img{
     width: 100px;
     height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
 }

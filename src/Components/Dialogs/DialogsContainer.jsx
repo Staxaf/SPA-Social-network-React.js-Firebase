@@ -27,7 +27,7 @@ const DialogsContainer = connect(mapStateToProps, {
     changeMessage,
     confirmChangeMessage,
     getUsers,
-    deleteMessageThunk
+    deleteMessageThunk,
 })(withRouter(Dialogs))
 
 export default DialogsContainer;

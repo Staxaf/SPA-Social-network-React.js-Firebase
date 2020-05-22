@@ -13,9 +13,7 @@ export let getStringDate = () => `${new Date().getHours().toString().padStart(2,
     .getDate()} ${getStringMonth(new Date().getMonth())}  ${new Date().getFullYear()}`
 
 
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
 
-const UPDATE_COMMENT_TEXT = 'UPDATE-COMMENT-TEXT'
 const SET_USER = 'SET_USER'
 
 const SET_POSTS = 'SET_POSTS'
@@ -35,7 +33,6 @@ let initialState = {
     name: '',// user name
     profileImage: '',
     currentUserProfile: {},
-    newPostText: '',// text in adding post textarea
     isFetching: false,// for loader
     isLoaded: false,//for loader friends
     isUserLoaded: false,//for loader current User
@@ -49,18 +46,6 @@ export const profileReducer = (state = initialState, action) => {
                 name: action.name,
                 profileImage: action.photoURL
             }
-        case UPDATE_NEW_POST_TEXT:
-            return {
-                ...state,
-                newPostText: action.newText
-            }
-        case UPDATE_COMMENT_TEXT:
-            let stateCopy = {
-                ...state,
-                postsData: [...state.postsData]
-            }
-            stateCopy.postsData[action.idComment - 1].newCommentText = action.newText
-            return stateCopy
         case SET_POSTS:
             return {
                 ...state,
@@ -98,15 +83,6 @@ export const profileReducer = (state = initialState, action) => {
 
 // ***Action Creators
 
-export const onPostChange = (text) => ({
-    type: UPDATE_NEW_POST_TEXT,
-    newText: text
-})
-export const onCommentChange = (text, id) => ({
-    type: UPDATE_COMMENT_TEXT,
-    idComment: id,
-    newText: text
-})
 export const setPosts = (postsData) => ({type: SET_POSTS, postsData})
 
 export const setUsersFollowsFollowers = (userUid, users, followsData, followersData) => ({
@@ -244,26 +220,28 @@ export const addPostThunk = (newPostText, postsData, photoURL, name, userUid, wh
         }
         postsData = [newPost, ...postsData]
         dispatch(setPosts(postsData))
-        dispatch(onPostChange(''))
         firebase.firestore().collection('postsData').doc(newPost.uid).set(newPost)// добавляю в базу запись с новым постом, которая имеет кастомный айди
     }
 }
 
-export const addCommentThunk = (postsData, idComment, photoURL, name, whoseCommentUid) => (dispatch) => {
+export const addCommentThunk = (postsData, idComment, photoURL, name, whoseCommentUid, newCommentText) => (dispatch) => {
 
-    if (postsData[idComment - 1].newCommentText) {
+    if (newCommentText) {
         let newComment = {
             image: photoURL,
             name: name,
             dateOfPublishing: getStringDate(),
-            text: postsData[idComment - 1].newCommentText, //state.profilePage.postsData.newCommentText
+            text: newCommentText, //state.profilePage.postsData.newCommentText
             whoseCommentUid
         }
-        postsData[idComment - 1].newCommentText = ''
         postsData[idComment - 1].comments = [...postsData[idComment - 1].comments, newComment]
         dispatch(setPosts(postsData))
         firebase.firestore().collection('postsData').doc(postsData[idComment - 1].uid).set({
             ...postsData[idComment - 1],
         })// добавляю в базу комментарий
     }
+}
+
+export const uploadImageThunk = (file) => (dispatch) => {
+
 }

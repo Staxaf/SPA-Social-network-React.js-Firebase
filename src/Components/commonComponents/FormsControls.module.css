@@ -1,0 +1,66 @@
+
+
+.error label {
+    border-bottom: 1px solid red !important;
+}
+.errorText{
+    color: red;
+    font-size: 15px;
+}
+
+.form{
+    width: 100%;
+    position: relative;
+    font-size: 15px;
+    height: 50px;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.form input{
+    width: 100%;
+    height: 100%;
+    color: #595f6e;
+    padding-top: 20px;
+    border: none;
+    box-sizing: border-box;
+    outline: none;
+}
+.form label{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    border-bottom: 1px solid black;
+}
+.form label::after{
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-bottom: 2px solid #1d70e1;
+    left: 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+.label__content{
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    transition: all 0.3s ease;
+}
+
+.form input:focus + .form__label .label__content,
+.form input:valid + .form__label .label__content{
+    transform: translateY(-150%);
+    font-size: 14px;
+    color: #1d70e1;
+}
+
+.form input:focus + .form__label::after,
+.form input:focus + .form__label::after{
+    transform: translateX(0);
+}

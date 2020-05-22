@@ -1,4 +1,5 @@
 import firebase from "./../firebase";
+import {stopSubmit} from "redux-form";
 
 const SET_USER = 'SET_USER'
 const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
@@ -24,7 +25,7 @@ export const authReducer = (state = initialState, action) => {
                 profileImage: action.photoURL,
                 uid: action.uid
             }
-        case SET_ERROR_MESSAGE:{
+        case SET_ERROR_MESSAGE: {
             let stateCopy = {...state}
             stateCopy.signError = {...state.signError}
             stateCopy.signError = {
@@ -60,13 +61,13 @@ export const loginThunk = (email, password) => (dispatch) => {
         dispatch(setError(true))
         switch (error.code) {
             case 'auth/invalid-email':
-                dispatch(setErrorMessage('signUp', 'Email is not correct'))
+                dispatch(setErrorMessage('login', 'Email is not correct'))
                 break
             case 'auth/wrong-password':
-                dispatch(setErrorMessage('signUp', 'Password is not correct'))
+                dispatch(setErrorMessage('login', 'Password is not correct'))
                 break
             case 'auth/user-not-found':
-                dispatch(setErrorMessage('signUp', 'User email is not found'))
+                dispatch(setErrorMessage('login', 'User email is not found'))
                 break
             default:
                 break
@@ -75,24 +76,22 @@ export const loginThunk = (email, password) => (dispatch) => {
     })
 }
 
-export const signUpThunk =(email, password, name, photoURL, backgroundPhotoUrl, usersCount)=> (dispatch) => {
+export const signUpThunk = (email, password, name, photoURL, backgroundPhotoUrl) => (dispatch) => {
+    // let action = stopSubmit('signUp', {_error: 'Something went wrong'})
+    // dispatch(action)
     firebase.auth().createUserWithEmailAndPassword(email, password).then(u => {
-        console.log(u.user.uid)
-        dispatch(setUser(name, photoURL, u.user.uid))
         firebase.firestore().collection('users').doc(u.user.uid).set({
             email: email,
             password: password,
             name: name,
-            photoURL: photoURL,
+            photoURL: 'https://www.economicusgame.com/storage/testimonials/186344/ecd5f29ff548715dc855639ffecfdfb7.png',
             uid: u.user.uid,
             follows: [],
             followers: [],
-            backgroundPhotoUrl: backgroundPhotoUrl,
-            id: usersCount,
-            photos: [photoURL]
+            backgroundPhotoUrl: 'https://i.pinimg.com/originals/e0/57/44/e05744161d7500a183d5ec3a38a6e626.jpg',
+            photos: []
         })// пользователь добавляется в базу
-
     }).catch(error => {
-        console.log(error)
+        console.log('Ошибка в аус', error)
     })
 }

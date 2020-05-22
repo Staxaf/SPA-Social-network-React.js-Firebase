@@ -15,7 +15,6 @@ import { LoginContainer } from "./Components/Login/LoginContainer";
 class App extends React.Component {
     constructor(props) {
         super(props)
-        this.authListener = this.authListener.bind(this)
         this.state = {
             user: {},
             isLoaded: false
@@ -47,6 +46,15 @@ class App extends React.Component {
         })
     }
 
+    setUserPhoto = (user, name, photo) => {
+        debugger
+        console.log(this.state)
+        this.setState({ user: {
+            ...user,
+                [name]: photo
+            }})
+    }
+
     render() {
         return (
             <BrowserRouter>
@@ -57,7 +65,7 @@ class App extends React.Component {
                         <Route path='/dialogs/:userUid?'
                             render={() => <DialogsContainer user={this.state.user} />} />
                         <Route path='/profile/:userUid?/:myPosts?'
-                            render={() => <ProfileContainer user={this.state.user} />} />
+                            render={() => <ProfileContainer setUserPhoto={this.setUserPhoto} user={this.state.user} />} />
                         <Route path='/users'
                             render={() => <UsersContainer user={this.state.user} />} />
                         <Route path='/news' render={() => <News />} />

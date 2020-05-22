@@ -1,96 +1,61 @@
 import React from 'react'
 import css from "../Login.module.css";
-import firebase from "../../../firebase";
 import {NavLink} from "react-router-dom";
-import ChoosePhotosField from "../ChoosePhotosField/ChoosePhotosField";
+import {Field, reduxForm} from "redux-form";
+import {Input} from "../../commonComponents/FormsControls";
+import {
+    isEquals,
+    maxLengthCreator,
+    minLengthCreator,
+    required,
+    validateConfirmPassword, validateEmail
+} from "../../../utils/validators/validators";
 
-class SignUp extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            email: '',
-            password: '',
-            name: '',
-            photoURL: '',
-            backgroundPhotoUrl: '',
-            currentSlide: 1,
-        }
+const MaxLength25 = maxLengthCreator(25)// validate name field
+const MinLength6 = minLengthCreator(6)// validate password field
+
+let SignUpForm = props => {
+    console.log(props.error)
+    return <form onSubmit={props.handleSubmit} className={css.login__inputs}>
+        <Field type="text" name="name" required={true} component={Input} placeholder="Full name..."
+               validate={[required, MaxLength25, MinLength6]}/>
+        <Field type="text" name="email" required={true} component={Input} placeholder="Email..." validate={[required, validateEmail]}/>
+        <Field type="password" name="password" required={true} component={Input} placeholder="Password..."
+               validate={[required, MinLength6]}/>
+        <Field type="password" name="confirmPassword" required={true} component={Input}
+               placeholder="Confirm password..." validate={[required, validateConfirmPassword]}/>
+        <div>
+            <NavLink to='/'>
+                <span className={css.login__link}>Comeback to login</span>
+            </NavLink>
+        </div>
+        <div className={css.login__buton}>
+            <button>Sign Up</button>
+        </div>
+        {props.error && <div className={css.login__error}>
+            Something went wrong.
+        </div>}
+    </form>
+}
+
+SignUpForm = reduxForm({
+    form: 'signUp'
+})(SignUpForm)
+
+const SignUp = props => {
+
+    const onSubmit = values => {
+        console.log(values)
+        props.signUp(values.email, values.password, values.name, values.confirmPassword)
+
     }
 
-    componentDidMount() {
-        firebase.firestore().collection('users').get().then(response => {
-            this.usersCount = response.docs.length
-        })
-    }
-
-
-    handleChange = (e) => {
-        this.setState({[e.target.name]: e.target.value})
-    }
-
-    setPhotos = (photoUrl, name) => {
-        this.setState({[name]: photoUrl})
-    }
-
-    render = () => {
-        return (
-            <div className={css.login__container}>
-                <h1>Sign Up</h1>
-                <div className={css.login__inputs}>
-                    {this.state.currentSlide === 1 ? <>
-                        <div className={css.form}>
-                            <input type="text" name="name" required  onChange={this.handleChange}/>
-                            <label htmlFor='name' className={css.form__label}>
-                                <span className={css.label__content}>Enter a full name...</span>
-                            </label>
-                        </div>
-                        <ChoosePhotosField backgroundPhotoUrl={this.state.backgroundPhotoUrl} photoURL={this.state.photoURL} setPhotos={this.setPhotos}/>
-                        {/* <div className={css.form}>
-                            <input type="text" name="photoURL" required  onChange={this.handleChange}/>
-                            <label htmlFor='photoURL' className={css.form__label}>
-                                <span className={css.label__content}>PhotoURL...</span>
-                            </label>
-                        </div>
-                        <div className={css.form}>
-                            <input type="text" name="backgroundPhotoUrl" required  onChange={this.handleChange}/>
-                            <label htmlFor='backgroundPhotoUrl' className={css.form__label}>
-                                <span className={css.label__content}>Background PhotoURL...</span>
-                            </label>
-                        </div> */}
-                    </> : ''}
-                    {this.state.currentSlide === 2 ? <>
-                        <div className={css.form}>
-                            <input type="text" name="email" required  onChange={this.handleChange}/>
-                            <label htmlFor='email' className={css.form__label}>
-                                <span className={css.label__content}>Email...</span>
-                            </label>
-                        </div>
-                        <div className={css.form}>
-                            <input type="password" name="password" required  onChange={this.handleChange}/>
-                            <label htmlFor='password' className={css.form__label}>
-                                <span className={css.label__content}>Password...</span>
-                            </label>
-                        </div>
-                    </> : ''}
-
-                    <div>
-                        <NavLink to='/'>
-                            <span className={css.login__link}>Comeback to login</span>
-                        </NavLink>
-                    </div>
-                </div>
-                {this.state.currentSlide === 2 ?  <div className={css.login__buton}>
-                    <NavLink to={'/news'}><button onClick={() => {
-                        this.props.signUp(this.state.email, this.state.password, this.state.name, this.state.photoURL, this.state.backgroundPhotoUrl, this.usersCount)
-                    }}>Sign Up
-                    </button></NavLink>
-                </div> : ''}
-                {this.state.currentSlide < 2 ? <div className={css.login__nextStepWrapper}>
-                    <button onClick={() => {this.setState({currentSlide: this.state.currentSlide + 1})}} className={css.login__nextStep}><i className="fas fa-forward" /></button>
-                </div> : ''}
-            </div>
-        )
-    }
+    return (
+        <div className={css.login__container}>
+            <h1>Sign Up</h1>
+            <SignUpForm onSubmit={onSubmit}/>
+        </div>
+    )
 }
 
 export default SignUp

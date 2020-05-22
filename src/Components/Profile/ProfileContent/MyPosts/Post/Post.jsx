@@ -2,6 +2,21 @@ import React from 'react'
 import css from './Post.module.css'
 import Comment from "./Comment/Comment";
 import {NavLink} from "react-router-dom";
+import {Field, reduxForm} from "redux-form";
+
+let SendCommentForm = props => {
+    return <form onSubmit={props.handleSubmit} className={css.post__addComment}>
+        <img src={props.currentUser.photoURL} alt=""/>
+        <Field name={`newCommentText${props.id}`} component="textarea"  placeholder="Post a comment"/>
+        <button className={css.post__send}>
+            <i className="fab fa-telegram-plane"/>
+        </button>
+    </form>
+}
+
+SendCommentForm = reduxForm({
+    form: 'addComment'
+})(SendCommentForm)
 
 const Post = (props) => {
     let comments = null
@@ -14,8 +29,10 @@ const Post = (props) => {
         })
     }
 
-    let addComment = () => {
-        props.addComment(props.postsData, props.post.id, props.currentUser.photoURL, props.currentUser.name, props.currentUser.uid)
+    let addComment = (values) => {
+        debugger
+        props.addComment(props.postsData, props.post.id, props.currentUser.photoURL, props.currentUser.name, props.currentUser.uid,
+            values[`newCommentText${props.post.id}`])
     }
 
     let onCommentChange = (e) => {
@@ -60,14 +77,7 @@ const Post = (props) => {
                 <div className={css.post__comment}>
                     {comments}
                 </div>
-                <div className={css.post__addComment}>
-                    <img src={props.currentUser.photoURL} alt=""/>
-                    <textarea onChange={onCommentChange} value={props.post.newCommentText}
-                              placeholder="Post a comment"/>
-                    <button onClick={addComment} className={css.post__send}>
-                        <i className="fab fa-telegram-plane"/>
-                    </button>
-                </div>
+                <SendCommentForm currentUser={props.currentUser} onSubmit={addComment} id={props.post.id} />
             </div>
         </div>
 

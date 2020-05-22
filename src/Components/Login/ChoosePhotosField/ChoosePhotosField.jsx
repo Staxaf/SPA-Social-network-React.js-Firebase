@@ -1,6 +1,5 @@
 import React from 'react'
 import css from './ChoosePhotosField.module.css'
-import {NavLink} from "react-router-dom";
 import styled from "styled-components";
 import firebase from "./../../../firebase";
 
@@ -12,11 +11,23 @@ const ChoosePhotosField = props => {
         padding: 10px;       
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
-        margin: 40px 20px;
+        margin: 40px 0;
     `
 
     let choosePhoto = (e) => {
-        console.log(e.target.files[0].name)
+        let image = e.target.files[0]
+        let name = e.target.name
+        firebase.storage().ref(`images/${image.name}`).put(image).on('state_changed',
+            (snapshot) => {
+            },
+            (error) => {
+                console.log(error)
+            },
+            () => {
+                firebase.storage().ref('images').child(image.name).getDownloadURL().then(url => {
+                    props.setPhotos(url, name)
+                })
+            })
     }
 
     console.log('photo: ', props.photoURL)
@@ -24,16 +35,20 @@ const ChoosePhotosField = props => {
         <BackgroundPhotoContainer>
             <div className={css.friends__item}>
                 <div className={css.choosePhoto__buttonWrapper}>
-                    <button className={css.choosePhoto__button}>Choose a background photo</button>
+                    {props.backgroundPhotoUrl ? '' : <input name="backgroundPhotoUrl" type="file" onChange={(e) => {
+                        choosePhoto(e, 'backgroundPhotoUrl')
+                    }}/>}
                 </div>
                 <div className={css.choosePhoto__img}>
                     {props.photoURL !== '' ? <img src={props.photoURL} alt=""/> :
                         <div className={css.greyCircle}>
-                            <input onChange={(e) => {
-                                props.setPhotos(e.target.files[0].name, 'photoURL')
-                            }} type="file" className={css.choosePhoto__input} />
+                            <input name="photoURL" onChange={(e) => {
+                                choosePhoto(e, 'photoURL')
+                            }} type="file" className={css.choosePhoto__input}/>
                         </div>}
-                        <div className={css.choosePhoto__uploadIconWrapper}><i className="fas fa-cloud-upload-alt" /></div>
+                    {props.photoURL ? '' :
+                        <div className={css.choosePhoto__uploadIconWrapper}><i className="fas fa-cloud-upload-alt"/>
+                        </div>}
                 </div>
                 <h4 className={css.friends__name}>{props.name}</h4>
             </div>

@@ -5,8 +5,6 @@ import {withRouter} from "react-router-dom";
 import {
     addCommentThunk,
     addPostThunk, getUserPosts, getUsersFollowsAndFollowers,
-    onCommentChange,
-    onPostChange,
     toggleDislikeThunk, toggleLikeThunk
 } from "../../../../redux/profile-reducer";
 
@@ -24,8 +22,6 @@ let mapStateToProps = (state, ownProps) => {
 }
 
 const MyPostsContainer = connect(mapStateToProps, {
-    onPostChange,
-    onCommentChange,
     getUserPosts,
     getUsersFollowsAndFollowers,
     toggleLikeThunk,

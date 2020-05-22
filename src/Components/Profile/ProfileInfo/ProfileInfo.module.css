@@ -17,6 +17,7 @@
     top: -120px;
 }
 .img__wrapper{
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,7 +26,37 @@
     border-radius: 50%;
     background: white;
     margin: 0;
+    overflow: hidden;
 }
+.img__wrapper input{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -4;
+}
+.img__wrapper input + label {
+    cursor: pointer;
+    position: absolute;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.66);
+    bottom: 0;
+    visibility: hidden;
+    height: 50px;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.4s linear;
+    width: 90%;
+    padding-left: 25px;
+}
+
+.img__wrapper:hover label{
+    visibility: visible;
+    opacity: 1;
+}
+
 .profile__img img{
     width: 180px;
     height: 180px;

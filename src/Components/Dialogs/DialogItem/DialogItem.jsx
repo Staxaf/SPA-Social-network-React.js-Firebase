@@ -15,8 +15,8 @@ const DialogItem = (props) => {
                     <p>18:34</p>
                 </div>
                 {!props.isEmpty ? <div className={css.dialog__undertitle}>
-                    <a className={`${css.dialog__name} text-blue`}
-                       href="#">{props.isMyLastMessage ? 'You:' : `${props.name.split(' ')[0]}:`}</a>{/*с помощью split получаю имя пользователя */}
+                    <span className={`${css.dialog__name} text-blue`}
+                       href="#">{props.isMyLastMessage ? 'You:' : `${props.name.split(' ')[0]}:`}</span>{/*с помощью split получаю имя пользователя */}
                     <p className={css.dialog__message}>{props.lastMessage.length > 20 ? `${props.lastMessage.slice(0, 20)}...` : props.lastMessage}</p>
                 </div> : <p className='text-grey'>Now dialog is empty...</p>}
             </div>

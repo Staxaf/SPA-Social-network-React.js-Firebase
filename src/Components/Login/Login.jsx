@@ -1,61 +1,54 @@
 import React from 'react'
 import css from "./Login.module.css";
 import {NavLink} from "react-router-dom";
+import {Field, reduxForm} from "redux-form";
+import {maxLengthCreator, required} from "../../utils/validators/validators";
+import {Input} from "../commonComponents/FormsControls";
 
-class Login extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            email: '',
-            password: '',
-            name: '',
-            photoURL: ''
-        }
-    }
+const maxLength30 = maxLengthCreator(30)
 
-    handleChange = (e) => {
-        this.setState({[e.target.name]: e.target.value})
-    }
-    render = () => {
-        return <div className={css.login__container}>
-            <h2 className={css.login__h2}>
-                Login to Continue
-            </h2>
-            <div className={css.login__inputs}>
-                <div className={css.form}>
-                    <input type="text" name="email" required  onChange={this.handleChange}/>
-                    <label htmlFor='email' className={css.form__label}>
-                        <span className={css.label__content}>Email...</span>
-                    </label>
-                </div>
-                <div className={css.form}>
-                    <input type="password" name="password" required  onChange={this.handleChange}/>
-                    <label htmlFor='password' className={css.form__label}>
-                        <span className={css.label__content}>Password...</span>
-                    </label>
-                </div>
-            </div>
-            {/*<input type="password" name="password" onChange={this.handleChange} placeholder='Password...'/>*/}
-            <div className={css.login__links}>
-                <div className={css.login__forgot}>
-                    <a href="#">Forgot password?</a>
-                </div>
-                <div className={css.login__signup}>
-                    <NavLink to='/signup'>Sign Up</NavLink>
-                </div>
-            </div>
-            <div className={css.login__buton}>
-                <NavLink to={'/news'}>
-                    <button onClick={() => {
-                        this.props.login(this.state.email, this.state.password)
-                    }}>Login
-                    </button>
-                </NavLink>
-            </div>
-            {this.props.isError ? <div className={css.login__error}>{this.props.signError.errorMessage}</div> : ''}
+let LoginForm = props => {
+
+    return <form onSubmit={props.handleSubmit}>
+        <div className={css.login__inputs}>
+            <Field type="text" name="email" component={Input} required={true} placeholder="Email..." validate={[required]}/>
+            <Field type="password" name="password" component={Input} required={true} placeholder="Password..." validate={[required]}/>
         </div>
+        <div className={css.login__links}>
+            <div className={css.login__forgot}>
+                <a href="#">Forgot password?</a>
+            </div>
+            <div className={css.login__signup}>
+                <NavLink to='/signup'>Sign Up</NavLink>
+            </div>
+        </div>
+        <div className={css.login__buton}>
+            <button>Login</button>
+        </div>
+    </form>
+}
 
+LoginForm = reduxForm({
+    form: 'login'
+})(LoginForm)
+
+
+const Login = props => {
+
+    const onSubmit = (values) => {
+        props.login(values.email, values.password)
     }
+
+    return <div className={css.login__container}>
+        <h2 className={css.login__h2}>
+            Login to Continue
+        </h2>
+        <LoginForm onSubmit={onSubmit}
+                   login={props.login}/>
+        {props.isError && props.signError.errorPlace === 'login' ?
+            <div className={css.login__error}>{props.signError.errorMessage}</div> : ''}
+    </div>
+
 }
 
 export default Login

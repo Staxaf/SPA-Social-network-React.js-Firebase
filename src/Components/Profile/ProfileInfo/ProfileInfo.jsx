@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import css from './ProfileInfo.module.css'
 import styled from 'styled-components';
 import {NavLink} from "react-router-dom";
+import firebase from "../../../firebase";
 
 
 const ProfileInfo = (props) => {
@@ -33,13 +34,39 @@ const ProfileInfo = (props) => {
         }
     })
 
+    const choosePhoto = (e) => {
+        if(e.target.files[0]) {
+            //setUserPhoto(e.target.name e.target.files[0])
+            let image = e.target.files[0]
+            let name = e.target.name
+            firebase.storage().ref(`images/${image.name}`).put(image).on('state_changed',
+                (snapshot) => {
+                },
+                (error) => {
+                    console.log(error)
+                },
+                () => {
+                    firebase.storage().ref('images').child(image.name).getDownloadURL().then(url => {
+                        console.log('url', url)
+                        props.setUserPhoto(props.user, name, url)
+                    })
+                })
+        }
+    }
+
     return (
         <ProfileBlock>
             <div className={css.profile__nav}>
                 <div className={css.profile__avatar}>
                     <div className={css.profile__img}>
                         <div className={css.img__wrapper}>
-                            <img src={props.user.photoURL}/>
+                            <img src={props.currentUser.photoURL}/>
+                            {props.currentUser.uid === props.user.uid &&
+                            <>
+                                <input onChange={choosePhoto} type="file" accept=".jpg" name="photoURL" id="file" className="inputFile"/>
+                                <label htmlFor="file">+ Upload new image</label>
+                            </>}
+
                         </div>
                         <h2 className={css.profile__name}>{props.user.name}</h2>
                     </div>
@@ -52,15 +79,15 @@ const ProfileInfo = (props) => {
                         </NavLink>
                         <NavLink className={css.menu__link} to='album' activeClassName={css.active}>
                             <span className={css.menu__item}>Album</span>
-                            <span className={css.menu__icon}><i className="far fa-address-card" /></span>
+                            <span className={css.menu__icon}><i className="far fa-address-card"/></span>
                         </NavLink>
                         <NavLink className={css.menu__link} to='friends' activeClassName={css.active}>
                             <span className={css.menu__item}>{props.followsCount} Follows</span>
-                            <span className={css.menu__icon}><i className="fas fa-user-check" /></span>
+                            <span className={css.menu__icon}><i className="fas fa-user-check"/></span>
                         </NavLink>
                         <NavLink className={css.menu__link} to='followers' activeClassName={css.active}>
                             <span className={css.menu__item}>{props.followersCount} Followers</span>
-                            <span className={css.menu__icon}><i className="fas fa-users" /></span>
+                            <span className={css.menu__icon}><i className="fas fa-users"/></span>
                         </NavLink>
                         {/*<li className={css.menu__link}>
                             <span className={css.menu__item}>Album</span>
@@ -86,7 +113,7 @@ const ProfileInfo = (props) => {
                             </button>
                         </div>
                     </div>
-                    : <div />}
+                    : <div/>}
             </div>
         </ProfileBlock>
     )
