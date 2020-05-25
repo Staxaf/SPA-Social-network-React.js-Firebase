@@ -8,7 +8,7 @@ let mapStateToProps = (state, ownProps) => {
     return {
         state: state.usersPage,
         isFetching: state.usersPage.isFetching,
-        user: ownProps.user
+        user: state.profilePage.user
     }
 }
 

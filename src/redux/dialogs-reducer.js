@@ -1,10 +1,11 @@
 import firebase from './../firebase'
-import { dialogsAPI, usersAPI } from "./api";
-import { getStringDate } from "./profile-reducer";
+import {dialogsAPI} from "./api";
+import {getStringDate} from "./profile-reducer";
 
 const ADD_MESSAGE = 'ADD-MESSAGE'
 const UPDATE_MESSAGE_TEXT = 'UPDATE-MESSAGE-TEXT'
 const SET_DIALOGS_DATA = 'SET_DIALOGS_DATA'
+const NOTIFICATION_SOUND = 'https://firebasestorage.googleapis.com/v0/b/social-network-react-redux.appspot.com/o/sounds%2Fintuition.mp3?alt=media&token=1be5e98d-51bc-43be-ba0b-e3813cde620f'
 
 const CHANGE_MESSAGE = 'CHANGE_MESSAGE'
 let initialState = {
@@ -28,6 +29,7 @@ export const dialogsReducer = (state = initialState, action) => {
                     date: getStringDate(),
                     userName: action.name
                 }]
+                new Audio(NOTIFICATION_SOUND).play()
                 newState.dialogsData[action.id].owners[action.currentUserId].newMessageText = ''
                 return newState
             }
@@ -39,12 +41,10 @@ export const dialogsReducer = (state = initialState, action) => {
             newState.dialogsData[action.id].owners[action.currentUserId].newMessageText = action.newText
             return newState
         case SET_DIALOGS_DATA: {
-            let newState = {
+            return {
                 ...state,
                 dialogsData: [...action.dialogsData]
             }
-            newState.dialogsData = newState.dialogsData.map(item => ({ ...item }))
-            return newState
         }
         case CHANGE_MESSAGE:
             let stateCopy = {

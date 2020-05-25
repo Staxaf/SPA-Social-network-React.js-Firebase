@@ -5,12 +5,8 @@ import css from "../Friends/Friends.module.css";
 
 const Followers = props => {
     return <div className={css.friends}>
-        {props.isLoaded ? props.followers.map(item => <Friend uid={item.uid} name={item.name} photoURL={item.photoURL}
-                                                              backgroundPhotoUrl={item.backgroundPhotoUrl}/>)
-
-            : <div className="text-center">
-                <Loader type="Oval" color="#00BFFF" height={40} width={40}/>
-            </div>}
+        {props.followers.map(item => <Friend uid={item.uid} name={item.name} photoURL={item.photoURL}
+                                             backgroundPhotoUrl={item.backgroundPhotoUrl}/>)}
     </div>
 }
 

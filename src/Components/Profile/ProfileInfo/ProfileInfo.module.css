@@ -11,10 +11,12 @@
     top: 220px;
     padding: 0 30px;
 }
+
 .profile__img{
     padding: 20px 0;
     position: absolute;
     top: -120px;
+    text-align: center;
 }
 .img__wrapper{
     position: relative;
@@ -28,7 +30,8 @@
     margin: 0;
     overflow: hidden;
 }
-.img__wrapper input{
+/* Design input file of profile photo */
+.img__wrapper input, .inputBackgroundPhoto__wrapper input{
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
@@ -37,24 +40,51 @@
     z-index: -4;
 }
 .img__wrapper input + label {
+    color: #27aae1;
+    font-size: 15px;
     cursor: pointer;
     position: absolute;
-    font-size: 13px;
     font-weight: 700;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.66);
-    bottom: 0;
-    visibility: hidden;
-    height: 50px;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.4s linear;
-    width: 90%;
-    padding-left: 25px;
-}
+    bottom: 15px;
+    right: 35px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
 
-.img__wrapper:hover label{
-    visibility: visible;
-    opacity: 1;
+}
+.img__wrapper input + label:hover{
+    color: #1d70e1;
+    transition: 0.4s ease;
+}
+/* Design input file of background photo */
+.inputBackgroundPhoto__wrapper {
+    position: relative;
+    text-align: right;
+}
+.inputBackgroundPhoto__wrapper label {
+    cursor: pointer;
+    position: absolute;
+    left: 0px;
+    top: -7px;
+    color: #27aae1;
+    background: white;
+    width: 45px;
+    height: 45px;
+    font-size: 16px;
+    border-radius: 0 0 50% 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.inputBackgroundPhoto__wrapper label:hover{
+    color: #1d70e1;
+    transition: 0.4s ease;
+    background: #e2e2e2;
+
 }
 
 .profile__img img{
@@ -62,6 +92,7 @@
     height: 180px;
     border-radius: 50%;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .profile__info{

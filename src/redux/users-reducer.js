@@ -1,10 +1,8 @@
 import firebase from './../firebase'
 import {usersAPI} from "./api";
 
-const FOLLOW_UNFOLLOW = 'FOLLOW_UNFOLLOW'
 const SET_USERS = 'SET_USERS'
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
-const SET_CURRENT_USER = 'SET_CURRENT_USER'
 
 let initialState = {
     usersData: [],
@@ -13,17 +11,11 @@ let initialState = {
 }
 
 export const usersReducer = (state = initialState, action) => {
-    const db = firebase.firestore()
     switch (action.type) {
         case SET_USERS:
             return {...state, usersData: [...action.usersData]};
         case TOGGLE_IS_FETCHING:
             return {...state, isFetching: action.isFetching}
-        case SET_CURRENT_USER:
-            return {
-                ...state,
-                currentUser: action.user
-            }
         default:
             return state
     }
@@ -32,21 +24,12 @@ export const usersReducer = (state = initialState, action) => {
 
 // ***Action Creators
 
-export const addFollow = (id, uid, currentUser, userUid, users) => ({
-    type: FOLLOW_UNFOLLOW,
-    userId: id,
-    uid,
-    currentUser,
-    userUid,
-    users
-})
 export const setUsers = (id, usersData) => ({
     type: SET_USERS,
-    id, usersData
+    usersData
 })
 
 export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
-export const setCurrentUser = (user) => ({type: SET_CURRENT_USER, user})
 
 // ***Redux Thunks
 
@@ -55,12 +38,13 @@ export const getUsers = (currentUser, lastUserId) => (dispatch) => {
 
     usersAPI.getUsers()
         .then(data => {
-            let users = data.docs.map(doc => ({
+            let users = []
+            users = data.docs.map(doc => ({
                 ...doc.data(),
                 uid: doc.id,
             }))
             let currentUserPlace = 0
-            let followsOfCurrentUser
+            let followsOfCurrentUser = []
             users.forEach((item, i) => {
                 if (item.uid === currentUser.uid) {
                     followsOfCurrentUser = item.follows// сохраняю follows текущего залогиневшегося пользователя для того, чтобы всегда были достоверные данные
@@ -71,10 +55,12 @@ export const getUsers = (currentUser, lastUserId) => (dispatch) => {
             users = users.map((item, id) => ({
                 ...item
             }))
-            users = users.map(item => followsOfCurrentUser.indexOf(item.uid) !== -1 ? {
-                ...item,
-                isFollow: true
-            } : {...item, isFollow: false})
+            if(followsOfCurrentUser) {
+                users = users.map(item => followsOfCurrentUser.indexOf(item.uid) !== -1 ? {
+                    ...item,
+                    isFollow: true
+                } : {...item, isFollow: false})
+            }
             //dispatch(setCurrentUser(currentUser))
             dispatch(toggleIsFetching(false))
             dispatch(setUsers(lastUserId, users))// получаю всех пользователей из базы и передаю в функцию

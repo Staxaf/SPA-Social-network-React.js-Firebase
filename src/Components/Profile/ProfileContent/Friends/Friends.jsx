@@ -5,13 +5,9 @@ import Loader from "react-loader-spinner";
 
 const Friends = props => {
 
-        return props.isLoaded ?
-            <div className={css.friends}>
+        return<div className={css.friends}>
                  {props.follows.map(item => <Friend uid={item.uid} name={item.name} photoURL={item.photoURL}
                                                              backgroundPhotoUrl={item.backgroundPhotoUrl}/>)}
-            </div> :
-            <div className="text-center">
-                <Loader type="Oval" color="#00BFFF" height={40} width={40}/>
             </div>
 
 }

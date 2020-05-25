@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import Loader from "react-loader-spinner";
 import {
     getUsersFollowsAndFollowers,
-    setModalMessageWindow
+    setModalMessageWindow, uploadImageThunk
 } from "../../redux/profile-reducer";
 import {addFollowThunk, getUsers} from "../../redux/users-reducer";
 import {createDialogAndRedirect, getDialogsData} from "../../redux/dialogs-reducer";
@@ -14,14 +14,12 @@ import {createDialogAndRedirect, getDialogsData} from "../../redux/dialogs-reduc
 const ProfileContainer = props => {
     let userUid = props.match.params.userUid !== undefined && ['myPosts', 'friends', 'followers'].indexOf(props.match.params.userUid) === -1
         ? props.match.params.userUid  : props.user.uid
-    /*const [userUid, setUserUid] = useState(props.match.params.userUid !== undefined && ['myPosts', 'friends', 'followers'].indexOf(props.match.params.userUid) === -1
-       ? props.match.params.userUid  : props.user.uid)*/
     useEffect(() => {
         props.getUsersFollowsAndFollowers(props.user, userUid)
         props.getUsers(props.user, 0)
     }, [props.match.params])
 
-    return props.profilePage.isUserLoaded ?
+    return props.profilePage.isCurrentUserLoaded ?
         <Profile {...props} userUidFromUrl={userUid} />
         : <div className="text-center">
             <Loader type="Oval"
@@ -34,8 +32,9 @@ const ProfileContainer = props => {
 let mapStateToProps = (state) => ({
     profilePage: state.profilePage,
     usersData: state.usersPage.usersData,
-    currentUser: state.usersPage.currentUser,
-    dialogsData: state.dialogsPage.dialogsData
+    currentUser: state.profilePage.currentUserProfile,
+    dialogsData: state.dialogsPage.dialogsData,
+    user: state.profilePage.user
 })
 
 
@@ -44,5 +43,6 @@ export default connect(mapStateToProps, {
     addFollowThunk,
     getUsers,
     createDialogAndRedirect,
-    getDialogsData
+    getDialogsData,
+    uploadImageThunk
 })(withRouter(ProfileContainer));

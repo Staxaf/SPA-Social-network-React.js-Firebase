@@ -12,12 +12,12 @@ const ProfileContentAPIContainer = props => {
                    render={() => <MyPostsContainer uidFromUrl={props.uidFromUrl}
                                                    currentUser={props.currentUser} user={props.user}/>}/>
             <Route path='/profile/:userId?/album'
-                    render={() => <Album user={props.user} />}/>
+                    render={() => <Album user={props.user} currentUser={props.currentUser} />}/>
             <Route path='/profile/:userId?/friends'
-                   render={() => <Friends follows={props.followsData} isLoaded={props.isLoaded}
+                   render={() => <Friends follows={props.followsData}
                                           user={props.user}/>}/>
             <Route path='/profile/:userId?/followers'
-                   render={() => <Followers isLoaded={props.isLoaded} followers={props.followersData}
+                   render={() => <Followers followers={props.followersData}
                                             user={props.user}/>}/>
         </>
 }

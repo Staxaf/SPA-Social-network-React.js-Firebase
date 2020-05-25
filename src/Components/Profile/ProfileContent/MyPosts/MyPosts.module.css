@@ -58,6 +58,11 @@
 }
 
 /* ***Media Queries*** */
+@media screen and (max-width: 900px){
+    .input{
+        margin-top: 0;
+    }
+}
 @media screen and (max-width: 768px){
     .input{
         flex-direction: column;

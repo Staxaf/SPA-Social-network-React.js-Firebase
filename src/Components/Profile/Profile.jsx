@@ -11,7 +11,7 @@ const Profile = (props) => {
                          followersCount={props.profilePage.followersData.length} users={props.usersData}
                          getUsersFollowsAndFollowers={props.getUsersFollowsAndFollowers} getUsers={props.getUsers}
                          addFollow={props.addFollowThunk} createDialogAndRedirect={props.createDialogAndRedirect}
-                         getDialogsData={props.getDialogsData} setUserPhoto={props.setUserPhoto} />
+                         getDialogsData={props.getDialogsData} uploadImageThunk={props.uploadImageThunk} />
             <ProfileContentContainer uidFromUrl={props.userUidFromUrl} currentUser={props.user}
                                       user={props.currentUser}/>
         </div>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import css from './Dialogs.module.css'
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
@@ -10,20 +10,29 @@ const Dialogs = (props) => {
     const [width, setWidth] = useState(0)// for tracking width of screen, because on desktop will be dialogs and messages on one screen, 
     //but on mobile dialogs will be hidden when each dialog is selected
     const [currentUserDialog, setCurrentUserDialog] = useState({})
-
-    useEffect(() => {
+    const scrollTo = ref => {
+        if(ref) {
+            ref.scrollTo(0, 999999999)
+        }
+    }
+    const findCurrentUserDialog = () => {
         if (props.match.params.userUid) {
             props.usersData.forEach(item => {
                 if (props.match.params.userUid.indexOf(item.uid.substr(0, 8)) !== -1) setCurrentUserDialog(item)
             })
         }
+    }
+    useEffect(() => {
+        findCurrentUserDialog()
     }, [props.match.params])
+    useEffect(() => {
+        findCurrentUserDialog()
+    }, [props.usersData])
 
     useEffect(() => {
         let updateWindowDemisions = () => {
             setWidth(window.innerWidth)
         }
-
         props.getUsers(props.user, 0)
         updateWindowDemisions()
         window.addEventListener('resize', updateWindowDemisions)
@@ -61,7 +70,7 @@ const Dialogs = (props) => {
                                                                   changeMessage={props.changeMessage} deleteMessage={props.deleteMessageThunk}/>)
         return <div className={css.dialogs__content}>
             <DialogTitle currentUserDialog={currentUserDialog} isDesktopVersion={width > 900}/>
-            <div className={css.messages}>
+            <div className={css.messages} ref={scrollTo}>
                 {content}
             </div>
             <div className={css.messages__input}>

@@ -114,6 +114,21 @@ a{
 .w100{
   width: 100%;
 }
+.showMore-buttonWrapper{
+  text-align: center;
+  padding: 10px 0;
+}
+.showMore-button{
+  cursor: pointer;
+  border: none;
+  color: #27aae1;
+  font-size: 16px;
+}
+.showMore-button:hover{
+  text-decoration: underline;
+  color: #1d70e1;
+  transition: 0.4s ease;
+}
 /* NavBar nav */
 
 .nav{

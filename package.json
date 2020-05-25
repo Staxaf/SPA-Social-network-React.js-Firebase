@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "firebase": "^7.14.1",
     "inactivejs": "^0.1.1",
+    "jimp": "^0.12.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-firebase": "^2.2.8",

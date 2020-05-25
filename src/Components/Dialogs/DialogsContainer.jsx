@@ -15,7 +15,8 @@ import {getUsers} from "../../redux/users-reducer";
 let mapStateToProps = (state) => {// данные со стэйта
     return {
         state: state.dialogsPage,
-        usersData: state.usersPage.usersData
+        usersData: state.usersPage.usersData,
+        user: state.profilePage.user
     }
 }
 
