@@ -30,7 +30,6 @@ const Post = (props) => {
     }
 
     let addComment = (values) => {
-        debugger
         props.addComment(props.postsData, props.post.id, props.currentUser.photoURL, props.currentUser.name, props.currentUser.uid,
             values[`newCommentText${props.post.id}`])
     }
@@ -54,7 +53,7 @@ const Post = (props) => {
                         <NavLink onClick={() => {
                             props.getUserPosts(props.post.whosePostUserUid)
                             props.getUsersFollowsAndFollowers(props.user, props.post.whosePostUserUid)
-                        }} to={props.post.whosePostUserUid === props.user.uid ? '/profile/myPosts' : `/profile/${props.post.whosePostUserUid}/myPosts`}>
+                        }} to={props.post.userUid === props.currentUser.uid ? '/profile/myPosts' : `/profile/${props.post.whosePostUserUid}/myPosts`}>
                             {props.post.postName}
                         </NavLink>
                     </div>

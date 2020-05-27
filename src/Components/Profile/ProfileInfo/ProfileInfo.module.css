@@ -68,8 +68,6 @@
 .inputBackgroundPhoto__wrapper label {
     cursor: pointer;
     position: absolute;
-    left: 0px;
-    top: -7px;
     color: #27aae1;
     background: white;
     width: 45px;

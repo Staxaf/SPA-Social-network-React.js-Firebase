@@ -1,5 +1,7 @@
+.album{
+    margin-bottom: 50px;
+}
 .album__items{
-
     margin-top: 60px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(15rem, 20rem));

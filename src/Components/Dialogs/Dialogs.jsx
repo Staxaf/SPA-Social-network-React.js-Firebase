@@ -11,7 +11,7 @@ const Dialogs = (props) => {
     //but on mobile dialogs will be hidden when each dialog is selected
     const [currentUserDialog, setCurrentUserDialog] = useState({})
     const scrollTo = ref => {
-        if(ref) {
+        if (ref) {
             ref.scrollTo(0, 999999999)
         }
     }
@@ -44,30 +44,41 @@ const Dialogs = (props) => {
 
 
     // Convert objects into jsx tag
-    let userDialog = {}
+    let userDialogId = 0
     let ownerId = 0
-    let dialogsData = props.state.dialogsData.map(dialog => {// get index of current user in array owners, also getting user
-        //who is the dialogue with и получаю массив диалогов в jsx
+    let dialogsData = props.state.dialogsData.map((dialog, key) => {// get index of current user in array owners, also getting user
+        //who is the dialogue with and getting an array of dialogs in jsx
         dialog.owners.forEach((item, i) => {
-            if (item.uid !== props.user.uid) userDialog = item
+            if (item.uid !== props.user.uid) userDialogId = i
             else ownerId = i
         })
-        return <DialogItem
-            path={'/dialogs/' + dialog.uid} image={userDialog.photoURL} name={userDialog.name}
-            lastMessage={dialog.messagesData.length !== 0 ? dialog.messagesData[dialog.messagesData.length - 1].message : ''}
-            isMyLastMessage={dialog.messagesData.length !== 0 ?
-                dialog.messagesData[dialog.messagesData.length - 1].userUid === props.user.uid : false}
-            isEmpty={dialog.messagesData.length === 0}/>
+        return <DialogItem key={key} dialogUid={dialog.uid} owners={dialog.owners} userDialogId={userDialogId}
+                           paramsUserUid={props.match.params.userUid}
+                           path={'/dialogs/' + dialog.uid} image={dialog.owners[userDialogId].photoURL}
+                           name={dialog.owners[userDialogId].name}
+                           messagesData={dialog.messagesData}
+                           lastMessage={dialog.messagesData.length !== 0 ? dialog.messagesData[dialog.messagesData.length - 1].message : ''}
+                           isMyLastMessage={dialog.messagesData.length !== 0 ?
+                               dialog.messagesData[dialog.messagesData.length - 1].userUid === props.user.uid : false}
+                           unreadMessages={dialog.owners[userDialogId].unreadMessages}
+                           isEmpty={dialog.messagesData.length === 0}
+                           time={dialog.messagesData.length !== 0 ? dialog.messagesData[dialog.messagesData.length - 1].date : false}
+                           resetUnreadMessages={props.resetUnreadMessages}/>
     })
     // формирую разметку сообщений и отдельно для каждого диалога своя textarea и кнопка, чтобы сохранять черновики для каждого диалога отдельно
-    let messagesData = props.state.dialogsData.map(dialog => <Route path={'/dialogs/' + dialog.uid} render={() => {
-        let content = dialog.messagesData.map(message => <Message dialogId={dialog.id} dialogUid={dialog.uid} userName={message.userName} dialogsData={props.state.dialogsData}
-                                                                  time={message.date.split(' ')[0]}
-                                                                  message={message.message} id={message.id}
-                                                                  photoUrl={message.photoUrl} userUid={message.userUid}
-                                                                  ownerId={ownerId}
-                                                                  isMyMessage={message.userUid === props.user.uid}
-                                                                  changeMessage={props.changeMessage} deleteMessage={props.deleteMessageThunk}/>)
+    let messagesData = props.state.dialogsData.map((dialog, key) => <Route key={key} path={'/dialogs/' + dialog.uid} render={() => {
+        let content = dialog.messagesData.map((message, key) => <Message key={key} dialogId={dialog.id}
+                                                                         dialogUid={dialog.uid}
+                                                                         userName={message.userName}
+                                                                         dialogsData={props.state.dialogsData}
+                                                                         time={message.date.split(' ')[0]}
+                                                                         message={message.message} id={message.id}
+                                                                         photoUrl={message.photoUrl}
+                                                                         userUid={message.userUid}
+                                                                         ownerId={ownerId}
+                                                                         isMyMessage={message.userUid === props.user.uid}
+                                                                         changeMessage={props.changeMessage}
+                                                                         deleteMessage={props.deleteMessageThunk}/>)
         return <div className={css.dialogs__content}>
             <DialogTitle currentUserDialog={currentUserDialog} isDesktopVersion={width > 900}/>
             <div className={css.messages} ref={scrollTo}>
@@ -83,7 +94,7 @@ const Dialogs = (props) => {
                     }
                     } className={css.message__send}><i className="fas fa-check"/></button> :
                     <button type='submit' onClick={() => {
-                        props.addMessage(props.user.photoURL, dialog.id, ownerId, props.user.uid, props.user.name)
+                        props.addMessageThunk(props.state.dialogsData, props.user.photoURL, dialog.id, ownerId, props.user.uid, props.user.name)
                         props.updateDialogsData(dialog)
                     }} className={css.message__send}>
                         <i className="fab fa-telegram-plane"/>

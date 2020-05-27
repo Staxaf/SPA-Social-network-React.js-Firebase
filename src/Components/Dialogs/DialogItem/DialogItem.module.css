@@ -17,8 +17,20 @@
     transition: 0.3s ease;
     border-bottom: 1px rgb(38, 228, 164) solid;
 }
+
 .dialog .dialog__info{
     font-size: 13px;
+}
+.dialog__undertitle .dialog__unreadMessages{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    width: 10px;
+    height: 10px;
+    background: #27aae1;
+    border-radius: 50%;
+    color: white;
 }
 .dialog .dialog__info .dialog__title{
     display: flex;
@@ -31,9 +43,12 @@
     color: black;
     margin-right: 5px;
 }
-
+.dialog .dialog__undertitle .dialog__undertitleWrapper{
+    display: flex;
+}
 .dialog__undertitle{
     display: flex;
+    justify-content: space-between;
 }
 .dialog__undertitle .dialog__message{
     color: grey

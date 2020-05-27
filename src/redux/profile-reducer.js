@@ -40,7 +40,6 @@ let initialState = {
 export const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER_PROFILE:
-            console.log(action.user)
             return {
                 ...state,
                 user: action.user
@@ -267,11 +266,33 @@ export const authListenerThunk = () => (dispatch) => {
     })
 }
 
+export const refreshAllDataWithNewPhoto = (user, url) => {
+    debugger
+    firebase.firestore().collection('postsData').get().then((docs) => {
+        let postsData = docs.docs.map(doc => ({...doc.data()}))
+        console.log(postsData)
+        postsData.forEach((item) => {
+            let comments = item.comments.map(item => {
+                if(item.whoseCommentUid === user.uid) {
+                    return {...item, image: url}
+                } else {
+                    return {...item}
+                }
+            })
+            if(item.whosePostUserUid === user.uid) {
+                firebase.firestore().collection('postsData').doc(item.uid).set({
+                    postImage: url,
+                    comments
+                }, {merge: true})
+            }
+        })
+    })
+}
+
 export const uploadImageThunk = (user, name, file) => (dispatch) => {
     //setUserPhoto(e.target.name e.target.files[0])
     //let image = file.files[0]
     //let name = file.name
-    console.log(file)
     dispatch(setIsCurrentUserLoaded(false))
     firebase.storage().ref(`images/${user.uid}/${file.name}`).put(file).on('state_changed',
         (snapshot) => {
@@ -289,6 +310,9 @@ export const uploadImageThunk = (user, name, file) => (dispatch) => {
                         ...user,
                         [name]: url
                     }))
+                    if(name === 'photoURL') {
+                        refreshAllDataWithNewPhoto(user, url)
+                    }
                 })
             })
         })
@@ -302,6 +326,7 @@ export const changeProfilePhotoThunk = (user, photoURL, name) => (dispatch) => {
             ...user,
             [name]: photoURL
         }))
+        refreshAllDataWithNewPhoto(user, photoURL)
     })
 }
 
