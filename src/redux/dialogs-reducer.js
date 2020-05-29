@@ -1,30 +1,23 @@
 import firebase from './../firebase'
 import {dialogsAPI} from "./api";
-import {getStringDate} from "./profile-reducer";
+import {getStringDate, setIsPostPhotoUploading, setUploadedPostPhoto} from "./profile-reducer";
 
-const UPDATE_MESSAGE_TEXT = 'UPDATE-MESSAGE-TEXT'
 const SET_DIALOGS_DATA = 'SET_DIALOGS_DATA'
+const SET_UPLOADED_MESSAGE_PHOTO = 'SET_UPLOADED_MESSAGE_PHOTO'
 const NOTIFICATION_SOUND = 'https://firebasestorage.googleapis.com/v0/b/social-network-react-redux.appspot.com/o/sounds%2Fintuition.mp3?alt=media&token=1be5e98d-51bc-43be-ba0b-e3813cde620f'
 
 const CHANGE_MESSAGE = 'CHANGE_MESSAGE'
 let initialState = {
     dialogsData: [],
-
+    uploadedMessagePhoto: ''
 }
 
 export const dialogsReducer = (state = initialState, action) => {
-
     switch (action.type) {
-        case UPDATE_MESSAGE_TEXT:
-            let newState = {
-                ...state,
-            }
-            newState.dialogsData[action.id].owners[action.currentUserId].newMessageText = action.newText
-            return newState
         case SET_DIALOGS_DATA: {
             return {
                 ...state,
-                dialogsData: [...action.dialogsData.sort((a, b) => a.lastChanges < b.lastChanges ? 1 : -1 ).map((item, index) => ({
+                dialogsData: [...action.dialogsData.sort((a, b) => a.lastChanges < b.lastChanges ? 1 : -1).map((item, index) => ({
                     ...item,
                     id: index
                 }))]
@@ -36,9 +29,13 @@ export const dialogsReducer = (state = initialState, action) => {
                 dialogsData: [...state.dialogsData]
             }
             stateCopy.dialogsData[action.id].owners[action.currentUserId].newMessageText = action.messageText
-            stateCopy.dialogsData[action.id].isChanging = true
             stateCopy.dialogsData[action.id].changingMessageId = action.messageId
             return stateCopy
+        case SET_UPLOADED_MESSAGE_PHOTO:
+            return {
+                ...state,
+                uploadedMessagePhoto: action.uploadedMessagePhoto
+            }
         default:
             return state
     }
@@ -46,11 +43,6 @@ export const dialogsReducer = (state = initialState, action) => {
 
 // ***Action Creators
 
-export const updateMessageText = (text, id, currentUserId) => ({
-    type: UPDATE_MESSAGE_TEXT,
-    newText: text,
-    id, currentUserId
-})
 export const setDialogsData = (dialogsData) => ({type: SET_DIALOGS_DATA, dialogsData})
 export const changeMessage = (id, messageText, currentUserId, messageId) => ({
     type: CHANGE_MESSAGE,
@@ -59,20 +51,23 @@ export const changeMessage = (id, messageText, currentUserId, messageId) => ({
     currentUserId,
     messageId
 })
-
+export const setUploadedMessagePhoto = (uploadedMessagePhoto) => ({
+    type: SET_UPLOADED_MESSAGE_PHOTO,
+    uploadedMessagePhoto
+})
 // ***Redux Thunks
-export const addMessageThunk = (dialogsData, photoUrl, id, currentUserId, userUid, name) => (dispatch) => {
-    if (dialogsData[id].owners[currentUserId].newMessageText.length > 0) {
+export const addMessageThunk = (dialogsData, photoUrl, id, currentUserId, userUid, name, newMessageText, uploadedMessagePhoto) => (dispatch) => {
+    if (newMessageText && newMessageText.length > 0) {
         dialogsData[id].messagesData = [...dialogsData[id].messagesData, {
             id: dialogsData[id].messagesData.length,
-            message: dialogsData[id].owners[currentUserId].newMessageText, //state.dialogsPage.newMessageText
+            message: newMessageText,
             photoUrl: photoUrl,
             userUid: userUid,
             date: getStringDate(),
             userName: name,
+            uploadedMessagePhoto: uploadedMessagePhoto
         }]
         new Audio(NOTIFICATION_SOUND).play()
-        dialogsData[id].owners[currentUserId].newMessageText = ''
         dialogsData[id].owners[currentUserId].unreadMessages++
         dialogsData[id].lastChanges = new Date().getTime()
         firebase.firestore().collection('dialogs').doc(dialogsData[id].uid).set({
@@ -88,8 +83,7 @@ export const getDialogsData = (currentUserUid) => (dispatch) => {
             if (doc.data().ownersUids.indexOf(currentUserUid) !== -1) {
                 dialogsData = [...dialogsData, {
                     ...doc.data(),
-                    id: dialogsData.length,
-                    isChanging: false, changingMessageId: -1
+                    id: dialogsData.length, changingMessageId: -1
                 }]
             }
         })
@@ -115,13 +109,11 @@ export const createDialogAndRedirect = (currentUser, user, dialogsData, uid) => 
                 name: currentUser.name,
                 photoURL: currentUser.photoURL,
                 uid: currentUser.uid,
-                newMessageText: '',
                 unreadMessages: 0
             }, {
                 name: user.name,
                 photoURL: user.photoURL,
                 uid: user.uid,
-                newMessageText: '',
                 unreadMessages: 0
             }],
             ownersUids: [
@@ -139,12 +131,10 @@ export const createDialogAndRedirect = (currentUser, user, dialogsData, uid) => 
     }
 }
 
-export const confirmChangeMessage = (dialogsData, dialogId, messageId, currentUserId, dialogUid) => (dispatch) => {
+export const confirmChangeMessage = (dialogsData, dialogId, messageId, currentUserId, dialogUid, newMessageText) => (dispatch) => {
     dialogsData[dialogId].messagesData = [...dialogsData[dialogId].messagesData]
-    dialogsData[dialogId].messagesData[messageId].message = dialogsData[dialogId].owners[currentUserId].newMessageText
-    dialogsData[dialogId].isChanging = false
+    dialogsData[dialogId].messagesData[messageId].message = newMessageText
     dialogsData[dialogId].changingMessageId = -1
-    dialogsData[dialogId].owners[currentUserId].newMessageText = ''
     firebase.firestore().collection('dialogs').doc(dialogUid).set(dialogsData[dialogId])
     dispatch(setDialogsData(dialogsData))
 }
@@ -165,4 +155,19 @@ export const resetUnreadMessages = (dialogUid, owners, userDialogId) => (dispatc
     firebase.firestore().collection('dialogs').doc(dialogUid).set({
         owners
     }, {merge: true})
+}
+
+export const uploadMessagePhoto = (user, file) => (dispatch) => {
+    dispatch(setUploadedMessagePhoto(''))
+    firebase.storage().ref(`images/${user.uid}/${file.name}`).put(file).on('state_changed',
+        (snapshot) => {
+        },
+        (error) => {
+            console.log(error)
+        },
+        () => {
+            firebase.storage().ref(`images/${user.uid}`).child(file.name).getDownloadURL().then(url => {
+                dispatch(setUploadedMessagePhoto(url))
+            })
+        })
 }

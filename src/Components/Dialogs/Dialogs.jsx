@@ -6,33 +6,12 @@ import {Route} from "react-router-dom";
 import DialogTitle from './DialogTitle/DialogTitle';
 import {reduxForm} from "redux-form";
 
-let MessageForm = props => {
-    return <form className={css.messages__input}>
-                <textarea onChange={(e) => {
-                    props.updateMessageText(e.target.value, props.dialog.id, props.ownerId)
-                }} value={props.dialog.owners[props.ownerId].newMessageText} cols="30" rows="10"
-                          placeholder='Send a message...'/>
-        {props.dialog.isChanging ? <button onClick={() => {
-                props.confirmChangeMessage(props.state.dialogsData, props.dialog.id, props.dialog.changingMessageId, props.ownerId, props.dialog.uid)
-            }
-            } className={css.message__send}><i className="fas fa-check"/></button> :
-            <button type='submit' onClick={() => {
-                props.addMessageThunk(props.state.dialogsData, props.user.photoURL, props.dialog.id, props.ownerId, props.user.uid, props.user.name)
-                props.updateDialogsData(props.dialog)
-            }} className={css.message__send}>
-                <i className="fab fa-telegram-plane"/>
-            </button>}
-    </form>
-}
-
-MessageForm = reduxForm({
-    form: 'addComment'
-})(MessageForm)
-
 const Dialogs = (props) => {
     const [width, setWidth] = useState(0)// for tracking width of screen, because on desktop will be dialogs and messages on one screen, 
     //but on mobile dialogs will be hidden when each dialog is selected
     const [currentUserDialog, setCurrentUserDialog] = useState({})
+    const [newMessageText, setNewMessageText] = useState('')
+    const [isMessageChanging, setIsMessageChanging] = useState(false)
     const scrollTo = ref => {
         if (ref) {
             ref.scrollTo(0, 999999999)
@@ -65,6 +44,11 @@ const Dialogs = (props) => {
         }
     }, [])
 
+    const onPhotoChange = (e) => {
+        if(e.target.files[0]){
+            props.uploadMessagePhoto(props.user, e.target.files[0])
+        }
+    }
 
     // Convert objects into jsx tag
     let userDialogId = 0
@@ -98,14 +82,52 @@ const Dialogs = (props) => {
                                                                          message={message.message} id={message.id}
                                                                          photoUrl={message.photoUrl}
                                                                          userUid={message.userUid}
-                                                                         ownerId={ownerId}
+                                                                         ownerId={ownerId} uploadedMessagePhoto={message.uploadedMessagePhoto}
                                                                          isMyMessage={message.userUid === props.user.uid}
                                                                          changeMessage={props.changeMessage}
-                                                                         deleteMessage={props.deleteMessageThunk}/>)
+                                                                         deleteMessage={props.deleteMessageThunk} setIsMessageChanging={setIsMessageChanging}
+                                                                            setNewMessageText={setNewMessageText}/>)
         return <div className={css.dialogs__content}>
             <DialogTitle currentUserDialog={currentUserDialog} isDesktopVersion={width > 900}/>
             <div className={css.messages} ref={scrollTo}>
                 {content}
+            </div>
+            <div className={css.message__inputWrapper}>
+                {props.state.uploadedMessagePhoto !== '' && <div className={css.dialogs__uploadedImage}>
+                    <img src={props.state.uploadedMessagePhoto} alt=""/>
+                    <button onClick={() => props.setUploadedMessagePhoto('')} className={css.dialogs__close}><i className="fas fa-times" /></button>
+                    </div>}
+                {isMessageChanging && <div className={css.dialogs__uploadedImage}>
+                    <span className={css.dialogs__editIcon}><i className="fas fa-pencil-alt" /></span>
+                    <h6>Editing the message</h6>
+                    <button onClick={() => {
+                        setIsMessageChanging(false)
+                        setNewMessageText('')
+                    }} className={css.dialogs__close}><i className="fas fa-times" /></button>
+                </div>}
+                <div className={css.messages__input}>
+                    <textarea onChange={(e) => {
+                        setNewMessageText(e.target.value)
+                    }} value={newMessageText} cols="30" rows="10"
+                              placeholder='Send a message...'/>
+                    <div className={css.icon__attach}>
+                        <input onChange={onPhotoChange} type="file" accept=".jpg" name="myPostPhoto" id="myPostPhoto"/>
+                        <label htmlFor="myPostPhoto"><i className="fas fa-paperclip"/></label>
+                    </div>
+                    {isMessageChanging ? <button onClick={() => {
+                            props.confirmChangeMessage(props.state.dialogsData, dialog.id, dialog.changingMessageId, ownerId, dialog.uid, newMessageText)
+                            setNewMessageText('')
+                            setIsMessageChanging(false)
+                        }
+                        } className={css.message__send}><i className="fas fa-check"/></button> :
+                        <button type='submit' onClick={() => {
+                            props.addMessageThunk(props.state.dialogsData, props.user.photoURL, dialog.id, ownerId, props.user.uid, props.user.name, newMessageText, props.state.uploadedMessagePhoto)
+                            props.updateDialogsData(dialog)
+                            setNewMessageText('')
+                        }} className={css.message__send}>
+                            <i className="fab fa-telegram-plane"/>
+                        </button>}
+                </div>
             </div>
         </div>
     }
@@ -121,6 +143,7 @@ const Dialogs = (props) => {
             <div className={css.messages__bg}>
                 {messagesData}
             </div>
+
         </div>
     )
 }

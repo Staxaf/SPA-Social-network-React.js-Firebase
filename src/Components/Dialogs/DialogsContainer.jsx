@@ -2,11 +2,10 @@ import React from 'react'
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {
-    addMessage, addMessageThunk,
+    addMessageThunk,
     changeMessage, confirmChangeMessage, deleteMessageThunk,
-    getDialogsData, resetUnreadMessages,
-    updateDialogsData,
-    updateMessageText
+    getDialogsData, resetUnreadMessages, setUploadedMessagePhoto,
+    updateDialogsData, uploadMessagePhoto,
 } from "../../redux/dialogs-reducer";
 import { withRouter } from 'react-router-dom';
 import {getUsers} from "../../redux/users-reducer";
@@ -16,12 +15,11 @@ let mapStateToProps = (state) => {// данные со стэйта
     return {
         state: state.dialogsPage,
         usersData: state.usersPage.usersData,
-        user: state.profilePage.user
+        user: state.profilePage.user,
     }
 }
 
 const DialogsContainer = connect(mapStateToProps, {
-    updateMessageText,
     addMessageThunk,
     getDialogsData,
     updateDialogsData,
@@ -29,7 +27,9 @@ const DialogsContainer = connect(mapStateToProps, {
     confirmChangeMessage,
     getUsers,
     deleteMessageThunk,
-    resetUnreadMessages
+    resetUnreadMessages,
+    uploadMessagePhoto,
+    setUploadedMessagePhoto
 })(withRouter(Dialogs))
 
 export default DialogsContainer;
