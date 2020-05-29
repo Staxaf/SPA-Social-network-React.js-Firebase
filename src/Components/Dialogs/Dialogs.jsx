@@ -4,7 +4,30 @@ import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {Route} from "react-router-dom";
 import DialogTitle from './DialogTitle/DialogTitle';
+import {reduxForm} from "redux-form";
 
+let MessageForm = props => {
+    return <form className={css.messages__input}>
+                <textarea onChange={(e) => {
+                    props.updateMessageText(e.target.value, props.dialog.id, props.ownerId)
+                }} value={props.dialog.owners[props.ownerId].newMessageText} cols="30" rows="10"
+                          placeholder='Send a message...'/>
+        {props.dialog.isChanging ? <button onClick={() => {
+                props.confirmChangeMessage(props.state.dialogsData, props.dialog.id, props.dialog.changingMessageId, props.ownerId, props.dialog.uid)
+            }
+            } className={css.message__send}><i className="fas fa-check"/></button> :
+            <button type='submit' onClick={() => {
+                props.addMessageThunk(props.state.dialogsData, props.user.photoURL, props.dialog.id, props.ownerId, props.user.uid, props.user.name)
+                props.updateDialogsData(props.dialog)
+            }} className={css.message__send}>
+                <i className="fab fa-telegram-plane"/>
+            </button>}
+    </form>
+}
+
+MessageForm = reduxForm({
+    form: 'addComment'
+})(MessageForm)
 
 const Dialogs = (props) => {
     const [width, setWidth] = useState(0)// for tracking width of screen, because on desktop will be dialogs and messages on one screen, 
@@ -83,22 +106,6 @@ const Dialogs = (props) => {
             <DialogTitle currentUserDialog={currentUserDialog} isDesktopVersion={width > 900}/>
             <div className={css.messages} ref={scrollTo}>
                 {content}
-            </div>
-            <div className={css.messages__input}>
-                <textarea onChange={(e) => {
-                    props.updateMessageText(e.target.value, dialog.id, ownerId)
-                }} value={dialog.owners[ownerId].newMessageText} cols="30" rows="10"
-                          placeholder='Send a message...'/>
-                {dialog.isChanging ? <button onClick={() => {
-                        props.confirmChangeMessage(props.state.dialogsData, dialog.id, dialog.changingMessageId, ownerId, dialog.uid)
-                    }
-                    } className={css.message__send}><i className="fas fa-check"/></button> :
-                    <button type='submit' onClick={() => {
-                        props.addMessageThunk(props.state.dialogsData, props.user.photoURL, dialog.id, ownerId, props.user.uid, props.user.name)
-                        props.updateDialogsData(dialog)
-                    }} className={css.message__send}>
-                        <i className="fab fa-telegram-plane"/>
-                    </button>}
             </div>
         </div>
     }

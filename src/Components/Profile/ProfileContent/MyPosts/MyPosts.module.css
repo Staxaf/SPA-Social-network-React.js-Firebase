@@ -1,6 +1,5 @@
 .posts{
     padding: 20px;
-
 }
 .input{
     display: flex;
@@ -56,11 +55,58 @@
     border: none;
     background: transparent;
 }
-
+.icons input{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -4;
+}
+.icons label {
+    cursor: pointer;
+    color: #595f6e;
+}
+.icons label:hover{
+    color: black;
+    transition: 0.4s ease;
+}
+.posts__selectedPhoto{
+    position: relative;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #989eae;
+    max-height: 70px;
+    max-width: 150px;
+    margin: 0 auto;
+    text-align: center;
+}
+.posts__selectedPhoto:hover{
+    background: #595f6e;
+    transition: all linear .4s;
+    -webkit-transition: all linear .4s;
+}
+.posts__selectedPhoto img{
+    max-height: 70px;
+    max-width: 120px;
+}
+.posts__close{
+    cursor: pointer;
+    border: none;
+    background: black;
+    color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
 /* ***Media Queries*** */
 @media screen and (max-width: 900px){
     .input{
         margin-top: 0;
+    }
+    .posts__wrapper{
+        margin-bottom: 70px;
     }
 }
 @media screen and (max-width: 768px){
@@ -74,6 +120,5 @@
     }
     .posts{
         padding: 10px;
-        margin-bottom: 60px;
     }
 }

@@ -1,13 +1,14 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import css from './Post.module.css'
 import Comment from "./Comment/Comment";
 import {NavLink} from "react-router-dom";
 import {Field, reduxForm} from "redux-form";
+import PopUpWindow from "../../Album/AlbumItem/PopUpWindow";
 
 let SendCommentForm = props => {
     return <form onSubmit={props.handleSubmit} className={css.post__addComment}>
         <img src={props.currentUser.photoURL} alt=""/>
-        <Field name={`newCommentText${props.id}`} component="textarea"  placeholder="Post a comment"/>
+        <Field name={`newCommentText${props.id}`} component="textarea" placeholder="Post a comment"/>
         <button className={css.post__send}>
             <i className="fab fa-telegram-plane"/>
         </button>
@@ -19,31 +20,45 @@ SendCommentForm = reduxForm({
 })(SendCommentForm)
 
 const Post = (props) => {
-    let comments = null
-    if (props.post.comments !== null && props.post.comments !== undefined) {// convert comments into jsx
-        comments = props.post.comments.map(comment => {
-            return <Comment getUserPosts={props.getUserPosts}
-                            getUsersFollowsAndFollowers={props.getUsersFollowsAndFollowers} user={props.user}
-                            name={comment.name} userUid={comment.whoseCommentUid} image={comment.image} dateOfPublishing={comment.dateOfPublishing}
-                            text={comment.text}/>
-        })
+    const [isDisplayPostPhoto, setIsDisplayPostPhoto] = useState(false)
+    const [isAllCommentsShown, setIsAllCommentsShown] = useState(false)
+    const [comments, setComments] = useState([])
+    const [showCommentIndex, setShowCommentIndex] = useState(5)
+    const setCommentsJsx = () => {
+        if(props.post.comments.length === 0) setIsAllCommentsShown(true)
+        setComments(props.post.comments.map((comment, key) => {
+            if (key < showCommentIndex) {
+                if(props.post.comments.length === key + 1) setIsAllCommentsShown(true)
+                else setIsAllCommentsShown(false)
+                return <Comment key={key} getUserPosts={props.getUserPosts}
+                                getUsersFollowsAndFollowers={props.getUsersFollowsAndFollowers} user={props.user}
+                                name={comment.name} userUid={comment.whoseCommentUid} image={comment.image}
+                                dateOfPublishing={comment.dateOfPublishing}
+                                text={comment.text}/>
+            }
+        }))
     }
+    useEffect(() => {
+        setCommentsJsx()
+    }, [props.post.comments])
+    useEffect(() => {
+        setCommentsJsx()
+    }, [showCommentIndex])
 
     let addComment = (values) => {
         props.addComment(props.postsData, props.post.id, props.currentUser.photoURL, props.currentUser.name, props.currentUser.uid,
             values[`newCommentText${props.post.id}`])
     }
-
-    let onCommentChange = (e) => {
-        props.updateCommentText(e.target.value, props.post.id)
-    }
     return (
         <div className={css.post}>
+            {isDisplayPostPhoto && <PopUpWindow photoURL={props.post.uploadedPostPhoto} isProfilePhoto={true}
+                                                setIsOpen={() => setIsDisplayPostPhoto(false)}/>}
             <div className={css.post__img}>
                 <NavLink onClick={() => {// when user click on other user link then loading data of this user
                     props.getUserPosts(props.post.whosePostUserUid)
                     props.getUsersFollowsAndFollowers(props.user, props.post.whosePostUserUid)
-                }} to={props.post.whosePostUserUid === props.user.uid ? '/profile/myPosts' : `/profile/${props.post.whosePostUserUid}/myPosts`}>
+                }}
+                         to={props.post.whosePostUserUid === props.user.uid ? '/profile/myPosts' : `/profile/${props.post.whosePostUserUid}/myPosts`}>
                     <img src={props.post.postImage} alt=""/>
                 </NavLink>
             </div>
@@ -53,7 +68,8 @@ const Post = (props) => {
                         <NavLink onClick={() => {
                             props.getUserPosts(props.post.whosePostUserUid)
                             props.getUsersFollowsAndFollowers(props.user, props.post.whosePostUserUid)
-                        }} to={props.post.userUid === props.currentUser.uid ? '/profile/myPosts' : `/profile/${props.post.whosePostUserUid}/myPosts`}>
+                        }}
+                                 to={props.post.userUid === props.currentUser.uid ? '/profile/myPosts' : `/profile/${props.post.whosePostUserUid}/myPosts`}>
                             {props.post.postName}
                         </NavLink>
                     </div>
@@ -72,11 +88,19 @@ const Post = (props) => {
                 </div>
                 <div className={css.post__text}>
                     {props.post.message}
+                    {props.post.uploadedPostPhoto !== '' && <div className={css.post__imgWrapper}>
+                        <img onClick={() => setIsDisplayPostPhoto(true)} src={props.post.uploadedPostPhoto} alt=""/>
+                    </div>}
                 </div>
                 <div className={css.post__comment}>
                     {comments}
+                    {!isAllCommentsShown && <div className={'showMore-buttonWrapper'}>
+                        <button onClick={() => setShowCommentIndex(showCommentIndex + 5)}
+                                className={'showMore-button'}>Show more
+                        </button>
+                    </div>}
                 </div>
-                <SendCommentForm currentUser={props.currentUser} onSubmit={addComment} id={props.post.id} />
+                <SendCommentForm currentUser={props.currentUser} onSubmit={addComment} id={props.post.id}/>
             </div>
         </div>
 

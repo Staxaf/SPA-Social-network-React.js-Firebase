@@ -11,7 +11,7 @@ const AlbumItem = props => {
                      setIsOpen={() => {
                          setIsOpen(false)
                      }} changeProfilePhotoThunk={props.changeProfilePhotoThunk} deletePhotoThunk={props.deletePhotoThunk}/>}
-        <img onClick={() => setIsOpen(true)} src={props.photoUrl} alt=""/>
+        <img className={css.albumItem__img} onClick={() => setIsOpen(true)} src={props.photoUrl} alt=""/>
     </div>
 }
 export default AlbumItem

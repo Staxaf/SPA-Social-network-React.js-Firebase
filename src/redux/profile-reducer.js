@@ -2,6 +2,7 @@ import firebase from "../firebase";
 import React from "react";
 import {usersAPI} from "./api";
 import {setUser} from "./auth-reducer";
+import {reset} from 'redux-form'
 import * as axios from "axios";
 
 const getStringMonth = (index) => {
@@ -11,7 +12,6 @@ const getStringMonth = (index) => {
 }
 export let getStringDate = () => `${new Date().getHours().toString().padStart(2, '0')}:${new Date().getMinutes().toString().padStart(2, '0')} ${new Date()
     .getDate()} ${getStringMonth(new Date().getMonth())}  ${new Date().getFullYear()}`
-
 
 
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
@@ -24,6 +24,8 @@ const SET_USERS_FOLLOWS_FOLLOWERS = 'SET_USERS_FOLLOWS_FOLLOWERS'
 
 const SET_IS_USER_LOADED = 'SET_IS_USER_LOADED'
 const SET_IS_CURRENT_LOADED = 'SET_IS_CURRENT_LOADED'
+const SET_IS_POST_PHOTO_UPLOADING = 'SET_IS_POST_PHOTO_UPLOADING'
+const SET_UPLOADED_POST_PHOTO = 'SET_POST_PHOTO'
 
 
 let initialState = {
@@ -34,7 +36,9 @@ let initialState = {
     currentUserProfile: {},// on whose profile page I am
     isFetching: false,// for loader on posts
     isUserLoaded: false,//for loader user who is login
-    isCurrentUserLoaded: false // for loader user on whose page I am
+    isCurrentUserLoaded: false, // for loader user on whose page I am
+    isPostPhotoUploading: false, //for loader when upload post photo
+    uploadedPostPhoto: ''// image, which was choosen for post
 }
 
 export const profileReducer = (state = initialState, action) => {
@@ -73,9 +77,19 @@ export const profileReducer = (state = initialState, action) => {
                 isCurrentUserLoaded: action.isCurrentUserLoaded
             }
         case SET_IS_CURRENT_LOADED:
-            return{
+            return {
                 ...state,
                 isCurrentUserLoaded: action.isCurrentUserLoaded
+            }
+        case SET_UPLOADED_POST_PHOTO:
+            return {
+                ...state,
+                uploadedPostPhoto: action.uploadedPostPhoto
+            }
+        case SET_IS_POST_PHOTO_UPLOADING:
+            return {
+                ...state,
+                isPostPhotoUploading: action.isPostPhotoUploading
             }
         default:
             return state
@@ -84,7 +98,11 @@ export const profileReducer = (state = initialState, action) => {
 
 // ***Action Creators
 export const setUserProfile = user => ({type: SET_USER_PROFILE, user})
-export const setCurrentUserProfile = (currentUserProfile, isCurrentUserLoaded) => ({type: SET_CURRENT_USER_PROFILE, currentUserProfile, isCurrentUserLoaded })
+export const setCurrentUserProfile = (currentUserProfile, isCurrentUserLoaded) => ({
+    type: SET_CURRENT_USER_PROFILE,
+    currentUserProfile,
+    isCurrentUserLoaded
+})
 export const setPosts = (postsData) => ({type: SET_POSTS, postsData})
 
 export const setUsersFollowsFollowers = (followsData, followersData) => ({
@@ -97,53 +115,56 @@ export const setUsersFollowsFollowers = (followsData, followersData) => ({
 export const setIsFetching = (isFetching) => ({type: SET_IS_FETCHING, isFetching})
 export const setIsUserLoaded = (isUserLoaded) => ({type: SET_IS_USER_LOADED, isUserLoaded})
 export const setIsCurrentUserLoaded = (isCurrentUserLoaded) => ({type: SET_CURRENT_USER_PROFILE, isCurrentUserLoaded})
+export const setIsPostPhotoUploading = (isPostPhotoUploading) => ({type: SET_IS_POST_PHOTO_UPLOADING, isPostPhotoUploading})
+
+export const setUploadedPostPhoto = (uploadedPostPhoto) => ({type: SET_UPLOADED_POST_PHOTO, uploadedPostPhoto})
 
 // ***Redux Thunks
 
 export const getUsersFollowsAndFollowers = (user, userUidFromURL) => (dispatch) => {
-        usersAPI.getUsers()
-            .then(data => {
-                let users = data.docs.map(doc => ({
-                    ...doc.data(),
-                    uid: doc.id,
-                }))
-                let currentUserPlace = 0
-                users.forEach((item, i) => {
-                    if (item.uid === user.uid) {
-                        currentUserPlace = i
-                    }
-                })
-                users.splice(currentUserPlace, 1)// удаляю из списка текущего пользователя
-                users = users.map(item => ({
-                    ...item
-                }))
-                usersAPI.getUser(userUidFromURL !== undefined && ['myPosts', 'friends', 'followers', 'album'].indexOf(userUidFromURL) === -1
-                    ? userUidFromURL : user.uid)
-                    .then(data => {
-                        let currentUserProfile = data.data()
-                        dispatch(setCurrentUserProfile(currentUserProfile, true))
-                        dispatch(setUser(currentUserProfile.name, currentUserProfile.photoURL, currentUserProfile.uid))
-                        let followsOfCurrentUser = []
-                        let followersOfCurrentUser = []
-                        if (currentUserProfile.follows !== undefined) followsOfCurrentUser = currentUserProfile.follows// получаю текущие подписки пользователя
-                        if (currentUserProfile.followers !== undefined) followersOfCurrentUser = currentUserProfile.followers// получаю текущих подписчиков пользователя
-                        let friends = []
-                        let followers = []
-                        users.forEach(item => {
-                            if (followsOfCurrentUser.indexOf(item.uid) !== -1) friends = [...friends, item]
-                        })
-                        users.forEach(item => {
-                            if (followersOfCurrentUser.indexOf(item.uid) !== -1) followers = [...followers, item]
-                        })
-                        if (followsOfCurrentUser.indexOf(user.uid) !== -1) friends = [...friends, user]// проверяю есть ли залогиненый пользователь у другого пользователя в подписках и подписчиках
-                        if (followersOfCurrentUser.indexOf(user.uid) !== -1) followers = [...followers, user]
-                        dispatch(setUsersFollowsFollowers(friends, followers))
-                        //dispatch(setIsUserLoaded(true))
-                    }).catch(error => {
-                        console.log(error)
-                })
-
+    usersAPI.getUsers()
+        .then(data => {
+            let users = data.docs.map(doc => ({
+                ...doc.data(),
+                uid: doc.id,
+            }))
+            let currentUserPlace = 0
+            users.forEach((item, i) => {
+                if (item.uid === user.uid) {
+                    currentUserPlace = i
+                }
             })
+            users.splice(currentUserPlace, 1)// удаляю из списка текущего пользователя
+            users = users.map(item => ({
+                ...item
+            }))
+            usersAPI.getUser(userUidFromURL !== undefined && ['myPosts', 'friends', 'followers', 'album'].indexOf(userUidFromURL) === -1
+                ? userUidFromURL : user.uid)
+                .then(data => {
+                    let currentUserProfile = data.data()
+                    dispatch(setCurrentUserProfile(currentUserProfile, true))
+                    dispatch(setUser(currentUserProfile.name, currentUserProfile.photoURL, currentUserProfile.uid))
+                    let followsOfCurrentUser = []
+                    let followersOfCurrentUser = []
+                    if (currentUserProfile.follows !== undefined) followsOfCurrentUser = currentUserProfile.follows// получаю текущие подписки пользователя
+                    if (currentUserProfile.followers !== undefined) followersOfCurrentUser = currentUserProfile.followers// получаю текущих подписчиков пользователя
+                    let friends = []
+                    let followers = []
+                    users.forEach(item => {
+                        if (followsOfCurrentUser.indexOf(item.uid) !== -1) friends = [...friends, item]
+                    })
+                    users.forEach(item => {
+                        if (followersOfCurrentUser.indexOf(item.uid) !== -1) followers = [...followers, item]
+                    })
+                    if (followsOfCurrentUser.indexOf(user.uid) !== -1) friends = [...friends, user]// проверяю есть ли залогиненый пользователь у другого пользователя в подписках и подписчиках
+                    if (followersOfCurrentUser.indexOf(user.uid) !== -1) followers = [...followers, user]
+                    dispatch(setUsersFollowsFollowers(friends, followers))
+                    //dispatch(setIsUserLoaded(true))
+                }).catch(error => {
+                console.log(error)
+            })
+
+        })
 }
 
 export const getUserPosts = (uid) => (dispatch) => {
@@ -194,8 +215,8 @@ export const toggleDislikeThunk = (postsData, id, uid, currentUserUid) => (dispa
     })
 }
 
-export const addPostThunk = (newPostText, postsData, photoURL, name, userUid, whosePostUserUid) => (dispatch) => {
-    if (newPostText.length > 0 && postsData !== undefined) {
+export const addPostThunk = (newPostText, postsData, photoURL, name, userUid, whosePostUserUid, uploadedPostPhoto) => (dispatch) => {
+    if (newPostText && newPostText.length > 0 && postsData !== undefined) {
         let i = 0
         postsData.forEach((item, i) => {
             firebase.firestore().collection('postsData').doc(item.uid).set({
@@ -215,12 +236,15 @@ export const addPostThunk = (newPostText, postsData, photoURL, name, userUid, wh
             viewCounts: 0,
             dateOfPublishing: getStringDate(),
             comments: [],
+            uploadedPostPhoto,
             uid: `id${postsData.length}${userUid}`,
             userUid,
             whosePostUserUid
         }
         postsData = [newPost, ...postsData]
         dispatch(setPosts(postsData))
+        dispatch(setUploadedPostPhoto(''))
+        dispatch(reset('addPost'))// reset form of adding post
         firebase.firestore().collection('postsData').doc(newPost.uid).set(newPost)// добавляю в базу запись с новым постом, которая имеет кастомный айди
     }
 }
@@ -237,6 +261,7 @@ export const addCommentThunk = (postsData, idComment, photoURL, name, whoseComme
         }
         postsData[idComment - 1].comments = [...postsData[idComment - 1].comments, newComment]
         dispatch(setPosts(postsData))
+        dispatch(reset('addComment'))// reset form of adding comment
         firebase.firestore().collection('postsData').doc(postsData[idComment - 1].uid).set({
             ...postsData[idComment - 1],
         })// добавляю в базу комментарий
@@ -255,7 +280,6 @@ export const authListenerThunk = () => (dispatch) => {
                         dispatch(setIsUserLoaded(true))
                     })// для зашедшего пользователя подгружается личная информация с базы
                 }).catch(error => {
-
                 dispatch(setIsUserLoaded(true))
                 console.log(error)
             })
@@ -273,13 +297,13 @@ export const refreshAllDataWithNewPhoto = (user, url) => {
         console.log(postsData)
         postsData.forEach((item) => {
             let comments = item.comments.map(item => {
-                if(item.whoseCommentUid === user.uid) {
+                if (item.whoseCommentUid === user.uid) {
                     return {...item, image: url}
                 } else {
                     return {...item}
                 }
             })
-            if(item.whosePostUserUid === user.uid) {
+            if (item.whosePostUserUid === user.uid) {
                 firebase.firestore().collection('postsData').doc(item.uid).set({
                     postImage: url,
                     comments
@@ -290,9 +314,6 @@ export const refreshAllDataWithNewPhoto = (user, url) => {
 }
 
 export const uploadImageThunk = (user, name, file) => (dispatch) => {
-    //setUserPhoto(e.target.name e.target.files[0])
-    //let image = file.files[0]
-    //let name = file.name
     dispatch(setIsCurrentUserLoaded(false))
     firebase.storage().ref(`images/${user.uid}/${file.name}`).put(file).on('state_changed',
         (snapshot) => {
@@ -310,7 +331,7 @@ export const uploadImageThunk = (user, name, file) => (dispatch) => {
                         ...user,
                         [name]: url
                     }))
-                    if(name === 'photoURL') {
+                    if (name === 'photoURL') {
                         refreshAllDataWithNewPhoto(user, url)
                     }
                 })
@@ -340,4 +361,25 @@ export const deletePhotoThunk = (user, id, photos) => (dispatch) => {
         photos
     })))
 
+}
+
+export const uploadPostPhoto = (user, file) => (dispatch) => {
+    dispatch(setUploadedPostPhoto(''))
+    dispatch(setIsPostPhotoUploading(true))
+    firebase.storage().ref(`images/${user.uid}/${file.name}`).put(file).on('state_changed',
+        (snapshot) => {
+        },
+        (error) => {
+            console.log(error)
+        },
+        () => {
+            firebase.storage().ref(`images/${user.uid}`).child(file.name).getDownloadURL().then(url => {
+                firebase.firestore().collection('users').doc(user.uid).set({
+                    uploadPostPhoto: url
+                }, {merge: true}).then(() => {
+                    dispatch(setUploadedPostPhoto(url))
+                    dispatch(setIsPostPhotoUploading(false))
+                })
+            })
+        })
 }
