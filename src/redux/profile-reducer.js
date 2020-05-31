@@ -291,10 +291,8 @@ export const authListenerThunk = () => (dispatch) => {
 }
 
 export const refreshAllDataWithNewPhoto = (user, url) => {
-    debugger
     firebase.firestore().collection('postsData').get().then((docs) => {
         let postsData = docs.docs.map(doc => ({...doc.data()}))
-        console.log(postsData)
         postsData.forEach((item) => {
             let comments = item.comments.map(item => {
                 if (item.whoseCommentUid === user.uid) {
@@ -307,6 +305,28 @@ export const refreshAllDataWithNewPhoto = (user, url) => {
                 firebase.firestore().collection('postsData').doc(item.uid).set({
                     postImage: url,
                     comments
+                }, {merge: true})
+            } else {
+                firebase.firestore().collection('postsData').doc(item.uid).set({
+                    comments
+                }, {merge: true})
+            }
+        })
+    })
+    firebase.firestore().collection('dialogs').get().then(docs => {
+        let dialogs = docs.docs.map(doc => ({...doc.data()}))
+        console.table(dialogs)
+        dialogs.forEach(item => {
+            let owners = item.owners.map(owner => {
+                if(owner.uid === user.uid) {
+                    return {...owner, photoURL: url}
+                } else {
+                    return {...owner}
+                }
+            })
+            if(item.ownersUids.indexOf(user.uid) !== -1) {
+                firebase.firestore().collection('dialogs').doc(item.uid).set({
+                    owners
                 }, {merge: true})
             }
         })

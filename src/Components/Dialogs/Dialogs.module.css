@@ -128,15 +128,13 @@
     padding: 4px 6px;
     border-radius: 4px;
     max-width: 50%;
+    min-width: 40%;
     margin: 0 10px 10px 10px;
     word-break: break-all;
 }
 .message__title{
     display: flex;
     justify-content: space-between;
-}
-.message__text{
-    min-width: 15em;
 }
 .message__title .message__name{
     color: #1d70e1;
@@ -182,7 +180,29 @@
     color: #1d70e1;
     transition: 0.4s ease;
 }
-
+.dialogs__scrollBtn{
+    position: relative;
+}
+.dialogs__scrollBtn button{
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    background: #27aae1;
+    border-radius: 50%;
+    border: none;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+}
+.dialogs__scrollBtn button:hover{
+    background: #1d70e1;
+    transition: 0.4s ease;
+}
 
 
 /* ***Media Queries*** */
@@ -190,10 +210,31 @@
 @media screen and (max-width: 900px){
     .dialogs{
         grid-template-columns: 12fr 0;
+        z-index: 1;
+    }
+    .dialogs__messagesWrapper{
+        position: absolute;
+        top: 0;
+        width: 100vw;
+        height: 90vh;
+        z-index: 2;
+        overflow: hidden;
+    }
+    .dialogs__content .dialogs__absolute{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+    .messages{
+        height: 65vh;
     }
 }
 @media screen and (max-width: 768px){
-    .messages{
-        height: 53vh;
+    .message__photo img{
+        display: none;
+    }
+    .message__inputWrapper{
+        position: absolute;
+        bottom: 0;
     }
 }

@@ -70,6 +70,7 @@ export const addMessageThunk = (dialogsData, photoUrl, id, currentUserId, userUi
         new Audio(NOTIFICATION_SOUND).play()
         dialogsData[id].owners[currentUserId].unreadMessages++
         dialogsData[id].lastChanges = new Date().getTime()
+        dispatch(setUploadedMessagePhoto(''))
         firebase.firestore().collection('dialogs').doc(dialogsData[id].uid).set({
             ...dialogsData[id]
         })

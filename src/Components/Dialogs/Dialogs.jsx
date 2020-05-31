@@ -23,6 +23,7 @@ const Dialogs = (props) => {
                 if (props.match.params.userUid.indexOf(item.uid.substr(0, 8)) !== -1) setCurrentUserDialog(item)
             })
         }
+        console.table(currentUserDialog.photoURL)
     }
     useEffect(() => {
         findCurrentUserDialog()
@@ -80,55 +81,63 @@ const Dialogs = (props) => {
                                                                          dialogsData={props.state.dialogsData}
                                                                          time={message.date.split(' ')[0]}
                                                                          message={message.message} id={message.id}
-                                                                         photoUrl={message.photoUrl}
+                                                                         photoUrl={message.userUid === props.user.uid ?
+                                                                             dialog.owners[ownerId].photoURL : dialog.owners[userDialogId].photoURL}
                                                                          userUid={message.userUid}
                                                                          ownerId={ownerId} uploadedMessagePhoto={message.uploadedMessagePhoto}
                                                                          isMyMessage={message.userUid === props.user.uid}
                                                                          changeMessage={props.changeMessage}
                                                                          deleteMessage={props.deleteMessageThunk} setIsMessageChanging={setIsMessageChanging}
                                                                             setNewMessageText={setNewMessageText}/>)
-        return <div className={css.dialogs__content}>
+        return <div className={css.dialogs__messagesWrapper}>
+        <div className={css.dialogs__content}>
             <DialogTitle currentUserDialog={currentUserDialog} isDesktopVersion={width > 900}/>
-            <div className={css.messages} ref={scrollTo}>
+            <div className={`${css.messages} ${css.messages__bg}`} ref={scrollTo}>
                 {content}
             </div>
-            <div className={css.message__inputWrapper}>
-                {props.state.uploadedMessagePhoto !== '' && <div className={css.dialogs__uploadedImage}>
-                    <img src={props.state.uploadedMessagePhoto} alt=""/>
-                    <button onClick={() => props.setUploadedMessagePhoto('')} className={css.dialogs__close}><i className="fas fa-times" /></button>
+            <div className={css.dialogs__scrollBtn}>
+                <button><i className="fas fa-angle-down"></i></button>
+            </div>
+            <div className={css.dialogs__absolute}>
+                <div className={css.message__inputWrapper}>
+                    {props.state.uploadedMessagePhoto !== '' && <div className={css.dialogs__uploadedImage}>
+                        <img src={props.state.uploadedMessagePhoto} alt=""/>
+                        <button onClick={() => props.setUploadedMessagePhoto('')} className={css.dialogs__close}><i className="fas fa-times" /></button>
                     </div>}
-                {isMessageChanging && <div className={css.dialogs__uploadedImage}>
-                    <span className={css.dialogs__editIcon}><i className="fas fa-pencil-alt" /></span>
-                    <h6>Editing the message</h6>
-                    <button onClick={() => {
-                        setIsMessageChanging(false)
-                        setNewMessageText('')
-                    }} className={css.dialogs__close}><i className="fas fa-times" /></button>
-                </div>}
-                <div className={css.messages__input}>
+                    {isMessageChanging && <div className={css.dialogs__uploadedImage}>
+                        <span className={css.dialogs__editIcon}><i className="fas fa-pencil-alt" /></span>
+                        <h6>Editing the message</h6>
+                        <button onClick={() => {
+                            setIsMessageChanging(false)
+                            setNewMessageText('')
+                        }} className={css.dialogs__close}><i className="fas fa-times" /></button>
+                    </div>}
+                    <div className={css.messages__input}>
                     <textarea onChange={(e) => {
                         setNewMessageText(e.target.value)
                     }} value={newMessageText} cols="30" rows="10"
                               placeholder='Send a message...'/>
-                    <div className={css.icon__attach}>
-                        <input onChange={onPhotoChange} type="file" accept=".jpg" name="myPostPhoto" id="myPostPhoto"/>
-                        <label htmlFor="myPostPhoto"><i className="fas fa-paperclip"/></label>
+                        <div className={css.icon__attach}>
+                            <input onChange={onPhotoChange} type="file" accept=".jpg" name="myPostPhoto" id="myPostPhoto"/>
+                            <label htmlFor="myPostPhoto"><i className="fas fa-paperclip"/></label>
+                        </div>
+                        {isMessageChanging ? <button onClick={() => {
+                                props.confirmChangeMessage(props.state.dialogsData, dialog.id, dialog.changingMessageId, ownerId, dialog.uid, newMessageText)
+                                setNewMessageText('')
+                                setIsMessageChanging(false)
+                            }
+                            } className={css.message__send}><i className="fas fa-check"/></button> :
+                            <button type='submit' onClick={() => {
+                                props.addMessageThunk(props.state.dialogsData, props.user.photoURL, dialog.id, ownerId, props.user.uid, props.user.name, newMessageText, props.state.uploadedMessagePhoto)
+                                props.updateDialogsData(dialog)
+                                setNewMessageText('')
+                            }} className={css.message__send}>
+                                <i className="fab fa-telegram-plane"/>
+                            </button>}
                     </div>
-                    {isMessageChanging ? <button onClick={() => {
-                            props.confirmChangeMessage(props.state.dialogsData, dialog.id, dialog.changingMessageId, ownerId, dialog.uid, newMessageText)
-                            setNewMessageText('')
-                            setIsMessageChanging(false)
-                        }
-                        } className={css.message__send}><i className="fas fa-check"/></button> :
-                        <button type='submit' onClick={() => {
-                            props.addMessageThunk(props.state.dialogsData, props.user.photoURL, dialog.id, ownerId, props.user.uid, props.user.name, newMessageText, props.state.uploadedMessagePhoto)
-                            props.updateDialogsData(dialog)
-                            setNewMessageText('')
-                        }} className={css.message__send}>
-                            <i className="fab fa-telegram-plane"/>
-                        </button>}
                 </div>
             </div>
+        </div>
         </div>
     }
     }/>)
@@ -140,10 +149,7 @@ const Dialogs = (props) => {
             </div>}/> : <Route path='/dialogs' render={() => <div className={css.dialogs__items}>
                 {dialogsData}
             </div>}/>}
-            <div className={css.messages__bg}>
-                {messagesData}
-            </div>
-
+            {messagesData}
         </div>
     )
 }
